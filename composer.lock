@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c8b0891b460d1ed05db5732ca572fb0",
+    "content-hash": "ca98dca41670847e1b24862015ad8e5b",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -307,6 +307,82 @@
                 }
             ],
             "time": "2024-07-29T14:09:45+00:00"
+        },
+        {
+            "name": "awcodes/palette",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/awcodes/palette.git",
+                "reference": "acc06f244bd66730ab306f188312dcad0d3e6738"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/awcodes/palette/zipball/acc06f244bd66730ab306f188312dcad0d3e6738",
+                "reference": "acc06f244bd66730ab306f188312dcad0d3e6738",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.9",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^2.1",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.4",
+                "pestphp/pest-plugin-livewire": "^2.1",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Palette": "Awcodes\\Palette\\Facades\\Palette"
+                    },
+                    "providers": [
+                        "Awcodes\\Palette\\PaletteServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Awcodes\\Palette\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Weston",
+                    "email": "awcodes1@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A color picker field for Filament Forms that uses preset color palettes.",
+            "homepage": "https://github.com/awcodes/palette",
+            "keywords": [
+                "awcodes",
+                "color picker",
+                "laravel",
+                "palette"
+            ],
+            "support": {
+                "issues": "https://github.com/awcodes/palette/issues",
+                "source": "https://github.com/awcodes/palette"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/awcodes",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-03-07T19:08:25+00:00"
         },
         {
             "name": "bezhansalleh/filament-exceptions",

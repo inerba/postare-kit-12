@@ -22,6 +22,7 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 - [Mason](https://github.com/awcodes/mason)
 - [Matinee](https://github.com/awcodes/Matinee)
 - [Filament Tiptap Editor](https://github.com/awcodes/filament-tiptap-editor)
+- [Palette](https://github.com/awcodes/palette)
 
 ## 📋 Requisiti di Sistema
 

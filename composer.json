@@ -13,6 +13,7 @@
         "awcodes/filament-tiptap-editor": "^3.5",
         "awcodes/mason": "^0.1.3",
         "awcodes/matinee": "^1.0",
+        "awcodes/palette": "^1.1",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
         "dotswan/filament-code-editor": "^1.1",

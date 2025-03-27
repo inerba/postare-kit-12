@@ -14,5 +14,6 @@ export default {
         './vendor/filament/**/*.blade.php',
         './vendor/bezhansalleh/filament-exceptions/resources/views/**/*.blade.php', // Language Switch Views
         './vendor/awcodes/mason/resources/**/*.blade.php',
+        './vendor/awcodes/palette/resources/views/**/*.blade.php',
     ],
 };
