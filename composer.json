@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "postare/kit-12",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Un moderno starter kit basato sul TALL stack con Filament per il backend.",
     "keywords": [
         "laravel",
-        "framework"
+        "filament",
+        "starter-kit",
+        "TALL"
     ],
     "license": "MIT",
     "require": {
