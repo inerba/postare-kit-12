@@ -1,66 +1,143 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Postare Kit 12
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, Livewire) con Filament per il backend.
 
-## About Laravel
+## 🚀 Tecnologie Utilizzate
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Laravel 12.x** - Framework PHP
+- **Filament 3.3** - Admin Panel e CRUD Builder
+- **Tailwind CSS 3.4** - Framework CSS Utility-First
+- **Alpine.js** - Framework JavaScript leggero
+- **Vite** - Build tool e bundler
+- **PHP 8.2+** - Linguaggio di programmazione
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Plugin preinstallati
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Spatie Media Library](https://filamentphp.com/plugins/filament-spatie-media-library)
+- [Exception Viewer](https://github.com/bezhansalleh/filament-exceptions)
 
-## Learning Laravel
+## 📋 Requisiti di Sistema
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- PHP >= 8.2
+- Composer
+- Node.js >= 18
+- NPM >= 9
+- MySQL >= 8.0 o PostgreSQL >= 13
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🛠️ Installazione
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+1. Clona il repository:
 
-## Laravel Sponsors
+```bash
+git clone [url-repository]
+cd postare-kit-12
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+2. Installa le dipendenze PHP:
 
-### Premium Partners
+```bash
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+3. Installa le dipendenze NPM:
 
-## Contributing
+```bash
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Copia il file .env:
 
-## Code of Conduct
+```bash
+cp .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. Genera la chiave dell'applicazione:
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+6. Configura il database nel file `.env`
 
-## License
+7. Esegui le migrazioni e i seeder:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+php artisan migrate --seed
+```
+
+8. Compila gli assets:
+
+```bash
+npm run build
+```
+
+## 🚀 Sviluppo
+
+Per avviare l'ambiente di sviluppo:
+
+```bash
+composer dev
+```
+
+Questo comando avvierà:
+
+- Server Laravel
+- Queue worker
+- Vite dev server
+
+## 🧪 Testing
+
+Il progetto utilizza Pest per i test. Per eseguire i test:
+
+```bash
+./vendor/bin/pest
+```
+
+## 📦 Struttura del Progetto
+
+```
+postare-kit-12/
+├── app/                # Logica dell'applicazione
+├── config/            # File di configurazione
+├── database/          # Migrazioni e seeder
+├── lang/              # File di traduzione
+├── resources/         # Assets e viste
+├── routes/            # Definizione delle route
+├── storage/           # File di storage
+└── tests/             # Test dell'applicazione
+```
+
+## 🔧 Strumenti di Sviluppo
+
+- **Laravel Pint** - Formattatore di codice PHP
+- **Laravel Debugbar** - Debug toolbar
+- **Prettier** - Formattatore di codice JavaScript/CSS
+- **Tailwind CSS** - Framework CSS
+- **PostCSS** - Processore CSS
+
+## 📝 Convenzioni di Codice
+
+- Segui PSR-12 per il codice PHP
+- Utilizza Laravel Pint per la formattazione
+- Segui le convenzioni di naming di Laravel
+- Utilizza type hints e return types
+
+## 🔒 Sicurezza
+
+- Implementa sempre la validazione dei dati
+- Utilizza CSRF protection
+- Implementa rate limiting
+- Segui le best practices di Laravel per la sicurezza
+
+## 📚 Documentazione
+
+Per ulteriori informazioni, consulta:
+
+- [Documentazione Laravel](https://laravel.com/docs)
+- [Documentazione Filament](https://filamentphp.com/docs)
+- [Documentazione Tailwind CSS](https://tailwindcss.com/docs)
+- [Documentazione Alpine.js](https://alpinejs.dev/docs)
+
+## 📄 Licenza
+
+Questo progetto è open-source e disponibile sotto la licenza MIT.

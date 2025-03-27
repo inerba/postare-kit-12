@@ -50,6 +50,9 @@ class AuthPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->plugins([
+                \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make()
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
