@@ -70,6 +70,7 @@
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
             "@php artisan migrate --graceful --ansi",
             "@php artisan db:seed --ansi",
+            "@php artisan shield:super-admin",
             "npm install",
             "npm run build"
         ],

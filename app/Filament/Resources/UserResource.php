@@ -3,6 +3,8 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Actions\GeneratePasswordAction;
+use App\Filament\Exports\UserExporter;
+use App\Filament\Imports\UserImporter;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
@@ -12,6 +14,11 @@ use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ExportAction;
+use Filament\Tables\Actions\ExportBulkAction;
+use Filament\Tables\Actions\ImportAction;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +45,11 @@ class UserResource extends Resource
     protected static ?string $modelLabel = 'Utente';
 
     protected static ?string $pluralModelLabel = 'Utenti';
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count();
+    }
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -73,12 +85,12 @@ class UserResource extends Resource
                         TextInput::make('password')
                             ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
                             ->password()
-                            ->required(fn ($livewire) => $livewire instanceof Pages\CreateUser)
+                            ->required(fn($livewire) => $livewire instanceof Pages\CreateUser)
                             ->revealable(filament()->arePasswordsRevealable())
                             ->rule(Password::default())
                             ->autocomplete('new-password')
-                            ->dehydrated(fn ($state): bool => filled($state))
-                            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
+                            ->dehydrated(fn($state): bool => filled($state))
+                            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
                             ->live(debounce: 500)
                             ->same('passwordConfirmation')
                             ->suffixActions([
@@ -89,7 +101,7 @@ class UserResource extends Resource
                             ->password()
                             ->revealable(filament()->arePasswordsRevealable())
                             ->required()
-                            ->visible(fn (Get $get): bool => filled($get('password')))
+                            ->visible(fn(Get $get): bool => filled($get('password')))
                             ->dehydrated(false),
 
                         Select::make('roles')
@@ -121,7 +133,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')->label('Ruolo')
                     ->sortable()
-                    ->formatStateUsing(fn ($state): string => Str::headline($state))
+                    ->formatStateUsing(fn($state): string => Str::headline($state))
                     ->colors(['info'])
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -134,7 +146,11 @@ class UserResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('roles')
+                    ->label('Ruolo')
+                    ->relationship('roles', 'name')
+                    ->multiple()
+                    ->preload(),
             ])
             ->actions([
                 Impersonate::make()
@@ -161,12 +177,32 @@ class UserResource extends Resource
                         return true;
                     }),
                 Tables\Actions\EditAction::make(),
+                // Action::make('Set Role')
+                //     ->label('Imposta ruolo')
+                //     ->icon('heroicon-m-user-group')
+                //     ->form([
+                //         Select::make('role')
+                //             ->relationship('roles', 'name')
+                //             ->multiple()
+                //             ->searchable()
+                //             ->preload()
+                //             ->optionsLimit(10)
+                //             ->getOptionLabelFromRecordUsing(fn($record) => $record->name),
+                //     ]),
+            ])
+            ->headerActions([
+                ExportAction::make()
+                    ->exporter(UserExporter::class),
+                ImportAction::make()
+                    ->importer(UserImporter::class)
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+                ExportBulkAction::make()
+                    ->exporter(UserExporter::class)
+            ])->defaultSort('name', 'asc');
     }
 
     public static function getRelations(): array
