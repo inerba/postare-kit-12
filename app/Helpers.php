@@ -11,7 +11,7 @@ class Helper
      */
     public static function formatCurrency(float $amount, string $currency = 'EUR'): string
     {
-        return number_format($amount, 2, ',', '.') . ' €';
+        return number_format($amount, 2, ',', '.').' €';
     }
 
     /**
@@ -22,6 +22,7 @@ class Helper
         if (is_string($date)) {
             $date = new \DateTime($date);
         }
+
         return $date->format('d/m/Y');
     }
 
@@ -33,7 +34,8 @@ class Helper
         if (strlen($string) <= $length) {
             return $string;
         }
-        return substr($string, 0, $length) . $suffix;
+
+        return substr($string, 0, $length).$suffix;
     }
 
     /**
@@ -44,6 +46,7 @@ class Helper
         $string = strtolower($string);
         $string = preg_replace('/[^a-z0-9-]/', '-', $string);
         $string = preg_replace('/-+/', '-', $string);
+
         return trim($string, '-');
     }
 
@@ -61,6 +64,7 @@ class Helper
     public static function generateUniqueFilename(string $originalName): string
     {
         $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-        return uniqid() . '_' . time() . '.' . $extension;
+
+        return uniqid().'_'.time().'.'.$extension;
     }
-} 
+}

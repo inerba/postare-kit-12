@@ -128,7 +128,7 @@ return [
      * Will be used as the default user credentials for login
      */
 
-     'default_user' => [
+    'default_user' => [
         'name' => env('DEFAULT_USER_NAME'),
         'email' => env('DEFAULT_USER_EMAIL'),
         'password' => env('DEFAULT_USER_PASSWORD'),
