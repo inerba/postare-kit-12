@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "postare/kit-12",
+    "name": "inerba/postare-kit-12",
     "type": "project",
     "description": "Un moderno starter kit basato sul TALL stack con Filament per il backend.",
     "keywords": [
