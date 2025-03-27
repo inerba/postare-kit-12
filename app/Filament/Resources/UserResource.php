@@ -6,15 +6,20 @@ use App\Filament\Actions\GeneratePasswordAction;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
@@ -23,6 +28,16 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+    protected static ?string $navigationGroup = 'Impostazioni';
+
+    protected static ?string $navigationLabel = 'Utenti';
+
+    protected static ?string $label = 'Utenti';
+
+    protected static ?string $modelLabel = 'Utente';
+
+    protected static ?string $pluralModelLabel = 'Utenti';
 
     public static function getGloballySearchableAttributes(): array
     {
@@ -43,11 +58,14 @@ class UserResource extends Resource
         return $form
             ->schema([
                 Forms\Components\Section::make()
+                    ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label('Nome')
                             ->required()
                             ->maxLength(255),
                         Forms\Components\TextInput::make('email')
+                            ->label('Email')
                             ->email()
                             ->unique(ignoreRecord: true)
                             ->required()
@@ -73,6 +91,20 @@ class UserResource extends Resource
                             ->required()
                             ->visible(fn (Get $get): bool => filled($get('password')))
                             ->dehydrated(false),
+
+                        Select::make('roles')
+                            ->label('Ruolo')
+                            ->relationship(name: 'roles', titleAttribute: 'name', modifyQueryUsing: function (Builder $query) {
+                                // Solo gli utenti super_admin possono creare utenti con ruolo super_admin
+                                if (Auth::user()->hasRole('super_admin')) {
+                                    return $query->whereNotIn('name', ['filament_user']);
+                                } else {
+                                    return $query->whereNotIn('name', ['filament_user', 'super_admin']);
+                                }
+                            })
+                            ->multiple()
+                            ->preload()
+                            ->native(false),
                     ]),
             ]);
     }
@@ -87,6 +119,11 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\TextColumn::make('roles.name')->label('Ruolo')
+                    ->sortable()
+                    ->formatStateUsing(fn ($state): string => Str::headline($state))
+                    ->colors(['info'])
+                    ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -100,6 +137,29 @@ class UserResource extends Resource
                 //
             ])
             ->actions([
+                Impersonate::make()
+                    ->label('Impersona')
+                    ->hidden(function (User $user) {
+
+                        // Non puoi impersonare te stesso
+                        if (Auth::user()->id === $user->id) {
+                            return true;
+                        }
+
+                        // Super admin può impersonare tutti gli utenti
+                        if (Auth::user()->hasRole('super_admin')) {
+                            return false;
+                        }
+
+                        // Esempio: Gli altri possono impersonare solo gli agenti
+                        // return ! $user->hasRole('agent');
+
+                        // Esempio 2: Gli altri possono impersonare tutti tranne 'super_admin' e 'admin'
+                        // return ! $user->hasRole(['super_admin', 'admin']);
+
+                        // solo i super_admin possono impersonare
+                        return true;
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
