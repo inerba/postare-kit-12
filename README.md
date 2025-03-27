@@ -15,6 +15,8 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 
 - [Spatie Media Library](https://filamentphp.com/plugins/filament-spatie-media-library)
 - [Exception Viewer](https://github.com/bezhansalleh/filament-exceptions)
+- [Activity logger for filament](https://github.com/z3d0x/filament-logger)
+- [Shield](https://github.com/bezhanSalleh/filament-shield)
 
 ## 📋 Requisiti di Sistema
 
