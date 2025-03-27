@@ -10,12 +10,17 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "awcodes/filament-tiptap-editor": "^3.5",
+        "awcodes/mason": "^0.1.3",
+        "awcodes/matinee": "^1.0",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
+        "dotswan/filament-code-editor": "^1.1",
         "filament/filament": "3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "postare/db-config": "^3.02",
         "stechstudio/filament-impersonate": "^3.15",
         "z3d0x/filament-logger": "^0.8.0"
     },

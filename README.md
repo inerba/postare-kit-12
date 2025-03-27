@@ -17,6 +17,11 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 - [Exception Viewer](https://github.com/bezhansalleh/filament-exceptions)
 - [Activity logger for filament](https://github.com/z3d0x/filament-logger)
 - [Shield](https://github.com/bezhanSalleh/filament-shield)
+- [Filament Impersonate](https://github.com/stechstudio/filament-impersonate)
+- [DB CONFIG](https://github.com/postare/db-config)
+- [Mason](https://github.com/awcodes/mason)
+- [Matinee](https://github.com/awcodes/Matinee)
+- [Filament Tiptap Editor](https://github.com/awcodes/filament-tiptap-editor)
 
 ## 📋 Requisiti di Sistema
 

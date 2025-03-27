@@ -15,7 +15,7 @@ class EditUser extends EditRecord
     {
         return [
             Actions\DeleteAction::make(),
-            Impersonate::make()->record($this->getRecord())
+            Impersonate::make()->record($this->getRecord()),
         ];
     }
 }
