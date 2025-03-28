@@ -1,65 +1,87 @@
 <?php
 
-declare(strict_types=1);
+use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Str;
 
 /**
- * Formatta un numero come valuta
+ * Helpers per il menù
  */
-function formatCurrency(float $amount, string $currency = 'EUR'): string
-{
-    return number_format($amount, 2, ',', '.').' €';
-}
+if (! function_exists('active_route')) {
+    function active_route(string $route, $active = true, $default = false)
+    {
+        $current = (string) str(url()->current())->remove(config('app.url'))->trim('/');
+        $route = (string) str($route)->trim('/');
 
-/**
- * Formatta una data in formato italiano
- */
-function formatDate(\DateTime|string $date): string
-{
-    if (is_string($date)) {
-        $date = new \DateTime($date);
+        if ($current === $route) {
+            return $active;
+        }
+
+        return $default;
     }
-
-    return $date->format('d/m/Y');
 }
 
-/**
- * Trunca una stringa alla lunghezza specificata
- */
-function truncate(string $string, int $length = 100, string $suffix = '...'): string
-{
-    if (strlen($string) <= $length) {
-        return $string;
+if (! function_exists('is_panel_auth_route')) {
+    function is_panel_auth_route(): bool
+    {
+        $authRoutes = [
+            '/login',
+            '/password-reset',
+            '/register',
+            '/email-verification',
+        ];
+
+        return Str::of(Request::path())->contains($authRoutes);
     }
+}
 
-    return substr($string, 0, $length).$suffix;
+if (! function_exists('removeEmptyValues')) {
+    function removeEmptyValues(array $array): array
+    {
+        // Applica array_map per garantire la ricorsività su tutti gli elementi
+        return array_filter(array_map(function ($value) {
+            return is_array($value) ? removeEmptyValues($value) : $value;
+        }, $array), function ($value) {
+            // Filtra valori vuoti mantenendo 0 e '0' come validi
+            return ! empty($value) || $value === 0 || $value === '0';
+        });
+    }
 }
 
 /**
- * Genera un slug da una stringa
+ * Helper per la pagina
  */
-function slugify(string $string): string
-{
-    $string = strtolower($string);
-    $string = preg_replace('/[^a-z0-9-]/', '-', $string);
-    $string = preg_replace('/-+/', '-', $string);
+if (! function_exists('page_url')) {
+    /**
+     * Get the permalink of a page by its ID or slug.
+     * Defaults to relative url.
+     *
+     * @param  int|string  $identifier  The post ID or slug
+     * @param  bool  $absolute  Whether to return the absolute url
+     */
+    function page_url(int|string $identifier, bool $absolute = false): ?string
+    {
+        if ($absolute) {
+            $key = "page_url.$identifier.absolute";
+        } else {
+            $key = "page_url.$identifier";
+        }
 
-    return trim($string, '-');
-}
+        return Cache::remember(
+            $key,
+            config('filament-blog.cache.default_duration'),
+            function () use ($identifier, $absolute) {
+                if (is_int($identifier)) {
+                    $page = App\Models\Page::find($identifier);
+                } else {
+                    $page = App\Models\Page::where('slug', $identifier)->first();
+                }
 
-/**
- * Verifica se una stringa è un URL valido
- */
-function isValidUrl(string $url): bool
-{
-    return filter_var($url, FILTER_VALIDATE_URL) !== false;
-}
-
-/**
- * Genera un nome file univoco
- */
-function generateUniqueFilename(string $originalName): string
-{
-    $extension = pathinfo($originalName, PATHINFO_EXTENSION);
-
-    return uniqid().'_'.time().'.'.$extension;
+                if ($absolute) {
+                    return $page?->permalink;
+                } else {
+                    return $page?->relative_permalink;
+                }
+            }
+        ) ?? '';
+    }
 }

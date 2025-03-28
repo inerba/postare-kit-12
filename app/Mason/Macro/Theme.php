@@ -3,8 +3,6 @@
 namespace App\Mason\Macro;
 
 use Awcodes\Palette\Forms\Components\ColorPicker;
-use Awcodes\Palette\Palette;
-
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Radio;
 use Filament\Forms\Components\Select;
@@ -52,103 +50,103 @@ class Theme
             Tabs::make('Impostazioni generali')
             // ->icon('phosphor-wrench')
             // ->collapsible(true)
-            ->tabs([
-                Tabs\Tab::make('Colore di sfondo')
-                    ->schema([
-                        // Radio::make('theme.background_color')
-                        //     ->label('Colore di sfondo')
-                        //     ->options([
-                        //         'white' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-white border">&nbsp;</div>Bianco</div>'),
-                        //         'gray' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-gray-100 border">&nbsp;</div>Grigio</div>'),
-                        //         'primary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-red-700">&nbsp;</div>Rosso</div>'),
-                        //         'secondary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-green-700">&nbsp;</div>Verde</div>'),
-                        //     ])
-                        //     ->inline()
-                        //     ->inlineLabel(false),
+                ->tabs([
+                    Tabs\Tab::make('Colore di sfondo')
+                        ->schema([
+                            // Radio::make('theme.background_color')
+                            //     ->label('Colore di sfondo')
+                            //     ->options([
+                            //         'white' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-white border">&nbsp;</div>Bianco</div>'),
+                            //         'gray' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-gray-100 border">&nbsp;</div>Grigio</div>'),
+                            //         'primary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-red-700">&nbsp;</div>Rosso</div>'),
+                            //         'secondary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-green-700">&nbsp;</div>Verde</div>'),
+                            //     ])
+                            //     ->inline()
+                            //     ->inlineLabel(false),
 
-                        ColorPicker::make('theme.background_color')
-                            ->label('Colore di sfondo')
-                            ->storeAsKey()
-                            ->colors([
-                                'white' => 'bg-white',
-                                'gray' => 'bg-neutral-100',
-                                'primary' => 'bg-primary',
-                                'secondary' => 'bg-secondary',
-                            ]),
+                            ColorPicker::make('theme.background_color')
+                                ->label('Colore di sfondo')
+                                ->storeAsKey()
+                                ->colors([
+                                    'white' => 'bg-white',
+                                    'gray' => 'bg-neutral-100',
+                                    'primary' => 'bg-primary',
+                                    'secondary' => 'bg-secondary',
+                                ]),
 
-                    ]),
-                Tabs\Tab::make('Dimensioni e spaziatura')
-                    ->schema([
-                        Fieldset::make('Larghezza del blocco')
-                            // ->description('Configura la larghezza massima del blocco per adattarsi a diverse dimensioni di schermo.')
-                            ->columns(3)
-                            ->schema(array_map(function ($size) {
-                                return Select::make('theme.blockMaxWidth' . ($size !== 'xs' ? ucfirst($size) : ''))
-                                    ->label(self::responsiveLabel($size))
-                                    ->searchable()
-                                    ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
-                                    ->options(self::maxWidthOptions($size === 'xs' ? null : $size));
-                                // ->default($size === 'xs' ? 'max-w-7xl' : null);
-                            }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
+                        ]),
+                    Tabs\Tab::make('Dimensioni e spaziatura')
+                        ->schema([
+                            Fieldset::make('Larghezza del blocco')
+                                // ->description('Configura la larghezza massima del blocco per adattarsi a diverse dimensioni di schermo.')
+                                ->columns(3)
+                                ->schema(array_map(function ($size) {
+                                    return Select::make('theme.blockMaxWidth'.($size !== 'xs' ? ucfirst($size) : ''))
+                                        ->label(self::responsiveLabel($size))
+                                        ->searchable()
+                                        ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
+                                        ->options(self::maxWidthOptions($size === 'xs' ? null : $size));
+                                    // ->default($size === 'xs' ? 'max-w-7xl' : null);
+                                }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
 
-                        Fieldset::make('Padding verticale del blocco')
-                            // ->description('Configura la spaziatura verticale del blocco per ciascun breakpoint.')
-                            ->columns(3)
-                            ->schema(array_map(function ($size) {
-                                return Select::make('theme.blockVerticalPadding' . ($size !== 'xs' ? ucfirst($size) : ''))
-                                    ->label(self::responsiveLabel($size))
-                                    ->searchable()
-                                    ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
-                                    ->options(self::paddingOptions($size === 'xs' ? null : $size));
-                                // ->default(match ($size) {
-                                //     'xs' => 'py-12',
-                                //     'lg' => 'py-24',
-                                //     default => null,
-                                // });
-                            }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
+                            Fieldset::make('Padding verticale del blocco')
+                                // ->description('Configura la spaziatura verticale del blocco per ciascun breakpoint.')
+                                ->columns(3)
+                                ->schema(array_map(function ($size) {
+                                    return Select::make('theme.blockVerticalPadding'.($size !== 'xs' ? ucfirst($size) : ''))
+                                        ->label(self::responsiveLabel($size))
+                                        ->searchable()
+                                        ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
+                                        ->options(self::paddingOptions($size === 'xs' ? null : $size));
+                                    // ->default(match ($size) {
+                                    //     'xs' => 'py-12',
+                                    //     'lg' => 'py-24',
+                                    //     default => null,
+                                    // });
+                                }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
 
-                        Fieldset::make('Margine verticale del blocco')
-                            // ->description('Configura la spaziatura verticale del blocco per ciascun breakpoint.')
-                            ->columns(3)
-                            ->schema(array_map(function ($size) {
-                                return Select::make('theme.blockVerticalMargin' . ($size !== 'xs' ? ucfirst($size) : ''))
-                                    ->label(self::responsiveLabel($size))
-                                    ->searchable()
-                                    ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
-                                    ->options(self::marginOptions($size === 'xs' ? null : $size));
-                            }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
-                    ]),
-            ]);
+                            Fieldset::make('Margine verticale del blocco')
+                                // ->description('Configura la spaziatura verticale del blocco per ciascun breakpoint.')
+                                ->columns(3)
+                                ->schema(array_map(function ($size) {
+                                    return Select::make('theme.blockVerticalMargin'.($size !== 'xs' ? ucfirst($size) : ''))
+                                        ->label(self::responsiveLabel($size))
+                                        ->searchable()
+                                        ->placeholder($size === 'xs' ? 'Non indicato' : 'Non indicato / Ereditato')
+                                        ->options(self::marginOptions($size === 'xs' ? null : $size));
+                                }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
+                        ]),
+                ]);
     }
 
     public static function maxWidthOptions($screen = null)
     {
-        $prefix = ($screen && $screen !== 'xs') ? $screen . ':' : '';
+        $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
         $options = [];
 
         if ($screen && $screen !== 'xs') {
-            $options[$prefix . 'max-w-inherited'] = 'Eredita';
+            $options[$prefix.'max-w-inherited'] = 'Eredita';
         }
 
         $options += [
-            $prefix . 'max-w-none' => 'nessuna',
-            $prefix . 'max-w-xs' => '320px (xs)',
-            $prefix . 'max-w-sm' => '384px (sm)',
-            $prefix . 'max-w-md' => '448px (md)',
-            $prefix . 'max-w-lg' => '512px (lg)',
-            $prefix . 'max-w-xl' => '576px (xl)',
-            $prefix . 'max-w-2xl' => '672px (2xl)',
-            $prefix . 'max-w-3xl' => '768px (3xl)',
-            $prefix . 'max-w-4xl' => '896px (4xl)',
-            $prefix . 'max-w-5xl' => '1024px (5xl)',
-            $prefix . 'max-w-6xl' => '1152px (6xl)',
-            $prefix . 'max-w-7xl' => '1280px (7xl)',
-            $prefix . 'max-w-screen-2xl' => '1536px',
-            $prefix . 'max-w-full' => '100%',
-            $prefix . 'max-w-min' => 'contenuto minimo',
-            $prefix . 'max-w-max' => 'contenuto massimo',
-            $prefix . 'max-w-fit' => 'adattato',
+            $prefix.'max-w-none' => 'nessuna',
+            $prefix.'max-w-xs' => '320px (xs)',
+            $prefix.'max-w-sm' => '384px (sm)',
+            $prefix.'max-w-md' => '448px (md)',
+            $prefix.'max-w-lg' => '512px (lg)',
+            $prefix.'max-w-xl' => '576px (xl)',
+            $prefix.'max-w-2xl' => '672px (2xl)',
+            $prefix.'max-w-3xl' => '768px (3xl)',
+            $prefix.'max-w-4xl' => '896px (4xl)',
+            $prefix.'max-w-5xl' => '1024px (5xl)',
+            $prefix.'max-w-6xl' => '1152px (6xl)',
+            $prefix.'max-w-7xl' => '1280px (7xl)',
+            $prefix.'max-w-screen-2xl' => '1536px',
+            $prefix.'max-w-full' => '100%',
+            $prefix.'max-w-min' => 'contenuto minimo',
+            $prefix.'max-w-max' => 'contenuto massimo',
+            $prefix.'max-w-fit' => 'adattato',
         ];
 
         return $options;
@@ -164,21 +162,21 @@ class Theme
 
     public static function columnOptions($screen = null)
     {
-        $prefix = ($screen && $screen !== 'xs') ? $screen . ':' : '';
+        $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
         return [
-            $prefix . 'columns-1' => '1 colonna',
-            $prefix . 'columns-2' => '2 colonne',
-            $prefix . 'columns-3' => '3 colonne',
-            $prefix . 'columns-4' => '4 colonne',
-            $prefix . 'columns-5' => '5 colonne',
-            $prefix . 'columns-6' => '6 colonne',
-            $prefix . 'columns-7' => '7 colonne',
-            $prefix . 'columns-8' => '8 colonne',
-            $prefix . 'columns-9' => '9 colonne',
-            $prefix . 'columns-10' => '10 colonne',
-            $prefix . 'columns-11' => '11 colonne',
-            $prefix . 'columns-12' => '12 colonne',
+            $prefix.'columns-1' => '1 colonna',
+            $prefix.'columns-2' => '2 colonne',
+            $prefix.'columns-3' => '3 colonne',
+            $prefix.'columns-4' => '4 colonne',
+            $prefix.'columns-5' => '5 colonne',
+            $prefix.'columns-6' => '6 colonne',
+            $prefix.'columns-7' => '7 colonne',
+            $prefix.'columns-8' => '8 colonne',
+            $prefix.'columns-9' => '9 colonne',
+            $prefix.'columns-10' => '10 colonne',
+            $prefix.'columns-11' => '11 colonne',
+            $prefix.'columns-12' => '12 colonne',
         ];
 
         // Tailwind CSS column classes (elencate tutte per permettere a tailwind di salvarle nel css)
@@ -192,28 +190,28 @@ class Theme
 
     public static function paddingOptions($screen = null)
     {
-        $prefix = ($screen && $screen !== 'xs') ? $screen . ':' : '';
+        $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
         return [
-            $prefix . 'py-inherited' => 'Eredita',
-            $prefix . 'py-0' => 'Nessuna (' . ($prefix . 'py-0') . ')',
-            $prefix . 'py-1' => ($prefix . 'py-1') . ' (0.25rem / 4px)',
-            $prefix . 'py-2' => ($prefix . 'py-2') . ' (0.5rem / 8px)',
-            $prefix . 'py-3' => ($prefix . 'py-3') . ' (0.75rem / 12px)',
-            $prefix . 'py-4' => ($prefix . 'py-4') . ' (1rem / 16px)',
-            $prefix . 'py-5' => ($prefix . 'py-5') . ' (1.25rem / 20px)',
-            $prefix . 'py-6' => ($prefix . 'py-6') . ' (1.5rem / 24px)',
-            $prefix . 'py-8' => ($prefix . 'py-8') . ' (2rem / 32px)',
-            $prefix . 'py-10' => ($prefix . 'py-10') . ' (2.5rem / 40px)',
-            $prefix . 'py-12' => ($prefix . 'py-12') . ' (3rem / 48px)',
-            $prefix . 'py-16' => ($prefix . 'py-16') . ' (4rem / 64px)',
-            $prefix . 'py-20' => ($prefix . 'py-20') . ' (5rem / 80px)',
-            $prefix . 'py-24' => ($prefix . 'py-24') . ' (6rem / 96px)',
-            $prefix . 'py-32' => ($prefix . 'py-32') . ' (8rem / 128px)',
-            $prefix . 'py-40' => ($prefix . 'py-40') . ' (10rem / 160px)',
-            $prefix . 'py-48' => ($prefix . 'py-48') . ' (12rem / 192px)',
-            $prefix . 'py-56' => ($prefix . 'py-56') . ' (14rem / 224px)',
-            $prefix . 'py-64' => ($prefix . 'py-64') . ' (16rem / 256px)',
+            $prefix.'py-inherited' => 'Eredita',
+            $prefix.'py-0' => 'Nessuna ('.($prefix.'py-0').')',
+            $prefix.'py-1' => ($prefix.'py-1').' (0.25rem / 4px)',
+            $prefix.'py-2' => ($prefix.'py-2').' (0.5rem / 8px)',
+            $prefix.'py-3' => ($prefix.'py-3').' (0.75rem / 12px)',
+            $prefix.'py-4' => ($prefix.'py-4').' (1rem / 16px)',
+            $prefix.'py-5' => ($prefix.'py-5').' (1.25rem / 20px)',
+            $prefix.'py-6' => ($prefix.'py-6').' (1.5rem / 24px)',
+            $prefix.'py-8' => ($prefix.'py-8').' (2rem / 32px)',
+            $prefix.'py-10' => ($prefix.'py-10').' (2.5rem / 40px)',
+            $prefix.'py-12' => ($prefix.'py-12').' (3rem / 48px)',
+            $prefix.'py-16' => ($prefix.'py-16').' (4rem / 64px)',
+            $prefix.'py-20' => ($prefix.'py-20').' (5rem / 80px)',
+            $prefix.'py-24' => ($prefix.'py-24').' (6rem / 96px)',
+            $prefix.'py-32' => ($prefix.'py-32').' (8rem / 128px)',
+            $prefix.'py-40' => ($prefix.'py-40').' (10rem / 160px)',
+            $prefix.'py-48' => ($prefix.'py-48').' (12rem / 192px)',
+            $prefix.'py-56' => ($prefix.'py-56').' (14rem / 224px)',
+            $prefix.'py-64' => ($prefix.'py-64').' (16rem / 256px)',
         ];
 
         // Tailwind CSS padding classes (elencate tutte per permettere a tailwind di salvarle nel css)
@@ -227,28 +225,28 @@ class Theme
 
     public static function marginOptions($screen = null)
     {
-        $prefix = ($screen && $screen !== 'xs') ? $screen . ':' : '';
+        $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
         return [
-            $prefix . 'my-inherited' => 'Eredita',
-            $prefix . 'my-0' => 'Nessuno (' . ($prefix . 'my-0') . ')',
-            $prefix . 'my-1' => ($prefix . 'my-1') . ' (0.25rem / 4px)',
-            $prefix . 'my-2' => ($prefix . 'my-2') . ' (0.5rem / 8px)',
-            $prefix . 'my-3' => ($prefix . 'my-3') . ' (0.75rem / 12px)',
-            $prefix . 'my-4' => ($prefix . 'my-4') . ' (1rem / 16px)',
-            $prefix . 'my-5' => ($prefix . 'my-5') . ' (1.25rem / 20px)',
-            $prefix . 'my-6' => ($prefix . 'my-6') . ' (1.5rem / 24px)',
-            $prefix . 'my-8' => ($prefix . 'my-8') . ' (2rem / 32px)',
-            $prefix . 'my-10' => ($prefix . 'my-10') . ' (2.5rem / 40px)',
-            $prefix . 'my-12' => ($prefix . 'my-12') . ' (3rem / 48px)',
-            $prefix . 'my-16' => ($prefix . 'my-16') . ' (4rem / 64px)',
-            $prefix . 'my-20' => ($prefix . 'my-20') . ' (5rem / 80px)',
-            $prefix . 'my-24' => ($prefix . 'my-24') . ' (6rem / 96px)',
-            $prefix . 'my-32' => ($prefix . 'my-32') . ' (8rem / 128px)',
-            $prefix . 'my-40' => ($prefix . 'my-40') . ' (10rem / 160px)',
-            $prefix . 'my-48' => ($prefix . 'my-48') . ' (12rem / 192px)',
-            $prefix . 'my-56' => ($prefix . 'my-56') . ' (14rem / 224px)',
-            $prefix . 'my-64' => ($prefix . 'my-64') . ' (16rem / 256px)',
+            $prefix.'my-inherited' => 'Eredita',
+            $prefix.'my-0' => 'Nessuno ('.($prefix.'my-0').')',
+            $prefix.'my-1' => ($prefix.'my-1').' (0.25rem / 4px)',
+            $prefix.'my-2' => ($prefix.'my-2').' (0.5rem / 8px)',
+            $prefix.'my-3' => ($prefix.'my-3').' (0.75rem / 12px)',
+            $prefix.'my-4' => ($prefix.'my-4').' (1rem / 16px)',
+            $prefix.'my-5' => ($prefix.'my-5').' (1.25rem / 20px)',
+            $prefix.'my-6' => ($prefix.'my-6').' (1.5rem / 24px)',
+            $prefix.'my-8' => ($prefix.'my-8').' (2rem / 32px)',
+            $prefix.'my-10' => ($prefix.'my-10').' (2.5rem / 40px)',
+            $prefix.'my-12' => ($prefix.'my-12').' (3rem / 48px)',
+            $prefix.'my-16' => ($prefix.'my-16').' (4rem / 64px)',
+            $prefix.'my-20' => ($prefix.'my-20').' (5rem / 80px)',
+            $prefix.'my-24' => ($prefix.'my-24').' (6rem / 96px)',
+            $prefix.'my-32' => ($prefix.'my-32').' (8rem / 128px)',
+            $prefix.'my-40' => ($prefix.'my-40').' (10rem / 160px)',
+            $prefix.'my-48' => ($prefix.'my-48').' (12rem / 192px)',
+            $prefix.'my-56' => ($prefix.'my-56').' (14rem / 224px)',
+            $prefix.'my-64' => ($prefix.'my-64').' (16rem / 256px)',
         ];
 
         // Tailwind CSS margin classes (elencate tutte per permettere a tailwind di salvarle nel css)

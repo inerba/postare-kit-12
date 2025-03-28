@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\DefaultMediaConversions;
 use App\Traits\HasCustomFields;
-use App\Traits\HasMenuItem;
 use App\Traits\HasMeta;
 use App\Traits\HasUniqueSlug;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -52,7 +51,7 @@ class Page extends Model implements HasMedia
         $slugPath = implode('/', $slugs);
 
         return Attribute::make(
-            get: fn() => route('cms.page', [
+            get: fn () => route('cms.page', [
                 'slug' => $slugPath,
             ]),
         );
@@ -64,7 +63,7 @@ class Page extends Model implements HasMedia
         $slugPath = implode('/', $slugs);
 
         return Attribute::make(
-            get: fn() => route('cms.page', [
+            get: fn () => route('cms.page', [
                 'slug' => $slugPath,
             ], false),
         );
@@ -106,7 +105,7 @@ class Page extends Model implements HasMedia
         $defaultView = 'pages.page';
 
         // Check if a custom view exists
-        $customView = 'pages.' . $this->slug;
+        $customView = 'pages.'.$this->slug;
 
         if (view()->exists($customView)) {
             return $customView;
@@ -117,7 +116,7 @@ class Page extends Model implements HasMedia
 
     public function hasCustomView(): bool
     {
-        $customView = 'pages.' . $this->slug;
+        $customView = 'pages.'.$this->slug;
 
         return view()->exists($customView);
     }

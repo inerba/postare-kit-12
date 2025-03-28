@@ -10,14 +10,14 @@ trait HasSocialFields
     {
         return [
             Forms\Components\Section::make([
-                Forms\Components\TextInput::make($prefix . '.og.title')
-                    ->hint(fn($state): string => self::remainingText($state, 60))
+                Forms\Components\TextInput::make($prefix.'.og.title')
+                    ->hint(fn ($state): string => self::remainingText($state, 60))
                     ->live()
                     ->label(__('pages.social.title'))
                     ->helperText(__('pages.social.title_helper'))
                     ->columnSpanFull(),
-                Forms\Components\TextArea::make($prefix . '.og.description')
-                    ->hint(fn($state): string => self::remainingText($state, 200))
+                Forms\Components\TextArea::make($prefix.'.og.description')
+                    ->hint(fn ($state): string => self::remainingText($state, 200))
                     ->live()
                     ->label(__('pages.social.description'))
                     ->helperText(__('pages.social.description_helper'))

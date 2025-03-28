@@ -10,7 +10,7 @@ class CreatePage extends CreateRecord
     protected static string $resource = PageResource::class;
 
     // Questo evita che venga mostrato il "Nuovo pagina" al maschile
-    public function getTitle(): \Illuminate\Contracts\Support\Htmlable | string
+    public function getTitle(): \Illuminate\Contracts\Support\Htmlable|string
     {
         return __('pages.resources.page.new');
     }
