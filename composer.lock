@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2dad665b01b346770c8ab1256993217f",
+    "content-hash": "61545b56d350dddf19c455836ebf7793",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -5705,6 +5705,86 @@
                 }
             ],
             "time": "2025-02-25T09:09:36+00:00"
+        },
+        {
+            "name": "saade/filament-adjacency-list",
+            "version": "v3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/saade/filament-adjacency-list.git",
+                "reference": "c2932bf7ee53fb572d33b20f3d4472021ae1eeee"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/saade/filament-adjacency-list/zipball/c2932bf7ee53fb572d33b20f3d4472021ae1eeee",
+                "reference": "c2932bf7ee53fb572d33b20f3d4472021ae1eeee",
+                "shasum": ""
+            },
+            "require": {
+                "filament/filament": "^3.0",
+                "illuminate/contracts": "^10.0|^11.0|^12.0",
+                "php": "^8.1",
+                "spatie/laravel-package-tools": "^1.15.0"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.0",
+                "nunomaduro/collision": "^7.0|^8.0",
+                "nunomaduro/larastan": "^2.0.1",
+                "orchestra/testbench": "^8.0|^9.0",
+                "pestphp/pest": "^2.0",
+                "pestphp/pest-plugin-arch": "^2.0",
+                "pestphp/pest-plugin-laravel": "^2.0",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "FilamentAdjacencyList": "Saade\\FilamentAdjacencyList\\Facades\\FilamentAdjacencyList"
+                    },
+                    "providers": [
+                        "Saade\\FilamentAdjacencyList\\FilamentAdjacencyListServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Saade\\FilamentAdjacencyList\\": "src/",
+                    "Saade\\FilamentAdjacencyList\\Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Saade",
+                    "email": "saade@outlook.com.br",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Filament package to adjacency lists.",
+            "homepage": "https://github.com/saade/filament-adjacency-list",
+            "keywords": [
+                "filament-adjacency-list",
+                "laravel",
+                "saade"
+            ],
+            "support": {
+                "issues": "https://github.com/saade/filament-adjacency-list/issues",
+                "source": "https://github.com/saade/filament-adjacency-list"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/saade",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-02-26T18:42:12+00:00"
         },
         {
             "name": "scrivo/highlight.php",
