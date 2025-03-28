@@ -2,6 +2,8 @@
     <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
         <div class="flex text-4xl uppercase lg:col-start-2 lg:justify-center">Header</div>
         <nav class="-mx-3 flex flex-1 justify-end">
+            <livewire:menu slug="main-menu" />
+
             @auth
                 <a
                     href="{{ \Filament\Facades\Filament::getCurrentPanel()->getUrl() }}"
