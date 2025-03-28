@@ -2,11 +2,14 @@
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-    content: ['./resources/views/**/*.blade.php'],
+    // Specifica i percorsi dei file in cui Tailwind deve cercare le classi CSS
+    content: ['./resources/views/**/*.blade.php', './app/Mason/**/*.php'],
+    // Abilita la modalità scura basata su un selettore CSS
     darkMode: 'selector',
     theme: {
         extend: {
             colors: {
+                // Definisci i colori personalizzati per il tema
                 brand: colors.amber,
                 neutral: colors.neutral,
                 error: colors.red,
@@ -23,10 +26,12 @@ module.exports = {
                 'subtext-color': colors.neutral[500],
                 'neutral-border': colors.neutral[200],
                 white: colors.white,
+                black: colors.black,
+                muted: colors.neutral[400],
                 'default-background': colors.neutral[50],
             },
             fontFamily: {
-                sans: ['DM Sans', 'sans-serif'], // Ensure DM Sans is the default sans-serif font
+                sans: ['DM Sans', 'sans-serif'], // Assicura che DM Sans sia il font sans-serif predefinito
                 caption: 'DM Sans',
                 'caption-bold': 'DM Sans',
                 body: 'DM Sans',
