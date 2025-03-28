@@ -18,7 +18,7 @@
     </head>
     <body class="flex min-h-screen flex-col font-sans antialiased">
         <x-partials.header />
-        <main class="flex-1 bg-rose-50">
+        <main class="flex-1">
             {!! $slot !!}
         </main>
         <x-partials.footer />

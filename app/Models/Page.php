@@ -19,7 +19,6 @@ class Page extends Model implements HasMedia
 {
     use DefaultMediaConversions;
     use HasCustomFields;
-    use HasMenuItem;
     use HasMeta;
     use HasUniqueSlug;
     use InteractsWithMedia;
@@ -104,10 +103,10 @@ class Page extends Model implements HasMedia
      */
     public function getViewName(): string
     {
-        $defaultView = 'filament-blog::page';
+        $defaultView = 'pages.page';
 
         // Check if a custom view exists
-        $customView = 'filament-blog::page.' . $this->slug;
+        $customView = 'pages.' . $this->slug;
 
         if (view()->exists($customView)) {
             return $customView;
@@ -118,7 +117,7 @@ class Page extends Model implements HasMedia
 
     public function hasCustomView(): bool
     {
-        $customView = 'filament-blog::page.' . $this->slug;
+        $customView = 'pages.' . $this->slug;
 
         return view()->exists($customView);
     }

@@ -1,5 +1,7 @@
-@aware(['post'])
+@props([
+    'content',
+])
 
 <div>
-    {!! mason($post->content, \App\Mason\BrickCollection::make())->toHtml() !!}
+    {!! mason($content, \App\Mason\BrickCollection::make())->toHtml() !!}
 </div>
