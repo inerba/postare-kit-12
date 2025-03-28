@@ -21,6 +21,7 @@
         "dotswan/filament-code-editor": "^1.1",
         "filament/filament": "3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
+        "heriw/laravel-simple-html-dom-parser": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "postare/db-config": "^3.02",

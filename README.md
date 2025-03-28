@@ -72,8 +72,12 @@ php artisan key:generate
 ```bash
 php artisan migrate --seed
 ```
+8. Aggiungi l'utente creato in vfase di seed tra i super user:
+```bash
+php artisan shield:super-admin
+```
 
-8. Compila gli assets:
+9.  Compila gli assets:
 
 ```bash
 npm run build

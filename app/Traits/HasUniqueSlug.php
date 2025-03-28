@@ -20,7 +20,6 @@ trait HasUniqueSlug
      */
     protected function createUniqueSlug(Model $modelInstance, string $fieldValue, ?string $slugField = null): string
     {
-
         $slugField = $slugField ?? $this->getSlugField();
         $baseSlug = Str::slug($fieldValue);
         $slug = $baseSlug;
