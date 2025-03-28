@@ -36,6 +36,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
     public function mount(): void
     {
+        parent::mount();
         $this->data = DbConfig::getGroup($this->settingName());
 
         $defaults = [
@@ -148,7 +149,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                         ->columnSpanFull()
                                         ->required(),
 
-                                    Forms\Components\TextArea::make('cookieconsent.description')
+                                    Forms\Components\Textarea::make('cookieconsent.description')
                                         ->label('Messaggio del banner')
                                         ->default('Questo sito utilizza i cookies per garantire la migliore esperienza di navigazione.')
                                         ->columnSpanFull()
@@ -167,7 +168,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -182,7 +183,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -196,7 +197,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -214,7 +215,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn(Action $action) => $action->requiresConfirmation(),
+                                    fn (Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -259,15 +260,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn(Action $action) => $action->requiresConfirmation(),
+                                            fn (Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]),])
+                ]), ])
             ->statePath('data');
     }
 }

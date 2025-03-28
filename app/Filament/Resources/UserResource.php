@@ -85,12 +85,12 @@ class UserResource extends Resource
                         TextInput::make('password')
                             ->label(__('filament-panels::pages/auth/edit-profile.form.password.label'))
                             ->password()
-                            ->required(fn($livewire) => $livewire instanceof Pages\CreateUser)
+                            ->required(fn ($livewire) => $livewire instanceof Pages\CreateUser)
                             ->revealable(filament()->arePasswordsRevealable())
                             ->rule(Password::default())
                             ->autocomplete('new-password')
-                            ->dehydrated(fn($state): bool => filled($state))
-                            ->dehydrateStateUsing(fn($state): string => Hash::make($state))
+                            ->dehydrated(fn ($state): bool => filled($state))
+                            ->dehydrateStateUsing(fn ($state): string => Hash::make($state))
                             ->live(debounce: 500)
                             ->same('passwordConfirmation')
                             ->suffixActions([
@@ -101,7 +101,7 @@ class UserResource extends Resource
                             ->password()
                             ->revealable(filament()->arePasswordsRevealable())
                             ->required()
-                            ->visible(fn(Get $get): bool => filled($get('password')))
+                            ->visible(fn (Get $get): bool => filled($get('password')))
                             ->dehydrated(false),
 
                         Select::make('roles')
@@ -133,7 +133,7 @@ class UserResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('roles.name')->label('Ruolo')
                     ->sortable()
-                    ->formatStateUsing(fn($state): string => Str::headline($state))
+                    ->formatStateUsing(fn ($state): string => Str::headline($state))
                     ->colors(['info'])
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
@@ -194,14 +194,14 @@ class UserResource extends Resource
                 ExportAction::make()
                     ->exporter(UserExporter::class),
                 ImportAction::make()
-                    ->importer(UserImporter::class)
+                    ->importer(UserImporter::class),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
-                    ->exporter(UserExporter::class)
+                    ->exporter(UserExporter::class),
             ])->defaultSort('name', 'asc');
     }
 

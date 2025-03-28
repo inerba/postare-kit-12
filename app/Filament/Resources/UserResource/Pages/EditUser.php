@@ -4,10 +4,10 @@ namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
-use STS\FilamentImpersonate\Pages\Actions\Impersonate;
-use Illuminate\Support\Facades\Auth;
 use Filament\Notifications\Notification;
+use Filament\Resources\Pages\EditRecord;
+use Illuminate\Support\Facades\Auth;
+use STS\FilamentImpersonate\Pages\Actions\Impersonate;
 
 class EditUser extends EditRecord
 {
@@ -26,7 +26,7 @@ class EditUser extends EditRecord
         $user = $this->getRecord();
         $currentUser = Auth::user();
 
-        if ($user->isSuperAdmin() && !$currentUser->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && ! $currentUser->isSuperAdmin()) {
             Notification::make()
                 ->title('Non autorizzato')
                 ->body('Non hai i permessi necessari per modificare questo utente.')
@@ -44,7 +44,7 @@ class EditUser extends EditRecord
         $user = $this->getRecord();
         $currentUser = Auth::user();
 
-        if ($user->isSuperAdmin() && !$currentUser->isSuperAdmin()) {
+        if ($user->isSuperAdmin() && ! $currentUser->isSuperAdmin()) {
             Notification::make()
                 ->title('Non autorizzato')
                 ->body('Non hai i permessi necessari per visualizzare questo utente.')

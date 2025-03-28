@@ -81,10 +81,10 @@ npm run build
 
 ## 🚀 Sviluppo
 
-Per avviare l'ambiente di sviluppo:
+Rigenerare i permiessi di Shield:
 
 ```bash
-composer dev
+php artisan shield:generate --all --ignore-existing-policies --panel=auth
 ```
 
 Questo comando avvierà:

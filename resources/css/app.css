@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@config 'tailwind.config.js';
+
+body {
+    @apply font-body;
+}
+
+/* Scrollbars */
+/* width */
+::-webkit-scrollbar {
+    @apply h-1 w-1.5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    @apply rounded-lg bg-neutral-200;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    @apply rounded-lg bg-neutral-700;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    @apply cursor-pointer bg-neutral-800;
+}

@@ -29,7 +29,9 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
+        "barryvdh/laravel-ide-helper": "^3.5",
         "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.2",
         "laravel-lang/attributes": "^2.13",
         "laravel-lang/lang": "^15.19",
         "laravel-lang/publisher": "^16.6",
@@ -63,7 +65,9 @@
             "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
@@ -76,6 +80,11 @@
             "@php artisan shield:super-admin",
             "npm install",
             "npm run build"
+        ],
+        "check": [
+            "./vendor/bin/pint --dirty",
+            "php artisan test",
+            "./vendor/bin/phpstan analyse --memory-limit=2G"
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",

@@ -7,7 +7,7 @@ declare(strict_types=1);
  */
 function formatCurrency(float $amount, string $currency = 'EUR'): string
 {
-    return number_format($amount, 2, ',', '.') . ' €';
+    return number_format($amount, 2, ',', '.').' €';
 }
 
 /**
@@ -31,7 +31,7 @@ function truncate(string $string, int $length = 100, string $suffix = '...'): st
         return $string;
     }
 
-    return substr($string, 0, $length) . $suffix;
+    return substr($string, 0, $length).$suffix;
 }
 
 /**
@@ -61,5 +61,5 @@ function generateUniqueFilename(string $originalName): string
 {
     $extension = pathinfo($originalName, PATHINFO_EXTENSION);
 
-    return uniqid() . '_' . time() . '.' . $extension;
+    return uniqid().'_'.time().'.'.$extension;
 }
