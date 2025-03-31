@@ -1,4 +1,5 @@
 import preset from '../../../../vendor/filament/filament/tailwind.config.preset';
+import { theme } from '../../tailwind.config';
 
 export default {
     presets: [preset],
@@ -16,4 +17,9 @@ export default {
         './vendor/awcodes/mason/resources/**/*.blade.php',
         './vendor/awcodes/palette/resources/views/**/*.blade.php',
     ],
+    theme: {
+        extend: {
+            colors: theme.extend.colors,
+        },
+    },
 };

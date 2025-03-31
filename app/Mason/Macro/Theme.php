@@ -4,11 +4,12 @@ namespace App\Mason\Macro;
 
 use Awcodes\Palette\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Fieldset;
-use Filament\Forms\Components\Radio;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Tabs;
-use Filament\Support\Colors\Color;
-use Illuminate\Support\HtmlString;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Get;
 
 class Theme
 {
@@ -21,7 +22,22 @@ class Theme
     {
         return [
             'theme' => [
+                // Colore di sfondo
                 'background_color' => $arguments['theme']['background_color'] ?? 'white',
+
+                // Sfondo multimediale
+                'use_bg' => $arguments['theme']['use_bg'] ?? false,
+                'is_video' => $arguments['theme']['is_video'] ?? false,
+                'video_mp4' => $arguments['theme']['video_mp4'] ?? null,
+                'video_webm' => $arguments['theme']['video_webm'] ?? null,
+                'image' => $arguments['theme']['image'] ?? null,
+                'parallax' => $arguments['theme']['parallax'] ?? false,
+                'height' => $arguments['theme']['height'] ?? 'aspect-auto',
+                'overlayTransparency' => $arguments['theme']['overlayTransparency'] ?? 'bg-black/50',
+                'bgClip' => $arguments['theme']['bgClip'] ?? false,
+                'proseInvert' => $arguments['theme']['proseInvert'] ?? false,
+
+                // Dimensioni e spaziatura
                 'blockMaxWidth' => $arguments['theme']['blockMaxWidth'] ?? 'max-w-3xl',
                 'blockMaxWidthSm' => $arguments['theme']['blockMaxWidthSm'] ?? null,
                 'blockMaxWidthMd' => $arguments['theme']['blockMaxWidthMd'] ?? null,
@@ -51,30 +67,111 @@ class Theme
             // ->icon('phosphor-wrench')
             // ->collapsible(true)
                 ->tabs([
-                    Tabs\Tab::make('Colore di sfondo')
-                        ->schema([
-                            // Radio::make('theme.background_color')
-                            //     ->label('Colore di sfondo')
-                            //     ->options([
-                            //         'white' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-white border">&nbsp;</div>Bianco</div>'),
-                            //         'gray' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-gray-100 border">&nbsp;</div>Grigio</div>'),
-                            //         'primary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-red-700">&nbsp;</div>Rosso</div>'),
-                            //         'secondary' => new HtmlString('<div class="flex flex-col items-center gap-2 text-sm cursor-pointer"><div class="w-12 h-12 bg-green-700">&nbsp;</div>Verde</div>'),
-                            //     ])
-                            //     ->inline()
-                            //     ->inlineLabel(false),
 
+                    Tabs\Tab::make('Sfondo')
+                        ->schema([
                             ColorPicker::make('theme.background_color')
                                 ->label('Colore di sfondo')
                                 ->storeAsKey()
                                 ->colors([
+                                    // Modifica i colori in resources\views\components\mason\section.blade.php
                                     'white' => 'bg-white',
+
+                                    // Colori personalizzati
                                     'gray' => 'bg-neutral-100',
-                                    'primary' => 'bg-primary',
-                                    'secondary' => 'bg-secondary',
+                                    'accent' => '#e66d39',
+                                    'primary' => '#457b9d',
+                                    'secondary' => '#1D3557',
+                                    'tertiary' => '#A8DADC',
+                                    'quaternary' => '#F1FAEE',
                                 ]),
 
+                            Toggle::make('theme.use_bg')
+                                ->label('Usa un\'immagine o un video come sfondo')
+                                ->live()
+                                ->default(false),
+
+                            Grid::make('Sfondo del blocco')
+                                ->visible(fn (Get $get) => $get('theme.use_bg') === true)
+                                ->columns(2)
+                                ->schema([
+
+                                    Toggle::make('theme.is_video')
+                                        ->live()
+                                        ->label('Sfondo video')
+                                        ->columnSpanFull()
+                                        ->default(false),
+
+                                    FileUpload::make('theme.video_mp4')
+                                        ->hidden(fn (Get $get) => $get('theme.is_video') === false)
+                                        ->label('Video in formato MP4')
+                                        ->directory('bg-videos')
+                                        ->required()
+                                        ->acceptedFileTypes(['video/mp4']),
+
+                                    FileUpload::make('theme.video_webm')
+                                        ->hidden(fn (Get $get) => $get('theme.is_video') === false)
+                                        ->label('Video in formato WEBM')
+                                        ->directory('bg-videos')
+                                        ->acceptedFileTypes(['video/webm']),
+
+                                    FileUpload::make('theme.image')
+                                        ->label(fn (Get $get) => $get('theme.is_video') === true ? 'Immagine di fallback' : 'Immagine di sfondo')
+                                        ->directory('bg-images')
+                                        ->image()
+                                        ->imageEditor()
+                                        ->columnSpanFull(),
+
+                                    Toggle::make('theme.parallax')
+                                        ->hidden(fn (Get $get) => $get('theme.is_video') === true)
+                                        ->label('Effetto parallasse')
+                                        ->columnSpanFull()
+                                        ->default(false),
+
+                                    Select::make('theme.height')
+                                        ->label('Altezza')
+                                        ->options([
+                                            'aspect-auto' => 'Altezza secondo contenuto',
+                                            'aspect-video' => 'Aspetto 16:9',
+                                            'aspect-[21/9]' => 'Aspetto 21:9',
+                                            'aspect-[4/3]' => 'Aspetto 4:3',
+                                            'aspect-[3/1]' => 'Aspetto 3:1',
+                                            'h-[20vh]' => '20% altezza viewport',
+                                            'h-[30vh]' => '30% altezza viewport',
+                                            'h-[40vh]' => '40% altezza viewport',
+                                            'h-[50vh]' => '50% altezza viewport',
+                                            'h-[60vh]' => '60% altezza viewport',
+                                            'h-[70vh]' => '70% altezza viewport',
+                                            'h-[80vh]' => '80% altezza viewport',
+                                            'h-[90vh]' => '90% altezza viewport',
+                                            'h-[100vh]' => '100% altezza viewport',
+                                        ]),
+
+                                    Select::make('theme.overlayTransparency')
+                                        ->label('Trasparenza overlay')
+                                        ->options([
+                                            'bg-black/10' => '10%',
+                                            'bg-black/20' => '20%',
+                                            'bg-black/30' => '30%',
+                                            'bg-black/40' => '40%',
+                                            'bg-black/50' => '50%',
+                                            'bg-black/60' => '60%',
+                                            'bg-black/70' => '70%',
+                                            'bg-black/80' => '80%',
+                                            'bg-black/90' => '90%',
+                                        ])
+                                        ->default('bg-black/50'),
+
+                                    Toggle::make('theme.bgClip')
+                                        ->label('Clip background')
+                                        ->default(false),
+
+                                    Toggle::make('theme.proseInvert')
+                                        ->label('Colore del testo invertito')
+                                        ->default(false),
+                                ]),
                         ]),
+
                     Tabs\Tab::make('Dimensioni e spaziatura')
                         ->schema([
                             Fieldset::make('Larghezza del blocco')
@@ -116,6 +213,7 @@ class Theme
                                         ->options(self::marginOptions($size === 'xs' ? null : $size));
                                 }, ['xs', 'sm', 'md', 'lg', 'xl', '2xl'])),
                         ]),
+
                 ]);
     }
 

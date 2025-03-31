@@ -2,9 +2,9 @@
 
 namespace App\Livewire;
 
+use App\Models\Menu as MenuModel;
 use Illuminate\Support\Facades\Cache;
 use Livewire\Component;
-use App\Models\Menu as MenuModel;
 
 class Menu extends Component
 {

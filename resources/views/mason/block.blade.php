@@ -1,5 +1,9 @@
 @php
-    $props = array_merge(['content' => null], \App\Mason\Macro\Theme::getProps(), \App\Mason\Macro\SectionHeader::getProps());
+    $props = array_merge(
+        ['content' => null],
+        \App\Mason\Macro\Theme::getProps(),
+        \App\Mason\Macro\SectionHeader::getProps(),
+    );
 @endphp
 
 @props($props)

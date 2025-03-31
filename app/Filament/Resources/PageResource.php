@@ -100,19 +100,19 @@ class PageResource extends Resource
 
                                     Forms\Components\Hidden::make('lock_slug')
                                         ->live(false, 500)
-                                        ->afterStateHydrated(fn(Set $set, $context) => $set('lock_slug', $context === 'edit'))
+                                        ->afterStateHydrated(fn (Set $set, $context) => $set('lock_slug', $context === 'edit'))
                                         ->dehydrated(false),
 
                                     Forms\Components\TextInput::make('slug')
                                         ->label(__('pages.resources.page.form.slug'))
-                                        ->disabled(fn(Get $get) => $get('lock_slug'))
-                                        ->helperText(fn($context) => $context === 'edit' ? __('pages.resources.page.form.slug_help') : null)
+                                        ->disabled(fn (Get $get) => $get('lock_slug'))
+                                        ->helperText(fn ($context) => $context === 'edit' ? __('pages.resources.page.form.slug_help') : null)
                                         ->hintAction(
-                                            fn($context) => $context === 'edit' ?
+                                            fn ($context) => $context === 'edit' ?
                                                 Action::make('toggle_lock_slug')
-                                                ->icon(fn(Get $get) => $get('lock_slug') ? 'heroicon-s-lock-closed' : 'heroicon-s-lock-open')
-                                                ->label(false)
-                                                ->action(fn(Set $set, Get $get) => $set('lock_slug', ! $get('lock_slug')))
+                                                    ->icon(fn (Get $get) => $get('lock_slug') ? 'heroicon-s-lock-closed' : 'heroicon-s-lock-open')
+                                                    ->label(false)
+                                                    ->action(fn (Set $set, Get $get) => $set('lock_slug', ! $get('lock_slug')))
                                                 : null
                                         )
                                         ->rules(['alpha_dash'])
@@ -125,7 +125,7 @@ class PageResource extends Resource
                                         ->placeholder(__('pages.resources.menu_item.form.parent_placeholder'))
                                         ->searchable()
                                         ->preload()
-                                        ->options(fn($record) => Page::query()
+                                        ->options(fn ($record) => Page::query()
                                             ->whereNull('parent_id')
                                             ->when($record, function ($query, $record) {
                                                 return $query->where('id', '!=', $record->id);
@@ -139,8 +139,8 @@ class PageResource extends Resource
 
                                 ]),
                             Forms\Components\Tabs\Tab::make(__('pages.resources.page.form.tab_custom_fields'))
-                                ->visible(fn($context) => $context === 'edit' && $form->model->hasPlaceholders())
-                                ->schema(fn($context): array => $context === 'edit' ? $form->model->getPlaceholders() : []),
+                                ->visible(fn ($context) => $context === 'edit' && $form->model->hasPlaceholders())
+                                ->schema(fn ($context): array => $context === 'edit' ? $form->model->getPlaceholders() : []),
                             Forms\Components\Tabs\Tab::make(__('pages.resources.page.form.tab_seo'))->schema(self::getSeoFields('meta', ['title', 'content'])),
                             Forms\Components\Tabs\Tab::make(__('pages.resources.page.form.tab_social'))->schema(self::getSocialFields('meta')),
                         ]),
@@ -192,10 +192,10 @@ class PageResource extends Resource
                                     ->link()
                                     ->icon('heroicon-o-link')
                                     ->color('gray')
-                                    ->url(fn($record) => $record->permalink, true)
+                                    ->url(fn ($record) => $record->permalink, true)
                                     ->label(__('pages.resources.post.form.permalink')),
                             ])
-                                ->hidden(fn($context) => $context === 'create')
+                                ->hidden(fn ($context) => $context === 'create')
                                 ->columnSpanFull(),
                         ]),
                 ])->columnSpan(1),
@@ -209,7 +209,7 @@ class PageResource extends Resource
             TextColumn::make('title')
                 ->label(__('pages.resources.page.table.title'))
                 ->size('xl')
-                ->description(fn(Page $record): mixed => $record->hasCustomView() ? __('pages.resources.page.table.has_custom_view') : false)
+                ->description(fn (Page $record): mixed => $record->hasCustomView() ? __('pages.resources.page.table.has_custom_view') : false)
                 ->searchable()
                 ->sortable(),
 
@@ -218,8 +218,8 @@ class PageResource extends Resource
                 ->wrap()
                 ->toggleable(isToggledHiddenByDefault: false)
                 ->icon('heroicon-o-link')
-                ->url(fn($state) => $state, true)
-                ->formatStateUsing(fn($state) => str()->of($state)->replace(url('/'), '')),
+                ->url(fn ($state) => $state, true)
+                ->formatStateUsing(fn ($state) => str()->of($state)->replace(url('/'), '')),
 
             SpatieMediaLibraryImageColumn::make('featured_images')
                 ->label(__('pages.resources.page.table.featured_images'))
@@ -236,7 +236,7 @@ class PageResource extends Resource
             IconColumn::make('has_custom_view')
                 ->label(__('pages.resources.page.table.has_custom_view'))
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->state(fn(Page $record): bool => $record->hasCustomView())
+                ->state(fn (Page $record): bool => $record->hasCustomView())
                 ->trueIcon('heroicon-s-bolt')
                 ->falseIcon('heroicon-s-bolt-slash')
                 ->trueColor('warning')
@@ -246,8 +246,8 @@ class PageResource extends Resource
             TextColumn::make('author')
                 ->label(__('pages.resources.page.table.author'))
                 ->toggleable(isToggledHiddenByDefault: true)
-                ->formatStateUsing(fn(Page $record): string => $record->author->name)
-                ->description(fn(Page $record): string => $record->author?->bio ?? false),
+                ->formatStateUsing(fn (Page $record): string => $record->author->name)
+                ->description(fn (Page $record): string => $record->author?->bio ?? false),
         ])->defaultSort('sort_order', 'asc')
             ->reorderable('sort_order');
     }
