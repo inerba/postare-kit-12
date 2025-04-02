@@ -2,16 +2,19 @@
 
 namespace App\Filament\Pages;
 
+use App\Mail\ContactMail;
 use App\Traits\HasSeoFields;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Dotswan\FilamentCodeEditor\Fields\CodeEditor;
 use Filament\Forms;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Mail;
 use Postare\DbConfig\AbstractPageSettings;
 use Postare\DbConfig\DbConfig;
 
@@ -123,6 +126,29 @@ class GeneralSettingsPage extends AbstractPageSettings
                                         ->hintIconTooltip('general.mail_subject')
                                         ->required()
                                         ->columnSpan(3),
+
+                                    Actions::make([
+
+                                        Action::make('test_email')
+                                            ->icon('heroicon-m-envelope')
+                                            ->label('Invia email di test')
+                                            ->color('warning')
+                                            ->form([
+                                                Forms\Components\TextInput::make('recipient')
+                                                    ->label('Email dove inviare il test')
+                                                    ->default(auth()->user()->email)
+                                                    ->email()
+                                                    ->required(),
+                                            ])
+                                            ->action(function (array $data) {
+                                                Mail::to($data['recipient'])
+                                                    ->send(new ContactMail(
+                                                        'Nome Cognome',
+                                                        'email@finta.com',
+                                                        'Questo è un test di verifica del funzionamento della mail'
+                                                    ));
+                                            }),
+                                    ]),
                                 ]),
                         ]),
 
@@ -176,7 +202,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -191,7 +217,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -205,7 +231,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -223,7 +249,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn(Action $action) => $action->requiresConfirmation(),
+                                    fn (Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -268,15 +294,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn(Action $action) => $action->requiresConfirmation(),
+                                            fn (Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]),])
+                ]), ])
             ->statePath('data');
     }
 }
