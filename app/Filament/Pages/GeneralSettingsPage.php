@@ -86,6 +86,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->label('Email')
                                                 ->required(),
                                         ])->columnSpan(1),
+
                                     Forms\Components\Section::make('Destinatario')
                                         ->description('L\'indirizzo di posta elettronica che riceverà i messaggi inviati dai moduli di contatto.')
                                         ->schema([
@@ -115,6 +116,13 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->label('Email')
                                                 ->required(),
                                         ])->columnSpan(1),
+
+                                    Forms\Components\TextInput::make('mail_subject')
+                                        ->label('Oggetto mail di contatto')
+                                        ->hintIcon('heroicon-o-tag')
+                                        ->hintIconTooltip('general.mail_subject')
+                                        ->required()
+                                        ->columnSpan(3),
                                 ]),
                         ]),
 
@@ -168,7 +176,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -183,7 +191,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -197,7 +205,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -215,7 +223,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn (Action $action) => $action->requiresConfirmation(),
+                                    fn(Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -260,15 +268,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn (Action $action) => $action->requiresConfirmation(),
+                                            fn(Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]), ])
+                ]),])
             ->statePath('data');
     }
 }
