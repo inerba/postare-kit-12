@@ -51,6 +51,13 @@ class GeneralSettingsPage extends AbstractPageSettings
                 'positionX' => 'none',
                 'positionY' => 'bottom',
             ],
+            'mail_subject' => 'Contatto dal sito web',
+            'mail_from_name' => config('app.name'),
+            'mail_from_email' => config('mail.from.address'),
+            'mail_to_name' => config('app.name'),
+            'mail_to_email' => config('mail.from.address'),
+            'reply_to_name' => config('app.name'),
+            'reply_to_email' => config('mail.from.address'),
         ];
 
         // Applica i values di default dove il dato è null o non esiste
@@ -201,7 +208,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -216,7 +223,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -230,7 +237,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -248,7 +255,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn (Action $action) => $action->requiresConfirmation(),
+                                    fn(Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -293,15 +300,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn (Action $action) => $action->requiresConfirmation(),
+                                            fn(Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]), ])
+                ]),])
             ->statePath('data');
     }
 }
