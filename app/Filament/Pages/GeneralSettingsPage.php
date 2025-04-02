@@ -7,7 +7,6 @@ use App\Traits\HasSeoFields;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Dotswan\FilamentCodeEditor\Fields\CodeEditor;
 use Filament\Forms;
-use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
@@ -125,30 +124,30 @@ class GeneralSettingsPage extends AbstractPageSettings
                                         ->hintIcon('heroicon-o-tag')
                                         ->hintIconTooltip('general.mail_subject')
                                         ->required()
-                                        ->columnSpan(3),
+                                        ->suffixAction(
+                                            Action::make('test_email')
+                                                ->icon('heroicon-m-envelope')
+                                                ->label('Invia email di test')
+                                                ->tooltip('Invia una email di test a un indirizzo specificato')
+                                                ->color('success')
+                                                ->form([
+                                                    Forms\Components\TextInput::make('recipient')
+                                                        ->label('Email dove inviare il test')
+                                                        ->default(auth()->user()->email)
+                                                        ->email()
+                                                        ->required(),
+                                                ])
+                                                ->action(function (array $data) {
+                                                    Mail::to($data['recipient'])
+                                                        ->send(new ContactMail(
+                                                            'Nome Cognome',
+                                                            'email@finta.com',
+                                                            'Questo è un test di verifica del funzionamento della mail'
+                                                        ));
+                                                }),
+                                        )
+                                        ->columnSpan(2),
 
-                                    Actions::make([
-
-                                        Action::make('test_email')
-                                            ->icon('heroicon-m-envelope')
-                                            ->label('Invia email di test')
-                                            ->color('warning')
-                                            ->form([
-                                                Forms\Components\TextInput::make('recipient')
-                                                    ->label('Email dove inviare il test')
-                                                    ->default(auth()->user()->email)
-                                                    ->email()
-                                                    ->required(),
-                                            ])
-                                            ->action(function (array $data) {
-                                                Mail::to($data['recipient'])
-                                                    ->send(new ContactMail(
-                                                        'Nome Cognome',
-                                                        'email@finta.com',
-                                                        'Questo è un test di verifica del funzionamento della mail'
-                                                    ));
-                                            }),
-                                    ]),
                                 ]),
                         ]),
 

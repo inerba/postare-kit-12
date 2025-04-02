@@ -19,17 +19,14 @@ class ContactMail extends Mailable
 
     private string $body;
 
-    private ?array $custom_fields = null;
-
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name, string $email, string $body, ?array $custom_fields = null)
+    public function __construct(string $name, string $email, string $body)
     {
         $this->name = $name;
         $this->email = $email;
         $this->body = $body;
-        $this->custom_fields = $custom_fields;
     }
 
     /**
@@ -39,9 +36,6 @@ class ContactMail extends Mailable
     {
         return new Envelope(
             from: new Address(db_config('general.mail_from_email'), db_config('general.mail_from_name')),
-            // to: [
-            //     new Address(db_config('general.mail_to_email'), db_config('general.mail_to_name')),
-            // ],
             replyTo: [
                 new Address($this->email, $this->name),
             ],
@@ -60,7 +54,6 @@ class ContactMail extends Mailable
                 'name' => $this->name,
                 'email' => $this->email,
                 'body' => $this->body,
-                'custom_fields' => $this->custom_fields,
             ],
         );
     }
