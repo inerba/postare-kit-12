@@ -161,14 +161,36 @@ class GeneralSettingsPage extends AbstractPageSettings
                     Forms\Components\Tabs\Tab::make('Social')
                         ->schema([
                             Forms\Components\Repeater::make('social_profiles')
+                                ->label('Profili social')
+                                ->columns(2)
                                 ->schema([
+                                    Forms\Components\TextInput::make('title')
+                                        ->live(false, 500)
+                                        ->label('Nome del profilo')
+                                        ->required(),
+                                    Forms\Components\TextInput::make('url')
+                                        ->label('Url del profilo')
+                                        ->required(),
                                     Forms\Components\FileUpload::make('icon')
+                                        ->label('Carica file icona')
+                                        ->image()
+                                        ->imageEditor()
+                                        ->hidden(fn (Get $get) => $get('use_svg'))
                                         ->helperText('Dimensione consigliata: 32x32px, Formato: png')
                                         ->directory('social-icons'),
-                                    Forms\Components\TextInput::make('title')->required(),
-                                    Forms\Components\TextInput::make('url')->required(),
+                                    CodeEditor::make('svg')
+                                        ->label('Svg')
+                                        ->visible(fn (Get $get) => $get('use_svg'))
+                                        ->columnSpanFull()
+                                        ->required(),
+                                    Forms\Components\Toggle::make('use_svg')
+                                        ->live()
+                                        ->label(fn (Get $get) => $get('use_svg') ? 'Carica immagine icona' : 'Usa icona SVG')
+                                        ->default(false),
                                 ])
-                                ->columns(3),
+                                ->collapsed()
+                                ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                                ->addActionLabel('Aggiungi profilo'),
                         ]),
                     Forms\Components\Tabs\Tab::make('SEO')
                         ->schema(
@@ -208,7 +230,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -223,7 +245,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -237,7 +259,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -255,7 +277,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn(Action $action) => $action->requiresConfirmation(),
+                                    fn (Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -300,15 +322,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn(Action $action) => $action->requiresConfirmation(),
+                                            fn (Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]),])
+                ]), ])
             ->statePath('data');
     }
 }
