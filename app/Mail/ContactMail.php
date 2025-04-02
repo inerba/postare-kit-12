@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -15,14 +14,17 @@ class ContactMail extends Mailable
     use Queueable, SerializesModels;
 
     private string $name;
+
     private string $email;
+
     private string $body;
-    private array|null $custom_fields = null;
+
+    private ?array $custom_fields = null;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name, string $email, string $body, array|null $custom_fields = null)
+    public function __construct(string $name, string $email, string $body, ?array $custom_fields = null)
     {
         $this->name = $name;
         $this->email = $email;
@@ -37,9 +39,9 @@ class ContactMail extends Mailable
     {
         return new Envelope(
             from: new Address(db_config('general.mail_from_email'), db_config('general.mail_from_name')),
-            to: [
-                new Address(db_config('general.mail_to_email'), db_config('general.mail_to_name')),
-            ],
+            // to: [
+            //     new Address(db_config('general.mail_to_email'), db_config('general.mail_to_name')),
+            // ],
             replyTo: [
                 new Address($this->email, $this->name),
             ],
