@@ -14,6 +14,13 @@
                 <strong>Email:</strong>
                 {{ $email }}
             </p>
+            @if (! empty($phone))
+                <p>
+                    <strong>Telefono:</strong>
+                    {{ $phone }}
+                </p>
+            @endif
+
             <p>
                 <strong>Messaggio:</strong>
             </p>

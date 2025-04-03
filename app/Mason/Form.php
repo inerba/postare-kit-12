@@ -6,6 +6,10 @@ use Awcodes\Mason\Brick;
 use Awcodes\Mason\EditorCommand;
 use Awcodes\Mason\Mason;
 use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
+use Filament\Forms\Get;
 
 class Form
 {
@@ -21,13 +25,26 @@ class Form
                 Macro\SectionHeader::getArguments($arguments),
                 Macro\ButtonsRepeater::getArguments($arguments),
                 [
-                    'faq' => $arguments['faq'] ?? null,
+                    'personalized_recipient' => $arguments['personalized_recipient'] ?? false,
+                    'mail_to' => $arguments['mail_to'] ?? null,
+                    'body' => $arguments['body'] ?? null,
                 ],
             ))
             ->form([
                 Macro\SectionHeader::getFields(),
-                Placeholder::make('form')
-                    ->label('Form'),
+                Placeholder::make('form')->label('Form'),
+                Toggle::make('personalized_recipient')
+                    ->live()
+                    ->label('Destinatario personalizzato')
+                    ->default(false),
+                TextInput::make('mail_to')
+                    ->visible(fn (Get $get) => $get('personalized_recipient'))
+                    ->label('Destinatario')
+                    ->helperText('L\'email del destinatario del form di contatto')
+                    ->email()
+                    ->required(),
+                Textarea::make('body')
+                    ->label('Messaggio preimpostato'),
                 Macro\ButtonsRepeater::getFields(),
                 Macro\Theme::getFields(),
             ])

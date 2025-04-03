@@ -20,16 +20,20 @@ class ContactMail extends Mailable
 
     private string $body;
 
+    private ?string $phone;
+
     private string $url;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name, string $email, string $body, ?string $url = null)
+    public function __construct(string $name, string $email, string $body, ?string $phone = null, ?string $url = null)
     {
         $this->name = $name;
         $this->email = $email;
         $this->body = $body;
+
+        $this->phone = $phone;
 
         // Evita URL di Livewire
         if ($url === null) {
@@ -71,6 +75,7 @@ class ContactMail extends Mailable
                 'name' => $this->name,
                 'email' => $this->email,
                 'body' => $this->body,
+                'phone' => $this->phone,
                 'url' => $this->url,
             ],
         );

@@ -11,6 +11,7 @@ class BrickCollection
             Block::make(),
             Video::make(),
             Image::make(),
+            Form::make(),
             // Gallery::make(),
             Split::make(),
             SocialShare::make(),
