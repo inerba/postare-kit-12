@@ -49,7 +49,11 @@ trait DefaultMediaConversions
         }
 
         $this->addMediaConversion('thumbnail')
-            ->fit(Fit::Crop, 150, 150)
+            ->fit(Fit::Crop, 720, 488)
+            ->format('jpg');
+
+        $this->addMediaConversion('square')
+            ->fit(Fit::Crop, 600, 600)
             ->format('jpg');
 
         // Questa conversione è usata per le immagini nelle tabelle del backoffice
