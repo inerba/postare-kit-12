@@ -1,4 +1,4 @@
-@aware(['post'])
+@aware(['data'])
 
 @php
     $props = array_merge(
@@ -30,10 +30,10 @@
             <x-mason.header :title="$header_title" :subtitle="$header_tagline" :align="$header_align" />
         @endif
 
-        @if (isset($post))
+        @if (isset($data))
             @php
                 $media_collection = $gallery_rand . '_gallery';
-                $gallery = $post->getMedia($media_collection);
+                $gallery = $data->getMedia($media_collection);
             @endphp
 
             @if ($layout == 'grid')
@@ -102,6 +102,9 @@
                         </div>
                     </section>
                 </div>
+                @pushOnce('scripts', 'splide-script')
+                    @vite(['resources/js/splide.js'])
+                @endpushOnce
             @endif
         @else
             <div>
@@ -131,4 +134,12 @@
             </div>
         @endif
     </div>
+    @pushOnce('scripts', 'glightbox-script')
+        @vite(['resources/js/glightbox.js'])
+        <script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function () {
+                const lightbox = GLightbox({ touchNavigation: true, loop: true, autoplayVideos: true });
+            });
+        </script>
+    @endpushOnce
 </x-mason.section>

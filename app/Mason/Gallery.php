@@ -19,7 +19,7 @@ class Gallery
             ->modalHeading('Gallery Settings')
             ->icon('heroicon-o-cube-transparent')
             ->slideOver()
-            ->fillForm(fn (array $arguments): array => array_merge(
+            ->fillForm(fn(array $arguments): array => array_merge(
                 Macro\Theme::getArguments($arguments),
                 Macro\SectionHeader::getArguments($arguments),
                 [
@@ -44,8 +44,8 @@ class Gallery
                 Hidden::make('gallery_rand'),
                 SpatieMediaLibraryFileUpload::make('gallery')
                     ->label(false)
-                    ->collection(fn (Get $get) => $get('gallery_rand').'_gallery')
-                    ->directory('blog_photo_gallery')
+                    ->collection(fn(Get $get) => $get('gallery_rand') . '_gallery')
+                    ->directory('page_gallery')
                     ->multiple()
                     ->reorderable()
                     ->appendFiles()
@@ -55,7 +55,7 @@ class Gallery
                     ->downloadable()
                     // ->minFiles(1)
                     ->maxFiles(20)
-                    ->conversion('thumbnail')
+                    ->conversion('lg')
                     // ->manipulations([
                     //     'thumbnail',
                     // ])

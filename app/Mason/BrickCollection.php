@@ -12,7 +12,7 @@ class BrickCollection
             Video::make(),
             Image::make(),
             Form::make(),
-            // Gallery::make(),
+            Gallery::make(),
             Split::make(),
             SocialShare::make(),
             Accordion::make(),
