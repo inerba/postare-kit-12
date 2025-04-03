@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Request;
 
 class ContactMail extends Mailable
 {
@@ -19,14 +20,30 @@ class ContactMail extends Mailable
 
     private string $body;
 
+    private string $url;
+
     /**
      * Create a new message instance.
      */
-    public function __construct(string $name, string $email, string $body)
+    public function __construct(string $name, string $email, string $body, ?string $url = null)
     {
         $this->name = $name;
         $this->email = $email;
         $this->body = $body;
+
+        // Evita URL di Livewire
+        if ($url === null) {
+            // Controllo se l'URL corrente è un URL di Livewire
+            $currentUrl = function_exists('url') ? url()->current() : '';
+            if (! str_contains($currentUrl, '/livewire/')) {
+                $url = $currentUrl;
+            } else {
+                // Utilizza il referer come fallback
+                $url = Request::server('HTTP_REFERER', '');
+            }
+        }
+
+        $this->url = $url;
     }
 
     /**
@@ -54,6 +71,7 @@ class ContactMail extends Mailable
                 'name' => $this->name,
                 'email' => $this->email,
                 'body' => $this->body,
+                'url' => $this->url,
             ],
         );
     }

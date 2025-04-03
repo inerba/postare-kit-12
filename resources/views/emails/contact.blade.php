@@ -20,6 +20,13 @@
             <p>
                 {{ $body }}
             </p>
+            @if (! empty($url))
+                <p>
+                    <strong>Pagina di provenienza:</strong>
+                    <a href="{{ $url }}">{{ $url }}</a>
+                </p>
+            @endif
+
             {{--
                 <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
                 <tbody>
