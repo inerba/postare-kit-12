@@ -8,6 +8,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/splide.js',
+                'resources/js/glightbox.js',
                 'resources/css/filament/auth/theme.css',
             ],
             refresh: true,
