@@ -15,9 +15,9 @@ class BrickCollection
             // Gallery::make(),
             Split::make(),
             SocialShare::make(),
+            Accordion::make(),
             // Section::make(),
-            // Chatbot::make(),
-            // Reviews::make(),
+            Reviews::make(),
         ];
     }
 }

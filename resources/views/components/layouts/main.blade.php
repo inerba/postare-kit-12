@@ -15,6 +15,7 @@
 
         <!-- Additional Styles -->
         @stack('styles')
+        @stack('header_scripts')
     </head>
     <body class="flex min-h-screen flex-col font-sans antialiased">
         <x-partials.header />

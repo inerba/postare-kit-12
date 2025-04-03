@@ -70,9 +70,6 @@
                 </div>
             @endif
 
-            {{-- hidden input isNlt --}}
-            <input type="hidden" wire:model="isNlt" value="$isNlt" />
-
             <button
                 wire:target="sendEmail"
                 wire.click="sendEmail"
