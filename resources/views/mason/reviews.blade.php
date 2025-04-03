@@ -78,9 +78,9 @@
             </div>
         </div>
 
-        @push('scripts')
-            @vite(['resources/js/splide.js'])
-        @endpush
+        @pushOnce('scripts', 'splide-script')
+        @vite(['resources/js/splide.js'])
+        @endPushOnce
     @else
         <div>
             <div class="splide__slide pb-8">
