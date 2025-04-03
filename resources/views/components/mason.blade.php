@@ -1,4 +1,5 @@
 @props([
+    'data' => null,
     'content',
 ])
 
