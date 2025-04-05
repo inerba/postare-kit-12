@@ -31,8 +31,7 @@ class Block
                 TiptapEditor::make('content')
                     ->label('Contenuto')
                     ->placeholder('Content')
-                    ->hintAction(HtmlCleanAction::make())
-                    ->required(),
+                    ->hintAction(HtmlCleanAction::make()),
                 Macro\ButtonsRepeater::getFields(),
                 Macro\Theme::getFields(),
             ])
