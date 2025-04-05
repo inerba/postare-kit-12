@@ -18,6 +18,7 @@
         "awcodes/palette": "^1.1",
         "bezhansalleh/filament-exceptions": "^2.1",
         "bezhansalleh/filament-shield": "^3.3",
+        "creagia/filament-code-field": "^3.0",
         "dotswan/filament-code-editor": "^1.1",
         "filament/filament": "3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
