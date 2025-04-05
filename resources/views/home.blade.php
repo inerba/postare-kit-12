@@ -1,5 +1,5 @@
 <x-layouts.main>
-    <div class="text-muted min-h-full bg-white p-12 text-center text-4xl uppercase">Mainbody</div>
+    <livewire:slider :slides="db_config('homepage.slides')" :settings="db_config('homepage.slider_settings')" />
     <div>
         <div class="flex cursor-pointer flex-col items-center gap-2">
             <div class="border-2 border-black bg-transparent p-2 leading-none text-black hover:bg-gray-100">Testo</div>
