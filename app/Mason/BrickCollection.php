@@ -7,7 +7,6 @@ class BrickCollection
     public static function make(): array
     {
         return [
-            // Hero::make(),
             Block::make(),
             Video::make(),
             Image::make(),
@@ -16,7 +15,7 @@ class BrickCollection
             Split::make(),
             SocialShare::make(),
             Accordion::make(),
-            // Section::make(),
+            Code::make(),
             Reviews::make(),
         ];
     }
