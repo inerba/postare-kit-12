@@ -37,7 +37,7 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 1. Clona il repository:
 
 ```bash
-git clone [url-repository]
+git clone git@github.com:inerba/postare-kit-12.git
 cd postare-kit-12
 ```
 
