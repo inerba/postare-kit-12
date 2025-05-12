@@ -26,6 +26,7 @@
         "heriw/laravel-simple-html-dom-parser": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
+        "mcamara/laravel-localization": "^2.3",
         "postare/db-config": "^3.02",
         "saade/filament-adjacency-list": "^3.2",
         "stechstudio/filament-impersonate": "^3.15",

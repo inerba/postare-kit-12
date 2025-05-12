@@ -39,15 +39,40 @@ trait HasUniqueSlug
     /**
      * Overrides the save method to ensure the slug is unique before saving.
      */
+    // public function save(array $options = []): bool
+    // {
+    //     $slugField = $this->getSlugField();
+    //     $slugBaseField = $this->getSlugBaseField();
+
+    //     if (! $this->getAttribute($slugField)) {
+    //         $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->{$slugBaseField}));
+    //     } elseif ($this->isDirty($slugField)) {
+    //         $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->getAttribute($slugField)));
+    //     }
+
+    //     return parent::save($options);
+    // }
     public function save(array $options = []): bool
     {
         $slugField = $this->getSlugField();
         $slugBaseField = $this->getSlugBaseField();
 
-        if (! $this->getAttribute($slugField)) {
-            $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->{$slugBaseField}));
-        } elseif ($this->isDirty($slugField)) {
-            $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->getAttribute($slugField)));
+        if ($this->isTranslatableAttribute($slugBaseField)) {
+            // Gestione per campi translatable (es. title)
+            foreach ($this->getTranslations($slugBaseField) as $locale => $value) {
+                if (! $this->getAttribute($slugField)) {
+                    // Genera lo slug solo una volta per il campo base
+                    $this->setAttribute($slugField, $this->createUniqueSlug($this, $value));
+                    break;
+                }
+            }
+        } else {
+            // Gestione per campi non translatable
+            if (! $this->getAttribute($slugField)) {
+                $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->{$slugBaseField}));
+            } elseif ($this->isDirty($slugField)) {
+                $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->getAttribute($slugField)));
+            }
         }
 
         return parent::save($options);

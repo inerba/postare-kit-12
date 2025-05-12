@@ -2,7 +2,11 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "build:all": "vite build && vite build --config vite.config.filament.js",
+        "build:filament": "vite build --config vite.config.filament.js",
         "build": "vite build",
+        "dev:all": "concurrently \"vite\" \"vite --config vite.config.filament.js\"",
+        "dev:filament": "vite --config vite.config.filament.js",
         "dev": "vite"
     },
     "devDependencies": {
@@ -22,6 +26,7 @@
         "prettier-plugin-blade": "^2.1.21",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "tailwindcss": "^3.4.17",
+        "tailwindcss-v4": "npm:tailwindcss@^4.1.5",
         "vite": "^6.0.11"
     }
 }

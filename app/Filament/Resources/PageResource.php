@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Resources\Concerns\Translatable;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables\Columns\IconColumn;
@@ -38,6 +39,7 @@ class PageResource extends Resource
 {
     use HasSeoFields;
     use HasSocialFields;
+    use Translatable;
 
     protected static ?string $model = Page::class;
 

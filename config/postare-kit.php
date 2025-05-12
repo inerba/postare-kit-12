@@ -8,16 +8,22 @@ return [
     // Cache
     'cache' => [
         // Default cache duration in minutes
-        'default_duration' => 60 * 24 * 7,
+        'default_duration' => 60 * 24 * 7, // 7 days
     ],
 
     'middleware' => [
         'web',
+        'localize', // Localizzazione
+        // 'localeSessionRedirect', // Redirect alla lingua selezionata
+        // 'localeCookieRedirect', // Redirect alla lingua selezionata tramite cookie
+        // 'localeViewPath', // Imposta il percorso della vista in base alla lingua
+
+        // Le lingue supportate sono definite in config/laravellocalization.php e nel provider
     ],
 
     'posts_per_page' => 5,
 
-    // Blog url prefix
+    // Blog url prefix, prima viene applicato il locale es. /it/blog/slug-post
     'blog_prefix' => 'blog',
     'pages_prefix' => '',
 
@@ -73,7 +79,7 @@ return [
     'openai_api_key' => env('OPENAI_API_KEY'),
 
     // Default OpenAI Model (refer to https://platform.openai.com/docs/models)
-    'default_openai_model' => 'gpt-3.5-turbo-1106',
+    'default_openai_model' => 'gpt-4o-mini',
 
     // SEO Prompt
     'seo_prompt' => 'Dato il seguente post del blog in formato JSON, genera un title e una meta description ottimizzati per SEO. Il title non deve superare i 60 caratteri. La meta description deve essere compatta e persuasiva, con una lunghezza compresa tra 150 e 160 caratteri.',

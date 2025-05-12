@@ -13,12 +13,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\Translatable\HasTranslations;
 
 class Page extends Model implements HasMedia
 {
     use DefaultMediaConversions;
     use HasCustomFields;
     use HasMeta;
+    use HasTranslations;
     use HasUniqueSlug;
     use InteractsWithMedia;
 
@@ -42,6 +44,14 @@ class Page extends Model implements HasMedia
         'extras' => 'array',
         'content' => 'array',
         'meta' => 'array',
+    ];
+
+    public $translatable = [
+        'title',
+        'lead',
+        'content',
+        'meta',
+        'custom_fields',
     ];
 
     // Getter for permalink
