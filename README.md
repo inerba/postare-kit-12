@@ -6,7 +6,8 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 
 - **Laravel 12.x** - Framework PHP
 - **Filament 3.3** - Admin Panel e CRUD Builder
-- **Tailwind CSS 3.4** - Framework CSS Utility-First
+- **Tailwind CSS 4.1** - Framework CSS Utility-First / Frontend
+- **Tailwind CSS 3.4** - Framework CSS Utility-First / Filament Admin
 - **Alpine.js** - Framework JavaScript leggero
 - **Vite** - Build tool e bundler
 - **PHP 8.2+** - Linguaggio di programmazione
@@ -80,7 +81,7 @@ php artisan shield:super-admin
 9.  Compila gli assets:
 
 ```bash
-npm run build
+npm run build:all
 ```
 
 ## 🚀 Sviluppo
