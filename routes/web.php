@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group([
-    'prefix' => trim(LaravelLocalization::setLocale() . '/' . config('postare-kit.pages_prefix'), '/'),
+    'prefix' => trim(LaravelLocalization::setLocale().'/'.config('postare-kit.pages_prefix'), '/'),
     'middleware' => config('postare-kit.middleware', 'web'),
     'as' => 'cms.',
 ], function () {

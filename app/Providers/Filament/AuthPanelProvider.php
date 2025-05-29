@@ -55,8 +55,7 @@ class AuthPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->plugins([
-                SpatieLaravelTranslatablePlugin::make()
-                    ->defaultLocales(['it', 'en']),
+                // SpatieLaravelTranslatablePlugin::make()->defaultLocales(['it', 'en']),
                 \BezhanSalleh\FilamentExceptions\FilamentExceptionsPlugin::make(),
                 \BezhanSalleh\FilamentShield\FilamentShieldPlugin::make()
                     ->gridColumns([
