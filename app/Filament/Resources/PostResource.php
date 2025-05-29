@@ -3,14 +3,14 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Filament\Resources\PostResource\RelationManagers;
-use App\Mason\BrickCollection;
 use App\Mason\PostBrickCollection;
 use App\Models\Post;
 use App\Traits\HasSeoFields;
 use App\Traits\HasSocialFields;
 use Awcodes\Mason\Mason;
+use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
 use Filament\Forms;
+use Filament\Forms\Components\Actions;
 use Filament\Forms\Form;
 use Filament\Forms\Set;
 use Filament\Resources\Resource;
@@ -19,12 +19,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
-use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
-use Filament\Forms\Components\Actions;
 
 class PostResource extends Resource implements HasShieldPermissions
 {
-
     use HasSeoFields, HasSocialFields;
 
     protected static ?string $model = Post::class;
@@ -50,7 +47,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->label('Titolo')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                                 Forms\Components\TextInput::make('slug')
                                     ->label('Slug')
                                     ->required(),
@@ -113,7 +110,6 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->default(true),
                             ]),
 
-
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\Select::make('author_id')
@@ -127,10 +123,10 @@ class PostResource extends Resource implements HasShieldPermissions
 
                         Actions::make([
                             Actions\Action::make('Link')
-                                ->visible(fn($livewire) => $livewire->record !== null)
-                                ->label(fn(Post $post) => route('blog.post', $post))
+                                ->visible(fn ($livewire) => $livewire->record !== null)
+                                ->label(fn (Post $post) => route('blog.post', $post))
                                 ->link()
-                                ->url(fn(Post $post) => route('blog.post', $post), true),
+                                ->url(fn (Post $post) => route('blog.post', $post), true),
                         ]),
                     ])->columnSpan(1),
             ])->columns(3);

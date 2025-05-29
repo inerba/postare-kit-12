@@ -2,20 +2,20 @@
 
 namespace Database\Seeders;
 
-use Blade;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
-use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Blade;
 
 class PostSeeder extends Seeder
 {
     public function run(): void
     {
         Post::factory(38)
-            ->sequence(fn($sequence) => [
+            ->sequence(fn ($sequence) => [
                 'author_id' => User::pluck('id')->random(),
-                'category_id' => Category::pluck('id')->random()
+                'category_id' => Category::pluck('id')->random(),
             ])
             ->create()
             ->each(function (Post $post) {
@@ -23,9 +23,9 @@ class PostSeeder extends Seeder
             });
 
         Post::factory()
-            ->sequence(fn($sequence) => [
+            ->sequence(fn ($sequence) => [
                 'author_id' => User::pluck('id')->random(),
-                'category_id' => Category::pluck('id')->random()
+                'category_id' => Category::pluck('id')->random(),
             ])
             ->create([
                 'content' => Blade::render(file_get_contents(resource_path('test_content/content.blade.php'))),

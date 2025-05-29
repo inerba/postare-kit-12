@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Tag;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 
 class TagsAndCategoriesSeeder extends Seeder
