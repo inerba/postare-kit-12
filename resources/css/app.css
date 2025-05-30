@@ -1,10 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
 
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities; */
-
 @import 'tailwindcss-v4';
+
+/* 
+    Colori
+    Definire gli stessi in mason app\Mason\Macro\Theme.php
+    e in resources\views\components\mason\section.blade.php
+*/
+@theme {
+    --color-white: var(--color-white);
+    --color-gray: var(--color-gray-100);
+    --color-accent: #e66d39;
+    --color-primary: #457b9d;
+    --color-secondary: #1d3557;
+    --color-tertiary: #a8dadc;
+    --color-quaternary: #f1faee;
+}
+
+@import './typography.css';
 
 /* @config 'tailwind.config.js'; */
 
