@@ -5,6 +5,7 @@
 /* 
     Colori
     Definire gli stessi in mason app\Mason\Macro\Theme.php
+    in resources\css\filament\auth\tailwind.config.js
     e in resources\views\components\mason\section.blade.php
 */
 @theme {

@@ -1,6 +1,6 @@
 @php
     $props = array_merge(
-        ['content' => null],
+        ['content' => null, 'dropcap' => false],
         \App\Mason\Macro\Theme::getProps(),
         \App\Mason\Macro\SectionHeader::getProps(),
     );
@@ -9,7 +9,7 @@
 @props($props)
 
 <x-mason.section :theme="$theme">
-    <div class="mx-4 xl:mx-0">
+    <div @class(['mx-4 xl:mx-0', 'has-dropcap' => $dropcap])>
         <x-mason.header :title="$header_title" :subtitle="$header_tagline" :align="$header_align" />
         {!! tiptap_converter()->asHtml($content) !!}
         @if ($buttons)
