@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\Http\Controllers\Controller;
-use App\Models\Blog\Post;
+use App\Models\Post;
 
 class BlogHomepageController extends Controller
 {
     public function __invoke()
     {
-        // Verifica se il blog è abilitato
-        if (! db_config('blogconfig.enabled', true)) {
-            return abort(404);
-        }
+        // // Verifica se il blog è abilitato
+        // if (! db_config('blogconfig.enabled', true)) {
+        //     return abort(404);
+        // }
 
         // Ottieni le impostazioni del blog
         $post_per_page = db_config('blogconfig.posts_per_page', 5);

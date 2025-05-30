@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Blog;
 
-use App\Models\Blog\Category;
-use App\Models\Blog\Post;
+use App\Models\Category;
+use App\Models\Post;
 
 class BlogCategoryController extends Controller
 {
     public function __invoke(Category $category)
     {
-        // Verifica se il blog è abilitato
-        if (! db_config('blogconfig.enabled', true)) {
-            return abort(404);
-        }
+        // // Verifica se il blog è abilitato
+        // if (! db_config('blogconfig.enabled', true)) {
+        //     return abort(404);
+        // }
 
         $posts = Post::query()
             ->where('category_id', $category->id)
