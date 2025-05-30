@@ -18,7 +18,7 @@ class PostController extends Controller
             return abort(404);
         }
 
-        return view('portal.blog.postView', [
+        return view('news.post', [
             'post' => $post,
         ]);
     }

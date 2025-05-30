@@ -25,7 +25,7 @@ class BlogHomepageController extends Controller
             ->orderByDesc('created_at')
             ->simplePaginate($post_per_page);
 
-        return view('portal.blog.homepage', [
+        return view('news.home', [
             'posts' => $posts,
         ]);
     }

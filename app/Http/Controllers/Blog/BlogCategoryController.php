@@ -23,7 +23,7 @@ class BlogCategoryController extends Controller
             ])
             ->get();
 
-        return view('portal.blog.categoryView', [
+        return view('news.category', [
             'posts' => $posts,
         ]);
     }
