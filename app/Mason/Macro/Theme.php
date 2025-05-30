@@ -74,7 +74,7 @@ class Theme
                                 ->label('Colore di sfondo')
                                 ->storeAsKey()
                                 ->colors([
-                                    // Modifica i colori in resources\views\components\mason\section.blade.php
+                                    // Considera i colori definiti in resources\css\app.css
                                     'white' => 'bg-white',
 
                                     // Colori personalizzati
