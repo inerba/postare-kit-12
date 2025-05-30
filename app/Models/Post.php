@@ -68,4 +68,9 @@ class Post extends Model implements HasMedia
             ->fit(Fit::Crop, 90, 90)
             ->format('jpg');
     }
+
+    public function permalink(): string
+    {
+        return route('cms.blog.post', $this->slug);
+    }
 }

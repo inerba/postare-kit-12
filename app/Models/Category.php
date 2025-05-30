@@ -18,6 +18,20 @@ class Category extends Model
         });
 
         parent::boot();
+    }
 
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
+    public function permalink(): string
+    {
+        return route('cms.blog.category', $this->slug);
     }
 }
