@@ -3,7 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\PostResource\Pages;
-use App\Mason\PostBrickCollection;
+use App\Mason\Collections\PostBrickCollection;
 use App\Models\Post;
 use App\Traits\HasSeoFields;
 use App\Traits\HasSocialFields;
@@ -101,7 +101,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->image()
                                     ->hiddenLabel()
                                     ->collection('featured_image')
-                                    ->rules(Rule::dimensions()->maxWidth(600)->maxHeight(800))
+                                    // ->rules(Rule::dimensions()->maxWidth(600)->maxHeight(800))
                                     ->afterStateUpdated(function (Forms\Contracts\HasForms $livewire, Forms\Components\SpatieMediaLibraryFileUpload $component) {
                                         $livewire->validateOnly($component->getStatePath());
                                     }),
@@ -124,9 +124,9 @@ class PostResource extends Resource implements HasShieldPermissions
                         Actions::make([
                             Actions\Action::make('Link')
                                 ->visible(fn ($livewire) => $livewire->record !== null)
-                                ->label(fn (Post $post) => route('blog.post', $post))
+                                ->label(fn (Post $post) => $post->permalink())
                                 ->link()
-                                ->url(fn (Post $post) => route('blog.post', $post), true),
+                                ->url(fn (Post $post) => $post->permalink(), true),
                         ]),
                     ])->columnSpan(1),
             ])->columns(3);

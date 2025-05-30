@@ -5,7 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\PageResource\Pages\CreatePage;
 use App\Filament\Resources\PageResource\Pages\EditPage;
 use App\Filament\Resources\PageResource\Pages\ListPages;
-use App\Mason\BrickCollection;
+use App\Mason\Collections\PageBrickCollection;
 use App\Models\Author;
 use App\Models\Page;
 use App\Traits\HasSeoFields;
@@ -76,7 +76,7 @@ class PageResource extends Resource
         return $form->schema([
             Mason::make('content')
                 ->label(false)
-                ->bricks(BrickCollection::make())
+                ->bricks(PageBrickCollection::make())
                 // optional
                 ->placeholder('Trascina e rilascia i componenti per iniziare...')
                 ->columnSpanFull(),
