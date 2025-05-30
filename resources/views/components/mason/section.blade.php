@@ -24,7 +24,7 @@
     // Modifica i colori in app\Mason\Macro\Theme.php
     $backgroundColor = match ($theme["background_color"] ?? null) {
         "white" => "bg-white text-gray-900",
-        "gray" => "bg-gray-100 text-gray-900",
+        "gray" => "bg-gray text-gray-900",
         "primary" => "prose-invert bg-primary text-white",
         "secondary" => "prose-invert bg-secondary text-white",
         "tertiary" => "bg-tertiary text-gray-900",
