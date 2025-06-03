@@ -101,6 +101,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->image()
                                     ->hiddenLabel()
                                     ->collection('featured_image')
+                                    ->directory('posts')
                                     // ->rules(Rule::dimensions()->maxWidth(600)->maxHeight(800))
                                     ->afterStateUpdated(function (Forms\Contracts\HasForms $livewire, Forms\Components\SpatieMediaLibraryFileUpload $component) {
                                         $livewire->validateOnly($component->getStatePath());

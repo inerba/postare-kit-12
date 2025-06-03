@@ -1,7 +1,8 @@
-@dump($post->toArray())
 @php
     $image = $post->getFirstMedia('featured_image'); // Copertina
     $og_image = $post->getFirstMedia('og_image'); // Immagine per Open Graph
+
+    dump($post->extras['show_featured_image'] ?? true);
 @endphp
 
 @section('title', $post->meta['tag_title'] ?? $post->title)

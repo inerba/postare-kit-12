@@ -94,11 +94,11 @@
     h4,
     h5,
     h6 {
-        @apply my-4 font-medium empty:hidden;
+        @apply my-4 font-serif font-medium empty:hidden;
     }
 
     p {
-        @apply my-4 text-gray-800 empty:hidden lg:text-lg;
+        @apply my-4 font-serif text-gray-800 empty:hidden lg:text-lg;
     }
 
     h1 {

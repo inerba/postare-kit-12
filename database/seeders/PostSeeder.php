@@ -6,31 +6,26 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Blade;
 
 class PostSeeder extends Seeder
 {
     public function run(): void
     {
-        Post::factory(38)
+
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Post::truncate();
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        Post::factory(50)
             ->sequence(fn ($sequence) => [
                 'author_id' => User::pluck('id')->random(),
                 'category_id' => Category::pluck('id')->random(),
             ])
             ->create()
             ->each(function (Post $post) {
-                $post->addMediaFromUrl('https://picsum.photos/600/800')->toMediaCollection('featured_image');
-            });
+                $post->addMediaFromUrl('https://picsum.photos/1200/600')
 
-        Post::factory()
-            ->sequence(fn ($sequence) => [
-                'author_id' => User::pluck('id')->random(),
-                'category_id' => Category::pluck('id')->random(),
-            ])
-            ->create([
-                'content' => Blade::render(file_get_contents(resource_path('test_content/content.blade.php'))),
-                'title' => 'Forge: Zero Downtime Deployments',
-            ])
-            ->addMediaFromUrl('https://picsum.photos/600/800')->toMediaCollection('featured_image');
+                    ->toMediaCollection('featured_image');
+            });
     }
 }

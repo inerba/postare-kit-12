@@ -10,13 +10,42 @@ class TagsAndCategoriesSeeder extends Seeder
 {
     public function run(): void
     {
-        $tags = ['Laravel', 'Vue.js', 'Tailwindcss', 'Inertia', 'Breeze', 'Jetstream', 'Fortify', 'Scout', 'Sanctum', 'Socialite'];
+
+        // Truncate existing tags and categories to avoid duplicates
+
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        Tag::truncate();
+        Category::truncate();
+
+        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        $tags = [
+            'Skincare',
+            'Makeup',
+            'Wellness',
+            'Haircare',
+            'Nutrizione',
+            'Fitness',
+            'Anti-age',
+            'Dermatologia',
+            'Cosmetici naturali',
+            'Trattamenti estetici',
+        ];
 
         foreach ($tags as $tag) {
             Tag::create(['name' => $tag]);
         }
 
-        $categories = ['News', 'Tips', 'Tutorials', 'Updates', 'Packages', 'Podcast', 'Videos'];
+        $categories = [
+            'Wellness',
+            'Makeup',
+            'Haircare',
+            'Nutrizione',
+            'Fitness',
+            'Anti-age',
+            'Moda',
+        ];
 
         foreach ($categories as $category) {
             Category::create(['name' => $category]);

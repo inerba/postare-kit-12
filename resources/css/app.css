@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 
 @import 'tailwindcss-v4';
 
@@ -9,6 +9,11 @@
     e in resources\views\components\mason\section.blade.php
 */
 @theme {
+    --font-sans:
+        'Josefin Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --font-serif: 'IBM Plex Serif', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+
     --color-white: var(--color-white);
     --color-gray: var(--color-gray-100);
     --color-accent: #e66d39;
@@ -28,9 +33,9 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
-/* body {
-    @apply font-body;
-} */
+body {
+    @apply font-sans;
+}
 
 /* Scrollbars */
 /* width */
