@@ -12,7 +12,7 @@ class CustomExceptionResource extends ExceptionResource
 
     public static function getNavigationLabel(): string
     {
-        return "Errori";
+        return 'Errori';
     }
 
     public static function shouldRegisterNavigation(): bool
