@@ -9,7 +9,7 @@ return [
     'slug' => 'exceptions',
 
     /** Show or hide in navigation/sidebar */
-    'navigation_enabled' => true,
+    'navigation_enabled' => false,
 
     /** Sort order, if shown. No effect, if navigation_enabled it set to false. */
     'navigation_sort' => -1,
