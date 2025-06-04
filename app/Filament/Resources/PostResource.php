@@ -28,6 +28,28 @@ class PostResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
+    protected static ?int $navigationSort = 1;
+
+    public static function getLabel(): string
+    {
+        return __('posts.post.label');
+    }
+
+    public static function getPluralLabel(): string
+    {
+        return __('posts.post.plural_label');
+    }
+
+    public static function getNavigationGroup(): string
+    {
+        return __('posts.navigation_group');
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return __('posts.post.navigation_label');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -47,7 +69,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->label('Titolo')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
                                 Forms\Components\TextInput::make('slug')
                                     ->label('Slug')
                                     ->required(),
@@ -124,10 +146,10 @@ class PostResource extends Resource implements HasShieldPermissions
 
                         Actions::make([
                             Actions\Action::make('Link')
-                                ->visible(fn ($livewire) => $livewire->record !== null)
-                                ->label(fn (Post $post) => $post->permalink())
+                                ->visible(fn($livewire) => $livewire->record !== null)
+                                ->label(fn(Post $post) => $post->permalink())
                                 ->link()
-                                ->url(fn (Post $post) => $post->permalink(), true),
+                                ->url(fn(Post $post) => $post->permalink(), true),
                         ]),
                     ])->columnSpan(1),
             ])->columns(3);

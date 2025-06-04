@@ -3,7 +3,7 @@
 // translations for Postare/Blog
 return [
 
-    'navigation_group' => 'Contenuti',
+    'navigation_group' => 'Pagine',
 
     'menu_types' => [
         'url' => 'Indirizzo web',
