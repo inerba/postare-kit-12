@@ -3,7 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Actions\Forms\HtmlCleanAction;
-use App\Mason\BrickCollection;
+use App\Mason\Collections\PageBrickCollection;
 use App\Traits\HasSeoFields;
 use App\Traits\HasSocialFields;
 use Awcodes\Mason\Mason;
@@ -33,7 +33,10 @@ class HomePageSettingsPage extends AbstractPageSettings
 
     protected static string $view = 'filament.config-pages.homepage';
 
-    protected static ?string $navigationGroup = 'Contenuti';
+    public static function getNavigationGroup(): string
+    {
+        return __('pages.navigation_group');
+    }
 
     protected function settingName(): string
     {
@@ -50,7 +53,7 @@ class HomePageSettingsPage extends AbstractPageSettings
                             ->schema([
                                 Mason::make('content')
                                     ->label(false)
-                                    ->bricks(BrickCollection::make())
+                                    ->bricks(PageBrickCollection::make())
                                     // optional
                                     ->placeholder('Trascina e rilascia i componenti per iniziare...')
                                     ->columnSpanFull(),
@@ -70,7 +73,7 @@ class HomePageSettingsPage extends AbstractPageSettings
                                 Repeater::make('slides')
                                     ->collapsible()
                                     ->collapsed()
-                                    ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
+                                    ->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
                                     ->schema([
                                         Tabs::make('Tabs')
                                             ->contained(false)
@@ -125,20 +128,20 @@ class HomePageSettingsPage extends AbstractPageSettings
                                                             ->columnSpanFull(),
 
                                                         FileUpload::make('video_mp4')
-                                                            ->hidden(fn (Get $get) => $get('is_video') === false)
+                                                            ->hidden(fn(Get $get) => $get('is_video') === false)
                                                             ->label('Video in formato MP4')
                                                             ->directory('home-slider-videos')
                                                             ->required()
                                                             ->acceptedFileTypes(['video/mp4']),
 
                                                         FileUpload::make('video_webm')
-                                                            ->hidden(fn (Get $get) => $get('is_video') === false)
+                                                            ->hidden(fn(Get $get) => $get('is_video') === false)
                                                             ->label('Video in formato WEBM')
                                                             ->directory('home-slider-videos')
                                                             ->acceptedFileTypes(['video/webm']),
 
                                                         FileUpload::make('image')
-                                                            ->label(fn (Get $get) => $get('is_video') === true ? 'Immagine di fallback' : 'Immagine di sfondo')
+                                                            ->label(fn(Get $get) => $get('is_video') === true ? 'Immagine di fallback' : 'Immagine di sfondo')
                                                             ->directory('home-slider-images')
                                                             ->image()
                                                             ->imageEditor()

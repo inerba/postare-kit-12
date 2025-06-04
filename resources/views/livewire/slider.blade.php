@@ -291,7 +291,7 @@
                 --}}
                 <button
                     @click="togglePlayPause()"
-                    class="z-10 rounded bg-gray-800/50 px-2 py-2 text-xs text-white/70 transition-all hover:bg-gray-800"
+                    class="z-10 cursor-pointer rounded bg-gray-800/50 px-2 py-2 text-xs text-white/70 transition-all hover:bg-gray-800"
                     type="button"
                     aria-label="Pausa/Riprendi presentazione"
                 >

@@ -4,5 +4,5 @@
 ])
 
 <div>
-    {!! mason($content, \App\Mason\BrickCollection::make())->toHtml() !!}
+    {!! mason($content, \App\Mason\Collections\PageBrickCollection::make())->toHtml() !!}
 </div>

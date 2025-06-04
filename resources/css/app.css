@@ -14,7 +14,7 @@
         'Noto Color Emoji';
     --font-serif: 'IBM Plex Serif', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
 
-    --color-white: var(--color-white);
+    --color-white: #ffffff;
     --color-gray: var(--color-gray-100);
     --color-accent: #e66d39;
     --color-primary: #457b9d;
