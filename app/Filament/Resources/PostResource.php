@@ -101,13 +101,14 @@ class PostResource extends Resource implements HasShieldPermissions
                                 Forms\Components\Select::make('tags')
                                     ->multiple()
                                     ->relationship('tags', 'name'),
+
                                 Forms\Components\Select::make('category_id')
                                     ->label('Categoria')
                                     ->relationship('category', 'name')
-                                    ->createOptionForm([
+                                    ->createOptionForm(auth()->user()?->can('create_category') ? [
                                         Forms\Components\TextInput::make('name')
                                             ->required(),
-                                    ])
+                                    ] : null)
                                     ->required(),
                             ]),
 
@@ -136,10 +137,14 @@ class PostResource extends Resource implements HasShieldPermissions
                         Forms\Components\Section::make()
                             ->schema([
                                 Forms\Components\Select::make('author_id')
-                                    ->label('Author')
+                                    ->label('Autore')
                                     ->relationship('author', 'name')
-                                    ->required(),
+                                    ->required()
+                                    ->default(fn () => auth()->id())
+                                    ->disabled(fn () => ! auth()->user()?->hasRole('super_admin'))
+                                    ->visible(fn () => auth()->user() !== null),
                                 Forms\Components\DateTimePicker::make('published_at')
+                                    ->label('Data di pubblicazione')
                                     ->default(now())
                                     ->visible(auth()->user()->can('publish_post')),
                             ]),
