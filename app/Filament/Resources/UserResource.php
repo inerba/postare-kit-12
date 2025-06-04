@@ -175,7 +175,8 @@ class UserResource extends Resource
 
                         // solo i super_admin possono impersonare
                         return true;
-                    }),
+                    })
+                    ->redirectTo(route('filament.auth.pages.dashboard')),
                 Tables\Actions\EditAction::make(),
                 // Action::make('Set Role')
                 //     ->label('Imposta ruolo')
