@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Filament\$PANEL$Resources\MenuResource\MenuTypeHandlers;
+
+use Filament\Forms\Components;
+use App\Filament\Resources\MenuResource\MenuTypeHandlers\MenuTypeInterface;
+use App\Filament\Resources\MenuResource\Traits\CommonFieldsTrait;
+
+class $CLASS_NAME$Handler implements MenuTypeInterface
+{
+    use CommonFieldsTrait;
+
+    public function getName(): string
+    {
+        // If necessary, you can modify the name of the menu type
+        return "$TITLE$";
+    }
+
+    public static function getFields(): array
+    {
+        // Add the necessary fields for your menu type in this array
+        return [
+            // Components\TextInput::make('url')
+            //     ->label('URL')
+            //     ->required()
+            //     ->columnSpanFull(),
+
+            // Common fields for all menu types
+            Components\Section::make(__('simple-menu-manager::simple-menu-manager.common.advanced_settings'))
+                ->schema(self::commonLinkFields())
+                ->collapsed(),
+        ];
+    }
+}

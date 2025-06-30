@@ -45,7 +45,7 @@ class SimpleMenuManagerCommand extends Command
 
             $this->info("Don't forget to add the handler to the config file");
             // line to add to the config file
-            $config_line = "'".Str::snake($this->argument('name'))."'".' => App\\Filament\\'.($this->argument('panel') ? ucfirst($this->argument('panel')).'\\' : '').'SimpleMenu\\Handlers\\'.$this->getSingularClassName($this->argument('name')).'Handler::class,';
+            $config_line = "'".Str::snake($this->argument('name'))."'".' => App\\Filament\\'.($this->argument('panel') ? ucfirst($this->argument('panel')).'\\' : '').'Resources\\MenuResource\\MenuTypeHandlers\\'.$this->getSingularClassName($this->argument('name')).'Handler::class,';
             $this->info($config_line);
         } else {
             $this->warn("File : {$path} already exits");
@@ -57,7 +57,7 @@ class SimpleMenuManagerCommand extends Command
      */
     public function getStubPath(): string
     {
-        return __DIR__.'/../../stubs/handler.stub';
+        return __DIR__.'/../../stubs/menu-handler.stub';
     }
 
     /**
@@ -103,7 +103,7 @@ class SimpleMenuManagerCommand extends Command
         $panel = $this->argument('panel');
         $panelPrefix = $panel ? ucfirst($panel).'\\' : '';
 
-        $path = base_path('app\\Filament\\'.$panelPrefix.'SimpleMenu').'\\Handlers\\'.$this->getSingularClassName($this->argument('name')).'Handler.php';
+        $path = base_path('app\\Filament\\'.$panelPrefix.'Resources').'\\MenuResource\\MenuTypeHandlers\\'.$this->getSingularClassName($this->argument('name')).'Handler.php';
 
         return str_replace('\\', '/', $path);
     }
