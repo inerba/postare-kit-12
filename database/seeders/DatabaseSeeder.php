@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ShieldSeeder::class,
             TagsAndCategoriesSeeder::class,
             PostSeeder::class,
+            DbConfigTableSeeder::class,
         ]);
     }
 }

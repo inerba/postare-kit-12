@@ -16,7 +16,7 @@ class PostSeeder extends Seeder
         Post::truncate();
         \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
-        Post::factory(50)
+        Post::factory(10)
             ->sequence(fn ($sequence) => [
                 'author_id' => User::pluck('id')->random(),
                 'category_id' => Category::pluck('id')->random(),
