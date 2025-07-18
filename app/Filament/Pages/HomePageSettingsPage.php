@@ -52,7 +52,7 @@ class HomePageSettingsPage extends AbstractPageSettings
                         Tabs\Tab::make('Testo')
                             ->schema([
                                 Mason::make('content')
-                                    ->label(false)
+                                    ->label(null)
                                     ->bricks(PageBrickCollection::make())
                                     // optional
                                     ->placeholder('Trascina e rilascia i componenti per iniziare...')

@@ -82,7 +82,7 @@
             "@php artisan db:seed --ansi",
             "@php artisan shield:super-admin",
             "npm install",
-            "npm run build"
+            "npm run build:all"
         ],
         "check": [
             "./vendor/bin/pint --dirty",

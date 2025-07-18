@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -27,7 +28,7 @@ trait HasCustomFields
     {
         $slug = $this->getSlug($slug);
 
-        return view()->exists('filament-blog::'.$this->content_type.'.'.$slug);
+        return view()->exists('filament-blog::' . $this->content_type . '.' . $slug);
     }
 
     /**
@@ -45,7 +46,7 @@ trait HasCustomFields
         preg_match_all('/{{-- \[(.*?)\] --}}/s', $bladeContent, $matches);
 
         return collect($matches[1])->mapWithKeys(function ($item, $key) {
-            $data = json_decode('['.$item.']', true);
+            $data = json_decode('[' . $item . ']', true);
 
             // per non farlo bloccare in caso di placeholder mal formattati
             if (! is_array($data)) {
@@ -67,16 +68,16 @@ trait HasCustomFields
     private function createInputComponent($type, $key, $placeholder)
     {
         $component = match ($type) {
-            'textarea' => Textarea::make('custom_fields.'.$key),
-            'number' => TextInput::make('custom_fields.'.$key)->numeric(),
-            'link' => TextInput::make('custom_fields.'.$key)->url(),
-            'email' => TextInput::make('custom_fields.'.$key)->email(),
-            'date' => DatePicker::make('custom_fields.'.$key),
-            'bool' => Toggle::make('custom_fields.'.$key),
-            'fileupload' => FileUpload::make('custom_fields.'.$key)->directory('filament-blog-files')->image()->imageEditor(),
-            'select' => $this->createSelectComponent('custom_fields.'.$key, $placeholder),
-            'placeholder' => Placeholder::make($placeholder->name)->label(false)->content(new HtmlString("<strong class='text-xl'>{$placeholder->name}</strong><p class='mb-4'>{$placeholder->description}</p><hr>")),
-            default => TextInput::make('custom_fields.'.$key),
+            'textarea' => Textarea::make('custom_fields.' . $key),
+            'number' => TextInput::make('custom_fields.' . $key)->numeric(),
+            'link' => TextInput::make('custom_fields.' . $key)->url(),
+            'email' => TextInput::make('custom_fields.' . $key)->email(),
+            'date' => DatePicker::make('custom_fields.' . $key),
+            'bool' => Toggle::make('custom_fields.' . $key),
+            'fileupload' => FileUpload::make('custom_fields.' . $key)->directory('filament-blog-files')->image()->imageEditor(),
+            'select' => $this->createSelectComponent('custom_fields.' . $key, $placeholder),
+            'placeholder' => Placeholder::make($placeholder->name)->label(null)->content(new HtmlString("<strong class='text-xl'>{$placeholder->name}</strong><p class='mb-4'>{$placeholder->description}</p><hr>")),
+            default => TextInput::make('custom_fields.' . $key),
         };
 
         if ($type === 'placeholder') {
@@ -97,7 +98,7 @@ trait HasCustomFields
                     default => $placeholder->default,
                 };
 
-                $set('custom_fields.'.$key, $default);
+                $set('custom_fields.' . $key, $default);
             })
             ->helperText($placeholder->description)
             ->required(false);
@@ -108,9 +109,9 @@ trait HasCustomFields
         $slug = $this->getSlug($slug);
 
         if ($this->hasCustomView($slug)) {
-            $bladeFilePath = resource_path('views/vendor/filament-blog/'.$this->content_type.'/'.$slug.'.blade.php');
+            $bladeFilePath = resource_path('views/vendor/filament-blog/' . $this->content_type . '/' . $slug . '.blade.php');
         } else {
-            $bladeFilePath = resource_path('views/vendor/filament-blog/'.$this->content_type.'.blade.php');
+            $bladeFilePath = resource_path('views/vendor/filament-blog/' . $this->content_type . '.blade.php');
         }
 
         return $this->getPlaceholdersFromBlade($bladeFilePath);
@@ -140,9 +141,15 @@ trait HasCustomFields
             return $slug;
         }
 
+        // return match ($this->content_type) {
+        //     'page' => $this->slug,
+        //     'post' => $this->category->slug,
+        //     default => null,
+        // };
+
         return match ($this->content_type) {
             'page' => $this->slug,
-            'post' => $this->category->slug,
+            'post' => method_exists($this, 'category') && $this->category ? $this->category->slug : null,
             default => null,
         };
     }

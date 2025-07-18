@@ -13,14 +13,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\Translatable\HasTranslations;
 
+/**
+ * @property-read object $seo
+ * @property-read object $og
+ */
 class Page extends Model implements HasMedia
 {
     use DefaultMediaConversions;
     use HasCustomFields;
     use HasMeta;
-    use HasTranslations;
     use HasUniqueSlug;
     use InteractsWithMedia;
 
@@ -46,34 +48,31 @@ class Page extends Model implements HasMedia
         'meta' => 'array',
     ];
 
-    public $translatable = [
-        'title',
-        'lead',
-        'content',
-        'meta',
-        'custom_fields',
-    ];
-
-    // Getter for permalink
+    /**
+     * @property-read string $permalink
+     */
     protected function permalink(): Attribute
     {
         $slugs = $this->getParentSlugs($this);
         $slugPath = implode('/', $slugs);
 
         return Attribute::make(
-            get: fn () => route('cms.page', [
+            get: fn() => route('cms.page', [
                 'slug' => $slugPath,
             ]),
         );
     }
 
+    /**
+     * @property-read string $relativePermalink
+     */
     protected function relativePermalink(): Attribute
     {
         $slugs = $this->getParentSlugs($this);
         $slugPath = implode('/', $slugs);
 
         return Attribute::make(
-            get: fn () => route('cms.page', [
+            get: fn() => route('cms.page', [
                 'slug' => $slugPath,
             ], false),
         );
@@ -115,7 +114,7 @@ class Page extends Model implements HasMedia
         $defaultView = 'pages.page';
 
         // Check if a custom view exists
-        $customView = 'pages.'.$this->slug;
+        $customView = 'pages.' . $this->slug;
 
         if (view()->exists($customView)) {
             return $customView;
@@ -126,12 +125,17 @@ class Page extends Model implements HasMedia
 
     public function hasCustomView(): bool
     {
-        $customView = 'pages.'.$this->slug;
+        $customView = 'pages.' . $this->slug;
 
         return view()->exists($customView);
     }
 
-    private function getParentSlugs(Page $page, array $slugs = []): array
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    private function getParentSlugs(Model $page, array $slugs = []): array
     {
         if ($page->parent) {
             $slugs = $this->getParentSlugs($page->parent, $slugs);

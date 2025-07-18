@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\AuthorResource\Pages;
 use App\Models\Author;
+use App\Models\User;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
@@ -14,7 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Model;
 
 class AuthorResource extends Resource
 {
@@ -91,7 +91,7 @@ class AuthorResource extends Resource
                     Select::make('user')
                         ->label(__('pages.resources.author.user'))
                         ->relationship('user', 'name')
-                        ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->name} ({$record->email})")
+                        ->getOptionLabelFromRecordUsing(fn(User $record) => "{$record->name} ({$record->email})")
                         ->searchable(['name', 'email'])
                         ->preload()
                         ->dehydrated(false),
@@ -107,7 +107,7 @@ class AuthorResource extends Resource
 
             SpatieMediaLibraryImageColumn::make('avatar')
                 //                ->label(__('pages.resources.author.avatar'))
-                ->label(false)
+                ->label(null)
                 ->toggleable(isToggledHiddenByDefault: false)
                 ->height(90)
                 ->circular()
@@ -119,14 +119,14 @@ class AuthorResource extends Resource
             TextColumn::make('name')
                 ->label(__('pages.resources.author.name'))
                 ->toggleable(isToggledHiddenByDefault: false)
-                ->description(fn (Author $author) => $author->user?->email ?? false)
+                ->description(fn(Author $author) => $author->user->email ?? false)
                 ->searchable()
                 ->sortable(),
 
             TextColumn::make('bio')
                 ->label(__('pages.resources.author.bio'))
                 ->toggleable(isToggledHiddenByDefault: false)
-                ->formatStateUsing(fn ($state) => str($state)->stripTags()->words(30))
+                ->formatStateUsing(fn($state) => str($state)->stripTags()->words(30))
                 ->wrap(),
 
             TextColumn::make('pages_count')

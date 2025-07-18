@@ -26,7 +26,7 @@ trait HasUniqueSlug
         $count = 1;
 
         while ($modelInstance->newQuery()->where($slugField, $slug)
-            ->when($this->exists, fn ($query) => $query->where('id', '<>', $this->id))
+            ->when($this->exists, fn($query) => $query->where('id', '<>', $this->id))
             ->exists()
         ) {
             $slug = "{$baseSlug}-{$count}";
@@ -57,22 +57,11 @@ trait HasUniqueSlug
         $slugField = $this->getSlugField();
         $slugBaseField = $this->getSlugBaseField();
 
-        if ($this->isTranslatableAttribute($slugBaseField)) {
-            // Gestione per campi translatable (es. title)
-            foreach ($this->getTranslations($slugBaseField) as $locale => $value) {
-                if (! $this->getAttribute($slugField)) {
-                    // Genera lo slug solo una volta per il campo base
-                    $this->setAttribute($slugField, $this->createUniqueSlug($this, $value));
-                    break;
-                }
-            }
-        } else {
-            // Gestione per campi non translatable
-            if (! $this->getAttribute($slugField)) {
-                $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->{$slugBaseField}));
-            } elseif ($this->isDirty($slugField)) {
-                $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->getAttribute($slugField)));
-            }
+        // Gestione per campi non translatable
+        if (! $this->getAttribute($slugField)) {
+            $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->{$slugBaseField}));
+        } elseif ($this->isDirty($slugField)) {
+            $this->setAttribute($slugField, $this->createUniqueSlug($this, $this->getAttribute($slugField)));
         }
 
         return parent::save($options);

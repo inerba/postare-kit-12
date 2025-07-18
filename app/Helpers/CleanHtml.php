@@ -6,8 +6,18 @@ use Heriw\LaravelSimpleHtmlDomParser\HtmlDomParser;
 
 class CleanHtml
 {
+    /**
+     * Pulisce il testo HTML rimuovendo attributi e tag indesiderati.
+     *
+     * @param string $testo
+     * @return string
+     *
+     * @psalm-suppress MixedMethodCall
+     * @phpstan-ignore-next-line
+     */
     public static function clean($testo)
     {
+        /** @var \simplehtmldom\simple_html_dom $html */
         $html = HtmlDomParser::str_get_html($testo);
 
         // Rimuovere gli attributi non necessari da tutti i tag eccetto 'img' e 'a'

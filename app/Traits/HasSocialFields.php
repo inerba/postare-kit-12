@@ -16,7 +16,7 @@ trait HasSocialFields
                     ->label(__('pages.social.title'))
                     ->helperText(__('pages.social.title_helper'))
                     ->columnSpanFull(),
-                Forms\Components\TextArea::make($prefix.'.og.description')
+                Forms\Components\Textarea::make($prefix.'.og.description')
                     ->hint(fn ($state): string => self::remainingText($state, 200))
                     ->live()
                     ->label(__('pages.social.description'))
@@ -40,12 +40,4 @@ trait HasSocialFields
             ]),
         ];
     }
-
-    //    public static function remainingText($state, $maxCharacters = 60)
-    //    {
-    //        $charactersCount = strlen($state);
-    //        $leftCharacters = $maxCharacters - ($charactersCount % $maxCharacters);
-    //
-    //        return "$charactersCount / $maxCharacters ($leftCharacters)";
-    //    }
 }
