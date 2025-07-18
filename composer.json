@@ -22,11 +22,9 @@
         "dotswan/filament-code-editor": "^1.1",
         "filament/filament": "3.3",
         "filament/spatie-laravel-media-library-plugin": "^3.3",
-        "filament/spatie-laravel-translatable-plugin": "^3.3",
         "heriw/laravel-simple-html-dom-parser": "*",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
-        "mcamara/laravel-localization": "^2.3",
         "postare/db-config": "^3.02",
         "saade/filament-adjacency-list": "^3.2",
         "stechstudio/filament-impersonate": "^3.15",
@@ -94,6 +92,11 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
+        ],
+        "kit:install": [
+            "@php artisan shield:super-admin --user=1",
+            "npm install",
+            "npm run build:all"
         ]
     },
     "extra": {
