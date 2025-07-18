@@ -5,6 +5,8 @@ use Postare\Blog\Filament\Resources\MenuItemResource;
 // config for Postare/Blog
 return [
 
+    'timezone' => 'Europe/Rome', // Default timezone for date and datetime pickers
+
     // Cache
     'cache' => [
         // Default cache duration in minutes
@@ -13,12 +15,6 @@ return [
 
     'middleware' => [
         'web',
-        'localize', // Localizzazione
-        // 'localeSessionRedirect', // Redirect alla lingua selezionata
-        // 'localeCookieRedirect', // Redirect alla lingua selezionata tramite cookie
-        // 'localeViewPath', // Imposta il percorso della vista in base alla lingua
-
-        // Le lingue supportate sono definite in config/laravellocalization.php e nel provider
     ],
 
     'posts_per_page' => 5,

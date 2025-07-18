@@ -2,13 +2,9 @@
 
 namespace App\Providers;
 
-use Filament\Forms\Components\Field;
-use Filament\Forms\Components\Placeholder;
-use Filament\Infolists\Components\Entry;
-use Filament\Support\Components\Component;
-use Filament\Support\Concerns\Configurable;
-use Filament\Tables\Columns\Column;
-use Filament\Tables\Filters\BaseFilter;
+use Filament\Facades\Filament;
+use Filament\Navigation\NavigationItem;
+use FilamentTiptapEditor\TiptapEditor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
@@ -18,17 +14,6 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-    }
-
-    protected function translatableComponents(): void
-    {
-        foreach ([Field::class, BaseFilter::class, Placeholder::class, Column::class, Entry::class] as $component) {
-            /* @var Configurable $component */
-            $component::configureUsing(function (Component $translatable): void {
-                /** @phpstan-ignore method.notFound */
-                $translatable->translateLabel();
-            });
-        }
     }
 
     private function configureCommands(): void
@@ -41,10 +26,39 @@ class AppServiceProvider extends ServiceProvider
         Model::shouldBeStrict(! app()->isProduction());
     }
 
+    private function configureFilamentFormComponents(): void
+    {
+        // Aggiungo un'azione di pulizia HTML TiptapEditor
+        \FilamentTiptapEditor\TiptapEditor::configureUsing(function (\FilamentTiptapEditor\TiptapEditor $component) {
+            $component
+                ->extraInputAttributes(['style' => 'min-height: 12rem;'])
+                ->hintAction(\App\Filament\Actions\Forms\HtmlCleanAction::make());
+        });
+
+        // Imposto la timezone di default
+        \Filament\Forms\Components\DatePicker::configureUsing(fn (\Filament\Forms\Components\DatePicker $component) => $component->timezone(config('postare-kit.timezone')));
+        \Filament\Forms\Components\DateTimePicker::configureUsing(fn (\Filament\Forms\Components\DateTimePicker $component) => $component->timezone(config('postare-kit.timezone')));
+    }
+
+    private function configureFilamentTableComponents(): void
+    {
+        // Imposto la timezone di default
+        \Filament\Tables\Columns\TextColumn::configureUsing(fn (\Filament\Tables\Columns\TextColumn $column) => $column->timezone(config('postare-kit.timezone')));
+    }
+
     public function boot(): void
     {
         $this->configureCommands();
         $this->configureModels();
-        $this->translatableComponents();
+        $this->configureFilamentFormComponents();
+        $this->configureFilamentTableComponents();
+
+        Filament::registerNavigationItems([
+            NavigationItem::make('Frontend')
+                ->url('/', shouldOpenInNewTab: true)
+                ->icon('heroicon-o-arrow-top-right-on-square')
+                // ->group('Link esterni')
+                ->sort(1),
+        ]);
     }
 }

@@ -4,13 +4,6 @@ use App\Http\Controllers;
 use App\Http\Controllers\Blog;
 use Illuminate\Support\Facades\Route;
 
-// use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
-// Route::group([
-//     'prefix' => trim(LaravelLocalization::setLocale() . '/' . config('postare-kit.pages_prefix'), '/'),
-//     'middleware' => config('postare-kit.middleware', 'web'),
-//     'as' => 'cms.',
-// ], function () {
 Route::group([
     'middleware' => config('postare-kit.middleware', 'web'),
     'as' => 'cms.',
