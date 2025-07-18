@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\SmartPage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
@@ -70,7 +69,7 @@ if (! function_exists('page_url')) {
 
         return Cache::remember(
             $key,
-            config('filament-blog.cache.default_duration'),
+            config('postare-kit.cache.default_duration'),
             function () use ($identifier, $absolute) {
                 if (is_int($identifier)) {
                     $page = App\Models\Page::find($identifier);
@@ -81,45 +80,9 @@ if (! function_exists('page_url')) {
                 if ($absolute) {
                     return $page?->permalink;
                 } else {
-                    return $page?->relative_permalink;
+                    return $page?->relativePermalink;
                 }
             }
         ) ?? '';
-    }
-}
-
-if (! function_exists('smartpage')) {
-    /**
-     * Recupera il valore di una chiave specifica per una pagina.
-     * Tiene conto della lingua corrente per la memorizzazione nella cache.
-     *
-     * @param  string  $page  Il nome della pagina di cui recuperare il valore
-     * @param  string  $key  La chiave del valore da recuperare
-     * @param  mixed  $default  Il valore predefinito da restituire se la pagina o la chiave non esistono
-     * @return mixed Il valore della chiave specificata o il valore predefinito
-     */
-    function smartpage(string $key, ?string $locale = null, mixed $default = null): mixed
-    {
-        $currentLocale = $locale ?? app()->getLocale();
-        $cacheKey = "smartpage_{$currentLocale}_{$key}";
-
-        // return Cache::rememberForever(
-        //     $cacheKey,
-        //     fn() => SmartPage::get($key, $default, $locale)
-        // );
-
-        return SmartPage::get($key, $default, $locale);
-    }
-
-    if (! function_exists('get_supported_locales')) {
-        /**
-         * Recupera l'elenco delle lingue supportate dall'applicazione.
-         *
-         * @return array L'elenco delle lingue supportate
-         */
-        function get_supported_locales(): array
-        {
-            return array_keys(config('laravellocalization.supportedLocales', [config('app.locale')]));
-        }
     }
 }

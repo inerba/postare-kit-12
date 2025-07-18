@@ -23,7 +23,7 @@
                 ></div>
             @endif
 
-            <x-mason :content="$page->content" :data="$page" />
+            <x-page :content="$page->content" :data="$page" />
         </div>
         <!-- End Single Post Content -->
 
