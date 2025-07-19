@@ -8,15 +8,8 @@ class CleanHtml
 {
     /**
      * Pulisce il testo HTML rimuovendo attributi e tag indesiderati.
-     *
-     * @param  string  $testo
-     * @return string
-     *
-     * @psalm-suppress MixedMethodCall
-     *
-     * @phpstan-ignore-next-line
      */
-    public static function clean($testo)
+    public static function clean(string $testo): string
     {
         // @var object $html
         $html = HtmlDomParser::str_get_html($testo);

@@ -26,7 +26,7 @@ trait HasUniqueSlug
         $count = 1;
 
         while ($modelInstance->newQuery()->where($slugField, $slug)
-            ->when($this->exists, fn($query) => $query->where('id', '<>', $this->id))
+            ->when($this->exists, fn ($query) => $query->where('id', '<>', $this->id))
             ->exists()
         ) {
             $slug = "{$baseSlug}-{$count}";

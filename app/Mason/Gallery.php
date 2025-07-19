@@ -44,7 +44,7 @@ class Gallery
                 Macro\SectionHeader::getFields(),
                 Hidden::make('gallery_rand'),
                 SpatieMediaLibraryFileUpload::make('gallery')
-                    ->label(false)
+                    ->label(null)
                     ->collection(fn (Get $get) => $get('gallery_rand').'_gallery')
                     ->directory('page_gallery')
                     ->multiple()

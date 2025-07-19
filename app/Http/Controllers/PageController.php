@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Models\Page;
@@ -25,6 +27,7 @@ class PageController extends Controller
 
         // Se abbiamo una pagina padre, cerchiamo una sottopagina
         if ($parentPage) {
+            /** @var Page $page */
             $page = $parentPage->children()->where('slug', $slug)->firstOrFail();
         } else {
             // Altrimenti, cerchiamo una pagina padre

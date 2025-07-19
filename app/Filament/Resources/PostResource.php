@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -52,10 +53,14 @@ class PostResource extends Resource implements HasShieldPermissions
 
     public static function form(Form $form): Form
     {
+
+        /** @var \App\Models\User */
+        $user = Auth::user();
+
         return $form
             ->schema([
                 Mason::make('content')
-                    ->label(false)
+                    ->label(null)
                     ->bricks(PostBrickCollection::make())
                     // optional
                     ->placeholder('Trascina e rilascia i componenti per iniziare...')
@@ -69,7 +74,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->label('Titolo')
                                     ->required()
                                     ->live(onBlur: true)
-                                    ->afterStateUpdated(fn(Set $set, ?string $state) => $set('slug', Str::slug($state))),
+                                    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state))),
                                 Forms\Components\TextInput::make('slug')
                                     ->label('Slug')
                                     ->required(),
@@ -105,7 +110,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                 Forms\Components\Select::make('category_id')
                                     ->label('Categoria')
                                     ->relationship('category', 'name')
-                                    ->createOptionForm(auth()->user()?->can('create_category') ? [
+                                    ->createOptionForm($user->can('create_category') ? [
                                         Forms\Components\TextInput::make('name')
                                             ->required(),
                                     ] : null)
@@ -126,7 +131,7 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->collection('featured_image')
                                     ->directory('posts')
                                     // ->rules(Rule::dimensions()->maxWidth(600)->maxHeight(800))
-                                    ->afterStateUpdated(function (Forms\Contracts\HasForms $livewire, Forms\Components\SpatieMediaLibraryFileUpload $component) {
+                                    ->afterStateUpdated(function ($livewire, Forms\Components\SpatieMediaLibraryFileUpload $component) {
                                         $livewire->validateOnly($component->getStatePath());
                                     }),
                                 Forms\Components\Toggle::make('extras.show_featured_image')
@@ -140,21 +145,22 @@ class PostResource extends Resource implements HasShieldPermissions
                                     ->label('Autore')
                                     ->relationship('author', 'name')
                                     ->required()
-                                    ->default(fn() => auth()->id())
-                                    ->disabled(fn() => ! auth()->user()?->hasRole('super_admin'))
-                                    ->visible(fn() => auth()->user() !== null),
+                                    ->default(fn () => $user->id)
+                                    ->disabled(fn () => ! $user->hasRole('super_admin'))
+                                // ->visible(fn() => $user !== null)
+                                ,
                                 Forms\Components\DateTimePicker::make('published_at')
                                     ->label('Data di pubblicazione')
                                     ->default(now())
-                                    ->visible(auth()->user()->can('publish_post')),
+                                    ->visible($user->can('publish_post')),
                             ]),
 
                         Actions::make([
                             Actions\Action::make('Link')
-                                ->visible(fn($livewire) => $livewire->record !== null)
-                                ->label(fn(Post $post) => $post->permalink())
+                                ->visible(fn ($livewire) => $livewire->record !== null)
+                                ->label(fn (Post $post) => $post->permalink())
                                 ->link()
-                                ->url(fn(Post $post) => $post->permalink(), true),
+                                ->url(fn (Post $post) => $post->permalink(), true),
                         ]),
                     ])->columnSpan(1),
             ])->columns(3);

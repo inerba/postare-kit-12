@@ -59,7 +59,7 @@ if (! function_exists('page_url')) {
      * @param  int|string  $identifier  The post ID or slug
      * @param  bool  $absolute  Whether to return the absolute url
      */
-    function page_url(int|string $identifier, bool $absolute = false): ?string
+    function page_url(int|string $identifier, bool $absolute = false): string
     {
         if ($absolute) {
             $key = "page_url.$identifier.absolute";

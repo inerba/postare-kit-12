@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+// @phpstan-ignore trait.unused
 trait HasParentResource
 {
     public Model|int|string|null $parent = null;

@@ -73,7 +73,7 @@ class Theme
                             ColorPicker::make('theme.background_color')
                                 ->label('Colore di sfondo')
                                 ->storeAsKey()
-                                ->colors([
+                                ->colors(fn (): array => [
                                     // Considera i colori definiti in resources\css\app.css
                                     'white' => 'bg-white',
 
@@ -369,6 +369,7 @@ class Theme
             'lg' => 'Laptop / piccolo desktop',
             'xl' => 'Desktop',
             '2xl' => 'Desktop grande',
+            default => 'Non indicato',
         };
     }
 }

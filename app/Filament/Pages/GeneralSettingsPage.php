@@ -241,19 +241,19 @@ class GeneralSettingsPage extends AbstractPageSettings
                                         ->columnSpanFull()
                                         ->image()
                                         ->imageEditor()
-                                        ->hidden(fn(Get $get) => $get('use_svg'))
+                                        ->hidden(fn (Get $get) => $get('use_svg'))
                                         ->helperText('Dimensione consigliata: 32x32px, Formato: png')
                                         ->directory('social-icons'),
                                     CodeEditor::make('svg')
                                         ->label('Svg')
                                         // ->live(true)
-                                        ->visible(fn(Get $get) => $get('use_svg'))
+                                        ->visible(fn (Get $get) => $get('use_svg'))
                                         ->columnSpan(5)
                                         ->required(),
                                     Forms\Components\Placeholder::make('preview')
                                         ->label('Anteprima')
-                                        ->content(fn(Get $get) => $get('use_svg') ? new HtmlString("<div class=\"text-black dark:text-gray-100 \">{$get('svg')}</div>") : '<img src="' . $get('icon') . '" alt="Anteprima icona" />')
-                                        ->visible(fn(Get $get) => $get('use_svg') || $get('icon')),
+                                        ->content(fn (Get $get) => $get('use_svg') ? new HtmlString("<div class=\"text-black dark:text-gray-100 \">{$get('svg')}</div>") : '<img src="'.$get('icon').'" alt="Anteprima icona" />')
+                                        ->visible(fn (Get $get) => $get('use_svg') || $get('icon')),
                                     Forms\Components\Toggle::make('use_svg')
                                         ->live()
                                         ->columnSpanFull()
@@ -261,7 +261,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                         ->default(false),
                                 ])
                                 ->collapsed()
-                                ->itemLabel(fn(array $state): ?string => $state['title'] ?? null)
+                                ->itemLabel(fn (array $state): ?string => $state['title'] ?? null)
 
                                 ->addActionLabel('Aggiungi profilo'),
                         ]),
@@ -303,7 +303,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.layout_variant')
                                         ->label('Variante')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 'wide' => 'Wide',
                                                 'inline' => 'Inline',
@@ -318,7 +318,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionX')
                                         ->label('Posizione orizzontale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'box' => [
                                                 '' => 'None',
                                             ],
@@ -332,7 +332,7 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                     Forms\Components\Select::make('cookieconsent.positionY')
                                         ->label('Posizione verticale')
-                                        ->options(fn(Get $get) => match ($get('cookieconsent.layout')) {
+                                        ->options(fn (Get $get) => match ($get('cookieconsent.layout')) {
                                             'bar' => [
                                                 'top' => 'Top',
                                                 'bottom' => 'Bottom',
@@ -350,7 +350,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                 ->columns(2)
                                 ->columnSpanFull()
                                 ->deleteAction(
-                                    fn(Action $action) => $action->requiresConfirmation(),
+                                    fn (Action $action) => $action->requiresConfirmation(),
                                 )
                                 ->schema([
                                     Forms\Components\Select::make('position')
@@ -395,15 +395,15 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->required(),
                                         ])
                                         ->deleteAction(
-                                            fn(Action $action) => $action->requiresConfirmation(),
+                                            fn (Action $action) => $action->requiresConfirmation(),
                                         )
                                         ->addActionLabel('Aggiungi cookie')
                                         ->collapsible()
-                                        ->itemLabel(fn(array $state): ?string => $state['name'] ?? null)
+                                        ->itemLabel(fn (array $state): ?string => $state['name'] ?? null)
                                         ->columnSpanFull(),
                                 ]),
                         ]),
-                ]),])
+                ]), ])
             ->statePath('data');
     }
 }

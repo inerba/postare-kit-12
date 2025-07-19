@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use App\Traits\DefaultMediaConversions;
@@ -18,6 +20,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  * @property-read object $og
  * @property-read string $relativePermalink
  * @property-read string $permalink
+ * @property-read Page|null $parent
  */
 class Page extends Model implements HasMedia
 {
@@ -96,12 +99,12 @@ class Page extends Model implements HasMedia
     // Get the parent page
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Page::class, 'parent_id');
+        return $this->belongsTo(self::class, 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Page::class, 'parent_id');
+        return $this->hasMany(self::class, 'parent_id');
     }
 
     /**
@@ -135,7 +138,7 @@ class Page extends Model implements HasMedia
         return $this->belongsTo(Category::class);
     }
 
-    private function getParentSlugs(Model $page, array $slugs = []): array
+    private function getParentSlugs(self $page, array $slugs = []): array
     {
         if ($page->parent) {
             $slugs = $this->getParentSlugs($page->parent, $slugs);

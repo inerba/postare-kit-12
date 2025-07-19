@@ -3,14 +3,14 @@
 namespace App\Traits;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 
 trait HasMeta
 {
     protected function seo(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => (object) [
+            get: fn (mixed $value, array $attributes): object => (object) [
                 'title' => optional($this->meta)['seo']['tag_title'] ?? $this->title,
                 'meta_description' => optional($this->meta)['seo']['meta_description'] ?? $this->getDefaultMetaDescription(),
                 'author' => optional($this->meta)->seo->author ?? config('postare-kit.seo.author', config('app.name')),
@@ -21,21 +21,21 @@ trait HasMeta
     protected function og(): Attribute
     {
         return Attribute::make(
-            get: fn($value, $attributes) => (object) [
+            get: fn (mixed $value, array $attributes): object => (object) [
                 'type' => optional($this->meta)['og']['type'] ?? config('postare-kit.og.type', 'article'),
-                'title' => optional($this->meta)['og']['title'] ?? $this->seo->title,
-                'description' => optional($this->meta)['og']['description'] ?? $this->seo->meta_description,
+                'title' => optional($this->meta)['og']['title'] ?? ($this->seo->title ?? null),
+                'description' => optional($this->meta)['og']['description'] ?? ($this->seo->meta_description ?? null),
                 'image' => $this->getOgImage(),
             ]
         );
     }
 
-    protected function getDefaultMetaDescription(): string
+    protected function getDefaultMetaDescription(): HtmlString
     {
         return str(tiptap_converter()->asText($this->content))->trim()->replaceMatches('/\s+/', ' ')->limit(160)->toHtmlString();
     }
 
-    protected function getOgImage()
+    protected function getOgImage(): ?string
     {
         if ($this->hasMedia('og_image')) {
             return $this->getFirstMediaUrl('og_image');
