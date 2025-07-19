@@ -29,6 +29,8 @@ class PostResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
+    protected static ?string $recordTitleAttribute = 'title';
+
     protected static ?int $navigationSort = 1;
 
     public static function getLabel(): string
@@ -217,5 +219,10 @@ class PostResource extends Resource implements HasShieldPermissions
             'delete_any',
             'publish',
         ];
+    }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['title', 'slug'];
     }
 }

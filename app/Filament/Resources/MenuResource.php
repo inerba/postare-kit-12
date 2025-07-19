@@ -19,6 +19,8 @@ class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     protected static ?string $navigationIcon = 'heroicon-o-bars-4';
 
     public static function getModelLabel(): string
