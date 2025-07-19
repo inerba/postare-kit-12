@@ -68,7 +68,7 @@ class MenuResource extends Resource
                 AdjacencyList::make('items')
                     ->label(__('simple-menu-manager.resource.items'))
                     ->maxDepth(2)
-                    ->addAction(fn(Action $action): Action => $action
+                    ->addAction(fn (Action $action): Action => $action
                         ->label(__('simple-menu-manager.resource.add_item'))
                         ->icon('heroicon-o-plus')
                         ->color('primary'))
@@ -91,7 +91,7 @@ class MenuResource extends Resource
                                     ->required(),
                             ]),
                         Grid::make()
-                            ->hidden(fn(Get $get) => $get('type') == null)
+                            ->hidden(fn (Get $get) => $get('type') == null)
                             ->reactive()
                             ->columns(2)
                             ->schema(function (Get $get) {
