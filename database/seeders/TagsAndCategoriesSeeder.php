@@ -12,14 +12,6 @@ class TagsAndCategoriesSeeder extends Seeder
     {
 
         // Truncate existing tags and categories to avoid duplicates
-
-        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-
-        Tag::truncate();
-        Category::truncate();
-
-        \Illuminate\Support\Facades\DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-
         $tags = [
             'Skincare',
             'Makeup',
