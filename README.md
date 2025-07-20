@@ -36,6 +36,11 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 
 ## 🛠️ Installazione
 
+### Se lo usi come kit puoi lanciare il comando 
+```
+php artisan kit:install
+```
+
 1. Clona il repository:
 
 ```bash
