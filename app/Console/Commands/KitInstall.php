@@ -31,6 +31,13 @@ class KitInstall extends Command
 
     private string $envContent;
 
+    /**
+     * Esegue il comando di installazione principale.
+     *
+     * Inizializza l'ambiente, prepara il file .env, raccoglie i dati necessari e avvia l'installazione.
+     *
+     * @return int Codice di stato del comando
+     */
     public function handle(): int
     {
         $this->initializeEnvironment();
@@ -47,12 +54,22 @@ class KitInstall extends Command
         return $this->executeInstallation($installationData);
     }
 
+    /**
+     * Inizializza i percorsi e carica il contenuto del file .env.
+     *
+     * @return void
+     */
     private function initializeEnvironment(): void
     {
         $this->envPath = base_path('.env');
         $this->envContent = File::exists($this->envPath) ? File::get($this->envPath) : '';
     }
 
+    /**
+     * Prepara il file .env copiandolo da .env.example se necessario.
+     *
+     * @return bool True se il file .env esiste o è stato creato, false altrimenti
+     */
     private function setupEnvironmentFile(): bool
     {
         if (! File::exists($this->envPath)) {
@@ -72,6 +89,11 @@ class KitInstall extends Command
         return true;
     }
 
+    /**
+     * Raccoglie tutti i dati necessari per l'installazione.
+     *
+     * @return array|null Array associativo con i dati di installazione o null se annullato
+     */
     private function gatherInstallationData(): ?array
     {
         $isAlreadyInstalled = $this->isProjectInstalled();
@@ -96,6 +118,11 @@ class KitInstall extends Command
         ];
     }
 
+    /**
+     * Verifica se il progetto è già installato controllando la presenza di APP_KEY.
+     *
+     * @return bool
+     */
     private function isProjectInstalled(): bool
     {
         $appKey = $this->getEnvValue('APP_KEY');
@@ -103,6 +130,11 @@ class KitInstall extends Command
         return ! empty($appKey);
     }
 
+    /**
+     * Chiede conferma all'utente per sovrascrivere un'installazione esistente.
+     *
+     * @return bool
+     */
     private function shouldOverwriteInstallation(): bool
     {
         if ($this->option('force')) {
@@ -112,6 +144,11 @@ class KitInstall extends Command
         return $this->confirm('Il progetto risulta già installato. Vuoi sovrascrivere l\'installazione?', false);
     }
 
+    /**
+     * Chiede conferma all'utente per eseguire migrate:fresh.
+     *
+     * @return bool
+     */
     private function shouldUseFreshMigration(): bool
     {
         $this->warn('Attenzione: l\'installazione precedente verrà sovrascritta!');
@@ -119,12 +156,22 @@ class KitInstall extends Command
         return $this->confirm('Vuoi eseguire migrate:fresh (ATTENZIONE: tutti i dati verranno persi)?', false);
     }
 
+    /**
+     * Genera una nuova APP_KEY per l'applicazione.
+     *
+     * @return void
+     */
     private function generateAppKey(): void
     {
         Artisan::call('key:generate', ['--force' => true]);
         $this->info('APP_KEY generata automaticamente');
     }
 
+    /**
+     * Raccoglie i dati dell'utente amministratore e li aggiorna nel file .env.
+     *
+     * @return array Dati dell'amministratore
+     */
     private function gatherAdminData(): array
     {
         $defaults = [
@@ -146,6 +193,11 @@ class KitInstall extends Command
         return $adminData;
     }
 
+    /**
+     * Raccoglie i dati del progetto (nome, url) e li aggiorna nel file .env.
+     *
+     * @return array Dati del progetto
+     */
     private function gatherProjectData(): array
     {
         $projectDir = basename(base_path());
@@ -164,6 +216,11 @@ class KitInstall extends Command
         return $projectData;
     }
 
+    /**
+     * Raccoglie e configura i dati relativi al database.
+     *
+     * @return array Configurazione database
+     */
     private function gatherDatabaseData(): array
     {
         $dbType = $this->choice('Tipo di database?', ['sqlite', 'mysql', 'pgsql'], 0);
@@ -176,6 +233,11 @@ class KitInstall extends Command
         return $this->configureRelationalDatabase($dbType);
     }
 
+    /**
+     * Configura il database SQLite e aggiorna il file .env.
+     *
+     * @return array Configurazione SQLite
+     */
     private function configureSqlite(): array
     {
         $sqlitePath = database_path('database.sqlite');
@@ -188,6 +250,12 @@ class KitInstall extends Command
         ];
     }
 
+    /**
+     * Configura un database relazionale (MySQL/PostgreSQL) e aggiorna il file .env.
+     *
+     * @param string $dbType Tipo di database (mysql|pgsql)
+     * @return array Configurazione database relazionale
+     */
     private function configureRelationalDatabase(string $dbType): array
     {
         $currentConfig = $this->getCurrentDatabaseConfig();
@@ -212,6 +280,11 @@ class KitInstall extends Command
         return $config;
     }
 
+    /**
+     * Recupera la configurazione attuale del database dal file .env.
+     *
+     * @return array Configurazione attuale del database
+     */
     private function getCurrentDatabaseConfig(): array
     {
         return [
@@ -222,6 +295,12 @@ class KitInstall extends Command
         ];
     }
 
+    /**
+     * Esegue l'installazione completa: migrazioni, seeders, super admin e build asset.
+     *
+     * @param array $data Dati raccolti per l'installazione
+     * @return int Codice di stato
+     */
     private function executeInstallation(array $data): int
     {
         try {
@@ -234,12 +313,19 @@ class KitInstall extends Command
 
             return self::SUCCESS;
         } catch (Exception $e) {
-            $this->error("Errore durante l'installazione: ".$e->getMessage());
+            $this->error("Errore durante l'installazione: " . $e->getMessage());
 
             return self::FAILURE;
         }
     }
 
+    /**
+     * Esegue le migrazioni in base al tipo di database.
+     *
+     * @param array $dbConfig Configurazione database
+     * @param bool $useFresh Se usare migrate:fresh
+     * @return void
+     */
     private function setupDatabase(array $dbConfig, bool $useFresh): void
     {
         $this->info('Esecuzione migration...');
@@ -254,18 +340,32 @@ class KitInstall extends Command
         $this->line(Artisan::output());
     }
 
+    /**
+     * Crea o ricrea il file SQLite se necessario.
+     *
+     * @param string $path Percorso file SQLite
+     * @param bool $recreate Se ricreare il file
+     * @return void
+     */
     private function setupSqliteDatabase(string $path, bool $recreate): void
     {
         if (! File::exists($path)) {
             File::put($path, '');
-            $this->info('File SQLite creato: '.$path);
+            $this->info('File SQLite creato: ' . $path);
         } elseif ($recreate) {
             File::delete($path);
             File::put($path, '');
-            $this->info('File SQLite ricreato: '.$path);
+            $this->info('File SQLite ricreato: ' . $path);
         }
     }
 
+    /**
+     * Esegue le migrazioni per database relazionali.
+     *
+     * @param array $config Configurazione database
+     * @param bool $useFresh Se usare migrate:fresh
+     * @return void
+     */
     private function setupRelationalDatabase(array $config, bool $useFresh): void
     {
         $databaseExists = $this->databaseExists();
@@ -273,6 +373,11 @@ class KitInstall extends Command
         Artisan::call($command, ['--force' => true]);
     }
 
+    /**
+     * Esegue i seeder principali del database.
+     *
+     * @return void
+     */
     private function runSeeders(): void
     {
         $this->info('Installazione dati demo...');
@@ -280,6 +385,11 @@ class KitInstall extends Command
         $this->line(Artisan::output());
     }
 
+    /**
+     * Aggiunge l'utente iniziale ai super admin tramite comando artisan.
+     *
+     * @return void
+     */
     private function setupSuperAdmin(): void
     {
         $this->info('Aggiunta dell\'utente iniziale ai super admin');
@@ -287,12 +397,25 @@ class KitInstall extends Command
         $this->line(Artisan::output());
     }
 
+    /**
+     * Esegue i comandi npm per installare e buildare gli asset frontend.
+     *
+     * @return void
+     */
     private function buildAssets(): void
     {
         $this->runNpmCommand('install', 'Installazione pacchetti npm...');
         $this->runNpmCommand('run build:all', 'Build asset frontend...');
     }
 
+    /**
+     * Esegue un comando npm e gestisce l'output.
+     *
+     * @param string $command Comando npm da eseguire
+     * @param string $message Messaggio da mostrare
+     * @return void
+     * @throws Exception In caso di errore nell'esecuzione
+     */
     private function runNpmCommand(string $command, string $message): void
     {
         $this->info($message);
@@ -307,6 +430,13 @@ class KitInstall extends Command
         }
     }
 
+    /**
+     * Recupera il valore di una variabile dal file .env.
+     *
+     * @param string $key Chiave della variabile
+     * @param string $default Valore di default se non trovata
+     * @return string Valore della variabile
+     */
     private function getEnvValue(string $key, string $default = ''): string
     {
         if (preg_match("/^{$key}=(.*)$/m", $this->envContent, $matches)) {
@@ -316,6 +446,14 @@ class KitInstall extends Command
         return $default;
     }
 
+    /**
+     * Aggiorna o aggiunge una variabile nel file .env.
+     *
+     * @param string $key Chiave della variabile
+     * @param string $value Valore da impostare
+     * @return void
+     * @throws Exception Se il file .env non esiste
+     */
     private function updateEnv(string $key, string $value): void
     {
         if (! File::exists($this->envPath)) {
@@ -335,6 +473,13 @@ class KitInstall extends Command
         $this->info("Impostato {$key} in .env");
     }
 
+    /**
+     * Formatta la riga da scrivere nel file .env per una variabile.
+     *
+     * @param string $key Chiave della variabile
+     * @param string $value Valore da impostare
+     * @return string Riga formattata
+     */
     private function formatEnvValue(string $key, string $value): string
     {
         // Per specifiche chiavi DB non usiamo le virgolette
@@ -345,6 +490,12 @@ class KitInstall extends Command
         return "{$key}=\"{$value}\"";
     }
 
+    /**
+     * Commenta le variabili specificate nel file .env.
+     *
+     * @param array $keys Elenco chiavi da commentare
+     * @return void
+     */
     private function commentEnvKeys(array $keys): void
     {
         foreach ($keys as $key) {
@@ -356,6 +507,12 @@ class KitInstall extends Command
         $this->info('Commentate variabili DB non necessarie per SQLite');
     }
 
+    /**
+     * Decommenta le variabili specificate nel file .env.
+     *
+     * @param array $keys Elenco chiavi da decommentare
+     * @return void
+     */
     private function uncommentEnvKeys(array $keys): void
     {
         foreach ($keys as $key) {
@@ -369,6 +526,11 @@ class KitInstall extends Command
         $this->info('Ripristinate variabili DB per MySQL/PostgreSQL');
     }
 
+    /**
+     * Verifica se il database esiste tentando la connessione.
+     *
+     * @return bool True se il database esiste, false altrimenti
+     */
     private function databaseExists(): bool
     {
         try {
