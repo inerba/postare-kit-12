@@ -102,8 +102,6 @@ class KitInstall extends Command
             return null;
         }
 
-        $useFresh = $isAlreadyInstalled && $this->shouldUseFreshMigration();
-
         if (! $isAlreadyInstalled) {
             $this->generateAppKey();
         }
@@ -112,7 +110,6 @@ class KitInstall extends Command
             'admin' => $this->gatherAdminData(),
             'project' => $this->gatherProjectData(),
             'database' => $this->gatherDatabaseData(),
-            'use_fresh' => $useFresh,
         ];
     }
 
@@ -138,15 +135,15 @@ class KitInstall extends Command
         return $this->confirm('Il progetto risulta già installato. Vuoi sovrascrivere l\'installazione?', false);
     }
 
-    /**
-     * Chiede conferma all'utente per eseguire migrate:fresh.
-     */
-    private function shouldUseFreshMigration(): bool
-    {
-        $this->warn('Attenzione: l\'installazione precedente verrà sovrascritta!');
+    // /**
+    //  * Chiede conferma all'utente per eseguire migrate:fresh.
+    //  */
+    // private function shouldUseFreshMigration(): bool
+    // {
+    //     $this->warn('Attenzione: l\'installazione precedente verrà sovrascritta!');
 
-        return $this->confirm('Vuoi eseguire migrate:fresh (ATTENZIONE: tutti i dati verranno persi)?', false);
-    }
+    //     return $this->confirm('Vuoi eseguire migrate:fresh (ATTENZIONE: tutti i dati verranno persi)?', false);
+    // }
 
     /**
      * Genera una nuova APP_KEY per l'applicazione.
@@ -254,10 +251,10 @@ class KitInstall extends Command
         $config = [
             'type' => $dbType,
             'name' => $this->ask('Nome del database?', basename(base_path())),
-            'host' => $this->ask('Host del database?', $currentConfig['host'] ?? '127.0.0.1'),
-            'port' => $this->ask('Porta del database?', $currentConfig['port'] ?? $defaultPort),
-            'username' => $this->ask('Username database?', $currentConfig['username'] ?? 'root'),
-            'password' => $this->ask('Password database?', $currentConfig['password'] ?? ''),
+            'host' => $this->ask('Host del database?', $currentConfig['host'] ?: '127.0.0.1'),
+            'port' => $this->ask('Porta del database?', $currentConfig['port'] ?: $defaultPort),
+            'username' => $this->ask('Username database?', $currentConfig['username'] ?: 'root'),
+            'password' => $this->ask('Password database?', $currentConfig['password'] ?: ''),
         ];
 
         $this->updateEnv('DB_DATABASE', $config['name']);
@@ -294,12 +291,20 @@ class KitInstall extends Command
     private function executeInstallation(array $data): int
     {
         try {
-            $this->setupDatabase($data['database'], $data['use_fresh']);
+            // Verifica che l'APP_KEY sia presente prima di procedere
+            if (empty($this->getEnvValue('APP_KEY'))) {
+                $this->generateAppKey();
+            }
+
+            $this->setupDatabase($data['database']);
+            $this->setupPanelOptions();
             $this->runSeeders();
             $this->setupSuperAdmin();
             $this->buildAssets();
 
+            // Messaggio che oltre a confermare l'installazione, fornisce il link per accedere al progetto
             $this->info('Installazione completata!');
+            $this->info('Puoi accedere al progetto all\'indirizzo: '.$data['project']['url'].'/'.config('postare-kit.panel_path', 'auth'));
 
             return self::SUCCESS;
         } catch (Exception $e) {
@@ -310,20 +315,32 @@ class KitInstall extends Command
     }
 
     /**
+     * Configura le opzioni del pannello di controllo.
+     *
+     * Questo metodo può essere esteso per aggiungere opzioni specifiche del pannello.
+     */
+    private function setupPanelOptions(): void
+    {
+        // Configura il path del pannello di controllo, di default è 'auth' è configurabile tramite .env
+        // Chiedi all'utente se vuole cambiare il path del pannello
+        $panelPath = $this->ask('Path del pannello di controllo?', $this->getEnvValue('PANEL_PATH'));
+        $this->updateEnv('PANEL_PATH', $panelPath);
+    }
+
+    /**
      * Esegue le migrazioni in base al tipo di database.
      *
      * @param  array<string, mixed>  $dbConfig  Configurazione database
-     * @param  bool  $useFresh  Se usare migrate:fresh
      */
-    private function setupDatabase(array $dbConfig, bool $useFresh): void
+    private function setupDatabase(array $dbConfig): void
     {
         $this->info('Esecuzione migration...');
 
         if ($dbConfig['type'] === 'sqlite') {
-            $this->setupSqliteDatabase($dbConfig['path'], $useFresh);
+            $this->setupSqliteDatabase($dbConfig['path']);
             Artisan::call('migrate', ['--force' => true]);
         } else {
-            $this->setupRelationalDatabase($dbConfig, $useFresh);
+            $this->setupRelationalDatabase($dbConfig);
         }
 
         $this->line(Artisan::output());
@@ -333,30 +350,27 @@ class KitInstall extends Command
      * Crea o ricrea il file SQLite se necessario.
      *
      * @param  string  $path  Percorso file SQLite
-     * @param  bool  $recreate  Se ricreare il file
      */
-    private function setupSqliteDatabase(string $path, bool $recreate): void
+    private function setupSqliteDatabase(string $path): void
     {
-        if (! File::exists($path)) {
-            File::put($path, '');
-            $this->info('File SQLite creato: '.$path);
-        } elseif ($recreate) {
+        // Se il file SQLite esiste, lo elimina per ricrearlo
+        if (File::exists($path)) {
             File::delete($path);
-            File::put($path, '');
-            $this->info('File SQLite ricreato: '.$path);
         }
+
+        File::put($path, '');
+        $this->info('File SQLite: '.$path);
     }
 
     /**
      * Esegue le migrazioni per database relazionali.
      *
      * @param  array<string, mixed>  $config  Configurazione database
-     * @param  bool  $useFresh  Se usare migrate:fresh
      */
-    private function setupRelationalDatabase(array $config, bool $useFresh): void
+    private function setupRelationalDatabase(array $config): void
     {
         $databaseExists = $this->databaseExists();
-        $command = ($useFresh && $databaseExists) ? 'migrate:fresh' : 'migrate';
+        $command = $databaseExists ? 'migrate:fresh' : 'migrate';
         Artisan::call($command, ['--force' => true]);
     }
 
