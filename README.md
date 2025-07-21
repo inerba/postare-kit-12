@@ -34,13 +34,16 @@ Un moderno starter kit basato sul TALL stack (Tailwind CSS, Alpine.js, Laravel, 
 - NPM >= 9
 - MySQL >= 8.0 o PostgreSQL >= 13
 
-## 🛠️ Installazione
 
-### Se lo usi come kit puoi lanciare il comando 
+## Starter Kit
+
 ```
+laravel new --using=inerba/postare-kit-12
+
 php artisan kit:install
 ```
 
+## 🛠️ Installazione
 1. Clona il repository:
 
 ```bash
