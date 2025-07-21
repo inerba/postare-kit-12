@@ -19,6 +19,11 @@ class PageType implements MenuTypeInterface
         return __('simple-menu-manager.handlers.page.name');
     }
 
+    /**
+     * Restituisce i campi specifici per il tipo di menu "page".
+     *
+     * @return array<int, Components\Component>
+     */
     public static function getFields(): array
     {
         return [

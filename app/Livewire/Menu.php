@@ -23,7 +23,7 @@ class Menu extends Component
         });
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         if (is_null($this->menu)) {
             return view('livewire.menu-not-found', ['slug' => $this->slug]);

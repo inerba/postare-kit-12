@@ -11,6 +11,13 @@ use Postare\ModelAi\ModelAi;
 
 trait HasSeoFields
 {
+    /**
+     * Calcola il numero di caratteri rimanenti per un campo di testo SEO.
+     *
+     * @param  string  $state  Il testo corrente del campo.
+     * @param  int  $maxCharacters  Il numero massimo di caratteri consentiti.
+     * @return string Una stringa che indica il conteggio dei caratteri e quelli rimanenti.
+     */
     public static function remainingText($state, $maxCharacters = 60)
     {
         $charactersCount = strlen($state);
@@ -19,6 +26,13 @@ trait HasSeoFields
         return "$charactersCount / $maxCharacters ($leftCharacters)";
     }
 
+    /**
+     * Restituisce i campi SEO per un modello specifico.
+     *
+     * @param  string  $prefix  Il prefisso per i campi SEO.
+     * @param  array<string>|null  $aiSeoFieldsFrom  Un array opzionale che specifica da quali campi generare i metadati SEO tramite AI.
+     * @return array<int, Forms\Components\Component> Un array di componenti dei campi SEO.
+     */
     protected static function getSeoFields($prefix, ?array $aiSeoFieldsFrom = null): array
     {
         return [

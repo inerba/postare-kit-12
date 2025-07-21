@@ -7,6 +7,11 @@ use Illuminate\Support\HtmlString;
 
 trait HasMeta
 {
+    /**
+     * Restituisce i metadati SEO per il modello.
+     *
+     * @return Attribute<object, never>
+     */
     protected function seo(): Attribute
     {
         return Attribute::make(
@@ -18,6 +23,11 @@ trait HasMeta
         );
     }
 
+    /**
+     * Restituisce i metadati Open Graph per il modello.
+     *
+     * @return Attribute<object, never>
+     */
     protected function og(): Attribute
     {
         return Attribute::make(
@@ -30,11 +40,21 @@ trait HasMeta
         );
     }
 
+    /**
+     * Restituisce la descrizione predefinita per i metadati SEO.
+     *
+     * @return HtmlString La descrizione predefinita.
+     */
     protected function getDefaultMetaDescription(): HtmlString
     {
         return str(tiptap_converter()->asText($this->content))->trim()->replaceMatches('/\s+/', ' ')->limit(160)->toHtmlString();
     }
 
+    /**
+     * Restituisce l'URL dell'immagine Open Graph o dell'immagine in evidenza.
+     *
+     * @return string|null L'URL dell'immagine Open Graph o null se non disponibile.
+     */
     protected function getOgImage(): ?string
     {
         if ($this->hasMedia('og_image')) {

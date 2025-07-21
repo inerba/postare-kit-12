@@ -18,6 +18,11 @@ use Illuminate\Support\HtmlString;
  */
 class ButtonsRepeater
 {
+    /**
+     * Restituisce le proprietà del componente
+     *
+     * @return array<string, mixed>
+     */
     public static function getProps(): array
     {
         return [
@@ -25,6 +30,12 @@ class ButtonsRepeater
         ];
     }
 
+    /**
+     * Restituisce gli argomenti del componente
+     *
+     * @param  array<string, mixed>  $arguments
+     * @return array<string, mixed>
+     */
     public static function getArguments($arguments): array
     {
         return [
@@ -32,7 +43,10 @@ class ButtonsRepeater
         ];
     }
 
-    public static function getFields()
+    /**
+     * Restituisce i campi del componente
+     */
+    public static function getFields(): Repeater
     {
         return Repeater::make('buttons')
             ->label('Pulsanti')
@@ -91,6 +105,8 @@ class ButtonsRepeater
      * Definizione degli stili disponibili per i pulsanti
      * Puoi aggiungere o modificare gli stili qui, dovrai anche modificarli nella vista blade
      * resources\views\components\mason\buttons.blade.php
+     *
+     * @return array<string, mixed>
      */
     private static function getButtonStylesDefinitions(): array
     {
@@ -131,6 +147,8 @@ class ButtonsRepeater
 
     /**
      * Genera le opzioni di stile per il componente Radio
+     *
+     * @return array<string, mixed>
      */
     private static function getButtonStyles(string $buttonText, string $size = 'md'): array
     {

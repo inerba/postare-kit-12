@@ -6,7 +6,12 @@ use App\Models\Post;
 
 class BlogHomepageController extends Controller
 {
-    public function __invoke()
+    /**
+     * Mostra la homepage del blog con i post recenti.
+     *
+     * @return \Illuminate\View\View La vista con i post recenti del blog.
+     */
+    public function __invoke(): \Illuminate\View\View
     {
         // // Verifica se il blog è abilitato
         // if (! db_config('blogconfig.enabled', true)) {

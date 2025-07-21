@@ -13,11 +13,22 @@ use Filament\Forms\Get;
 
 class Theme
 {
+    /**
+     * Restituisce le proprietà del componente
+     *
+     * @return array<string, mixed>
+     */
     public static function getProps(): array
     {
         return ['theme' => []];
     }
 
+    /**
+     * Restituisce gli argomenti del componente
+     *
+     * @param  array<string, mixed>  $arguments
+     * @return array<string, mixed>
+     */
     public static function getArguments($arguments): array
     {
         return [
@@ -60,6 +71,11 @@ class Theme
         ];
     }
 
+    /**
+     * Restituisce i campi del componente
+     *
+     * @return Tabs
+     */
     public static function getFields()
     {
         return
@@ -217,7 +233,13 @@ class Theme
                 ]);
     }
 
-    public static function maxWidthOptions($screen = null)
+    /**
+     * Restituisce le opzioni di larghezza massima per il blocco
+     *
+     * @param  string|null  $screen
+     * @return array<string, string>
+     */
+    public static function maxWidthOptions($screen = null): array
     {
         $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
@@ -258,7 +280,13 @@ class Theme
         // 2xl:max-w-none 2xl:max-w-xs 2xl:max-w-sm 2xl:max-w-md 2xl:max-w-lg 2xl:max-w-xl 2xl:max-w-2xl 2xl:max-w-3xl 2xl:max-w-4xl 2xl:max-w-5xl 2xl:max-w-6xl 2xl:max-w-7xl 2xl:max-w-full 2xl:max-w-min 2xl:max-w-max 2xl:max-w-fit 2xl:max-w-screen-2xl
     }
 
-    public static function columnOptions($screen = null)
+    /**
+     * Restituisce l'etichetta per i breakpoint responsivi
+     *
+     * @param  mixed  $screen
+     * @return array<string, string>
+     */
+    public static function columnOptions($screen = null): array
     {
         $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
@@ -286,7 +314,13 @@ class Theme
         // 2xl:columns-1 2xl:columns-2 2xl:columns-3 2xl:columns-4 2xl:columns-5 2xl:columns-6 2xl:columns-7 2xl:columns-8 2xl:columns-9 2xl:columns-10 2xl:columns-11 2xl:columns-12
     }
 
-    public static function paddingOptions($screen = null)
+    /**
+     * Restituisce l'etichetta per i breakpoint responsivi
+     *
+     * @param  string|null  $screen
+     * @return array<string, string>
+     */
+    public static function paddingOptions($screen = null): array
     {
         $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
@@ -321,7 +355,13 @@ class Theme
         // 2xl:py-0 2xl:py-1 2xl:py-2 2xl:py-3 2xl:py-4 2xl:py-5 2xl:py-6 2xl:py-8 2xl:py-10 2xl:py-12 2xl:py-16 2xl:py-20 2xl:py-24 2xl:py-32 2xl:py-40 2xl:py-48 2xl:py-56 2xl:py-64
     }
 
-    public static function marginOptions($screen = null)
+    /**
+     * Restituisce l'etichetta per i breakpoint responsivi
+     *
+     * @param  string|null  $screen
+     * @return array<string, string>
+     */
+    public static function marginOptions($screen = null): array
     {
         $prefix = ($screen && $screen !== 'xs') ? $screen.':' : '';
 
@@ -356,6 +396,11 @@ class Theme
         // 2xl:my-0 2xl:my-1 2xl:my-2 2xl:my-3 2xl:my-4 2xl:my-5 2xl:my-6 2xl:my-8 2xl:my-10 2xl:my-12 2xl:my-16 2xl:my-20 2xl:my-24 2xl:my-32 2xl:my-40 2xl:my-48 2xl:my-56 2xl:my-64
     }
 
+    /**
+     * Restituisce l'etichetta per i breakpoint responsivi
+     *
+     * @param  string|null  $size
+     */
     public static function responsiveLabel($size = null): string
     {
         if (is_null($size)) {

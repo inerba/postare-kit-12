@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -8,4 +7,4 @@ Route::get('/', function () {
 });
 
 // Rotte per il CMS, sempre per ultime
-require __DIR__ . '/cms.php';
+require __DIR__.'/cms.php';

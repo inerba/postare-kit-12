@@ -208,6 +208,11 @@ class PostResource extends Resource implements HasShieldPermissions
         ];
     }
 
+    /**
+     * Get the permission prefixes for this resource.
+     *
+     * @return array<string>
+     */
     public static function getPermissionPrefixes(): array
     {
         return [

@@ -56,8 +56,6 @@ class KitInstall extends Command
 
     /**
      * Inizializza i percorsi e carica il contenuto del file .env.
-     *
-     * @return void
      */
     private function initializeEnvironment(): void
     {
@@ -92,7 +90,7 @@ class KitInstall extends Command
     /**
      * Raccoglie tutti i dati necessari per l'installazione.
      *
-     * @return array|null Array associativo con i dati di installazione o null se annullato
+     * @return array<string, mixed>|null Dati raccolti per l'installazione o null se annullata
      */
     private function gatherInstallationData(): ?array
     {
@@ -120,8 +118,6 @@ class KitInstall extends Command
 
     /**
      * Verifica se il progetto è già installato controllando la presenza di APP_KEY.
-     *
-     * @return bool
      */
     private function isProjectInstalled(): bool
     {
@@ -132,8 +128,6 @@ class KitInstall extends Command
 
     /**
      * Chiede conferma all'utente per sovrascrivere un'installazione esistente.
-     *
-     * @return bool
      */
     private function shouldOverwriteInstallation(): bool
     {
@@ -146,8 +140,6 @@ class KitInstall extends Command
 
     /**
      * Chiede conferma all'utente per eseguire migrate:fresh.
-     *
-     * @return bool
      */
     private function shouldUseFreshMigration(): bool
     {
@@ -158,8 +150,6 @@ class KitInstall extends Command
 
     /**
      * Genera una nuova APP_KEY per l'applicazione.
-     *
-     * @return void
      */
     private function generateAppKey(): void
     {
@@ -170,7 +160,7 @@ class KitInstall extends Command
     /**
      * Raccoglie i dati dell'utente amministratore e li aggiorna nel file .env.
      *
-     * @return array Dati dell'amministratore
+     * @return array<string, mixed>
      */
     private function gatherAdminData(): array
     {
@@ -196,7 +186,7 @@ class KitInstall extends Command
     /**
      * Raccoglie i dati del progetto (nome, url) e li aggiorna nel file .env.
      *
-     * @return array Dati del progetto
+     * @return array<string, mixed> Dati del progetto
      */
     private function gatherProjectData(): array
     {
@@ -219,7 +209,7 @@ class KitInstall extends Command
     /**
      * Raccoglie e configura i dati relativi al database.
      *
-     * @return array Configurazione database
+     * @return array<string, mixed> Configurazione database
      */
     private function gatherDatabaseData(): array
     {
@@ -236,7 +226,7 @@ class KitInstall extends Command
     /**
      * Configura il database SQLite e aggiorna il file .env.
      *
-     * @return array Configurazione SQLite
+     * @return array<string, mixed> Configurazione SQLite
      */
     private function configureSqlite(): array
     {
@@ -253,8 +243,8 @@ class KitInstall extends Command
     /**
      * Configura un database relazionale (MySQL/PostgreSQL) e aggiorna il file .env.
      *
-     * @param string $dbType Tipo di database (mysql|pgsql)
-     * @return array Configurazione database relazionale
+     * @param  string  $dbType  Tipo di database (mysql|pgsql)
+     * @return array<string, mixed> Configurazione database relazionale
      */
     private function configureRelationalDatabase(string $dbType): array
     {
@@ -283,7 +273,7 @@ class KitInstall extends Command
     /**
      * Recupera la configurazione attuale del database dal file .env.
      *
-     * @return array Configurazione attuale del database
+     * @return array<string, mixed> Configurazione attuale del database
      */
     private function getCurrentDatabaseConfig(): array
     {
@@ -298,7 +288,7 @@ class KitInstall extends Command
     /**
      * Esegue l'installazione completa: migrazioni, seeders, super admin e build asset.
      *
-     * @param array $data Dati raccolti per l'installazione
+     * @param  array<string, mixed>  $data  Dati raccolti per l'installazione
      * @return int Codice di stato
      */
     private function executeInstallation(array $data): int
@@ -313,7 +303,7 @@ class KitInstall extends Command
 
             return self::SUCCESS;
         } catch (Exception $e) {
-            $this->error("Errore durante l'installazione: " . $e->getMessage());
+            $this->error("Errore durante l'installazione: ".$e->getMessage());
 
             return self::FAILURE;
         }
@@ -322,9 +312,8 @@ class KitInstall extends Command
     /**
      * Esegue le migrazioni in base al tipo di database.
      *
-     * @param array $dbConfig Configurazione database
-     * @param bool $useFresh Se usare migrate:fresh
-     * @return void
+     * @param  array<string, mixed>  $dbConfig  Configurazione database
+     * @param  bool  $useFresh  Se usare migrate:fresh
      */
     private function setupDatabase(array $dbConfig, bool $useFresh): void
     {
@@ -343,28 +332,26 @@ class KitInstall extends Command
     /**
      * Crea o ricrea il file SQLite se necessario.
      *
-     * @param string $path Percorso file SQLite
-     * @param bool $recreate Se ricreare il file
-     * @return void
+     * @param  string  $path  Percorso file SQLite
+     * @param  bool  $recreate  Se ricreare il file
      */
     private function setupSqliteDatabase(string $path, bool $recreate): void
     {
         if (! File::exists($path)) {
             File::put($path, '');
-            $this->info('File SQLite creato: ' . $path);
+            $this->info('File SQLite creato: '.$path);
         } elseif ($recreate) {
             File::delete($path);
             File::put($path, '');
-            $this->info('File SQLite ricreato: ' . $path);
+            $this->info('File SQLite ricreato: '.$path);
         }
     }
 
     /**
      * Esegue le migrazioni per database relazionali.
      *
-     * @param array $config Configurazione database
-     * @param bool $useFresh Se usare migrate:fresh
-     * @return void
+     * @param  array<string, mixed>  $config  Configurazione database
+     * @param  bool  $useFresh  Se usare migrate:fresh
      */
     private function setupRelationalDatabase(array $config, bool $useFresh): void
     {
@@ -375,8 +362,6 @@ class KitInstall extends Command
 
     /**
      * Esegue i seeder principali del database.
-     *
-     * @return void
      */
     private function runSeeders(): void
     {
@@ -387,8 +372,6 @@ class KitInstall extends Command
 
     /**
      * Aggiunge l'utente iniziale ai super admin tramite comando artisan.
-     *
-     * @return void
      */
     private function setupSuperAdmin(): void
     {
@@ -399,8 +382,6 @@ class KitInstall extends Command
 
     /**
      * Esegue i comandi npm per installare e buildare gli asset frontend.
-     *
-     * @return void
      */
     private function buildAssets(): void
     {
@@ -411,9 +392,9 @@ class KitInstall extends Command
     /**
      * Esegue un comando npm e gestisce l'output.
      *
-     * @param string $command Comando npm da eseguire
-     * @param string $message Messaggio da mostrare
-     * @return void
+     * @param  string  $command  Comando npm da eseguire
+     * @param  string  $message  Messaggio da mostrare
+     *
      * @throws Exception In caso di errore nell'esecuzione
      */
     private function runNpmCommand(string $command, string $message): void
@@ -433,8 +414,8 @@ class KitInstall extends Command
     /**
      * Recupera il valore di una variabile dal file .env.
      *
-     * @param string $key Chiave della variabile
-     * @param string $default Valore di default se non trovata
+     * @param  string  $key  Chiave della variabile
+     * @param  string  $default  Valore di default se non trovata
      * @return string Valore della variabile
      */
     private function getEnvValue(string $key, string $default = ''): string
@@ -449,9 +430,9 @@ class KitInstall extends Command
     /**
      * Aggiorna o aggiunge una variabile nel file .env.
      *
-     * @param string $key Chiave della variabile
-     * @param string $value Valore da impostare
-     * @return void
+     * @param  string  $key  Chiave della variabile
+     * @param  string  $value  Valore da impostare
+     *
      * @throws Exception Se il file .env non esiste
      */
     private function updateEnv(string $key, string $value): void
@@ -476,8 +457,8 @@ class KitInstall extends Command
     /**
      * Formatta la riga da scrivere nel file .env per una variabile.
      *
-     * @param string $key Chiave della variabile
-     * @param string $value Valore da impostare
+     * @param  string  $key  Chiave della variabile
+     * @param  string  $value  Valore da impostare
      * @return string Riga formattata
      */
     private function formatEnvValue(string $key, string $value): string
@@ -493,8 +474,7 @@ class KitInstall extends Command
     /**
      * Commenta le variabili specificate nel file .env.
      *
-     * @param array $keys Elenco chiavi da commentare
-     * @return void
+     * @param  array<int, string>  $keys  Elenco chiavi da commentare
      */
     private function commentEnvKeys(array $keys): void
     {
@@ -510,8 +490,7 @@ class KitInstall extends Command
     /**
      * Decommenta le variabili specificate nel file .env.
      *
-     * @param array $keys Elenco chiavi da decommentare
-     * @return void
+     * @param  array<int, string>  $keys  Elenco chiavi da decommentare
      */
     private function uncommentEnvKeys(array $keys): void
     {

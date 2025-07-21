@@ -27,13 +27,27 @@ class Author extends Model implements HasMedia
     //     'icon',
     // ];
 
+    /**
+     * Get the pages that belong to this author.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Page, Author>
+     */
     public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany<Page, Author> */
         return $this->hasMany(Page::class, 'author_id');
     }
 
+    /**
+     * Get the user that owns this author.
+     *
+     * @phpstan-ignore missingType.generics
+     */
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
+        /**
+         * @phpstan-ignore argument.templateType
+         */
         return $this->belongsTo(config('auth.providers.users.model'));
     }
 

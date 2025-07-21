@@ -27,6 +27,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \Spatie\Permission\Models\Role> $roles
  * @property-read int|null $roles_count
  *
+ * @mixin \Eloquent
+ *
+ * @uses \Illuminate\Database\Eloquent\Factories\HasFactory<\Database\Factories\UserFactory>
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -43,12 +47,15 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
- *
- * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser
 {
-    use HasFactory, HasPermissions, HasRoles, Notifiable;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory;
+
+    use HasPermissions;
+    use HasRoles;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.

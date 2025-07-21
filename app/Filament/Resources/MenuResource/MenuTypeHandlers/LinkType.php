@@ -14,6 +14,11 @@ class LinkType implements MenuTypeInterface
         return __('simple-menu-manager.handlers.link.name');
     }
 
+    /**
+     * Restituisce i campi specifici per il tipo di menu "link".
+     *
+     * @return array<int, Components\Component>
+     */
     public static function getFields(): array
     {
         return [

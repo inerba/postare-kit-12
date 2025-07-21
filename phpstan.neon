@@ -5,10 +5,10 @@ includes:
 parameters:
 
     paths:
-        - app/
+        - app
 
     # Level 10 is the highest level
-    level: 7
+    level: 6
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

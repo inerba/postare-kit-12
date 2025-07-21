@@ -8,7 +8,7 @@ use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         // Devo inserire qui le policy per i plugin di terze parti che voglio far funzionare con shield
         // dopo averli inseriti devo anche lanciare il comando php artisan shield:generate --all

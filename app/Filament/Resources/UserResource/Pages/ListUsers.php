@@ -6,6 +6,7 @@ use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class ListUsers extends ListRecords
 {
@@ -18,11 +19,16 @@ class ListUsers extends ListRecords
         ];
     }
 
+    /**
+     * Get the query for the table.
+     *
+     * @return Builder<\App\Models\User>
+     */
     protected function getTableQuery(): Builder
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
-        $model = (new (static::$resource::getModel()))->with('roles')->where('id', '!=', auth()->user()->id);
+        $model = (new (static::$resource::getModel()))->with('roles')->where('id', '!=', $user->id);
 
         if (! $user->isSuperAdmin()) {
             $model = $model->whereDoesntHave('roles', function ($query) {

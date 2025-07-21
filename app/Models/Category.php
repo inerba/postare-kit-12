@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
     protected $fillable = ['name'];
@@ -20,8 +21,14 @@ class Category extends Model
         parent::boot();
     }
 
+    /**
+     * Get the posts that belong to this category.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Post, Category>
+     */
     public function posts()
     {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany<Post, Category> */
         return $this->hasMany(Post::class);
     }
 

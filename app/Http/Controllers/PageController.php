@@ -8,7 +8,13 @@ use App\Models\Page;
 
 class PageController extends Controller
 {
-    public function __invoke($slug)
+    /**
+     * Mostra la pagina corrispondente allo slug fornito.
+     *
+     * @param  string  $slug  Lo slug della pagina da visualizzare.
+     * @return \Illuminate\View\View|null La vista della pagina trovata, o null se non esiste.
+     */
+    public function __invoke($slug): ?\Illuminate\View\View
     {
         $slugs = explode('/', $slug);
 
@@ -20,7 +26,14 @@ class PageController extends Controller
         return view($viewName, ['page' => $page]);
     }
 
-    private function findPage(array $slugs, ?Page $parentPage = null)
+    /**
+     * Trova la pagina corrispondente agli slug forniti.
+     *
+     * @param  string[]  $slugs  Un array di slug (stringhe) che rappresentano la gerarchia della pagina.
+     * @param  Page|null  $parentPage  La pagina padre, se esiste.
+     * @return Page|null La pagina trovata o null se non esiste.
+     */
+    private function findPage(array $slugs, ?Page $parentPage = null): ?Page
     {
         // Prendi il primo slug dall'array
         $slug = array_shift($slugs);

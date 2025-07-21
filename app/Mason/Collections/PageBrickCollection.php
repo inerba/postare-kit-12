@@ -6,6 +6,11 @@ use App\Mason;
 
 class PageBrickCollection
 {
+    /**
+     * Restituisce un array di oggetti brick Mason.
+     *
+     * @return array<object>
+     */
     public static function make(): array
     {
         return [

@@ -13,6 +13,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Forms\Get;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\HtmlString;
 use Postare\DbConfig\AbstractPageSettings;
@@ -22,6 +23,9 @@ class GeneralSettingsPage extends AbstractPageSettings
 {
     use HasPageShield, HasSeoFields;
 
+    /**
+     * @var array<string, mixed>|null
+     */
     public ?array $data = [];
 
     protected static ?string $title = 'Impostazioni generali';
@@ -135,6 +139,8 @@ class GeneralSettingsPage extends AbstractPageSettings
 
     public function form(Form $form): Form
     {
+        $user = Auth::user();
+
         return $form
             ->schema([Forms\Components\Tabs::make('Tabs')
                 ->tabs([
@@ -203,7 +209,7 @@ class GeneralSettingsPage extends AbstractPageSettings
                                                 ->form([
                                                     Forms\Components\TextInput::make('recipient')
                                                         ->label('Email dove inviare il test')
-                                                        ->default(auth()->user()->email)
+                                                        ->default($user->email)
                                                         ->email()
                                                         ->required(),
                                                 ])

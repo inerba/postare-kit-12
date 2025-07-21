@@ -23,6 +23,9 @@ class HomePageSettingsPage extends AbstractPageSettings
 {
     use HasPageShield, HasSeoFields, HasSocialFields;
 
+    /**
+     * @var array<string, mixed>|null
+     */
     public ?array $data = [];
 
     protected static ?string $title = 'HomePage';

@@ -11,6 +11,11 @@ use Filament\Forms\Set;
 
 class SectionHeader
 {
+    /**
+     * Restituisce le proprietà del componente
+     *
+     * @return array<string, mixed>
+     */
     public static function getProps(): array
     {
         return [
@@ -20,6 +25,12 @@ class SectionHeader
         ];
     }
 
+    /**
+     * Restituisce gli argomenti del componente
+     *
+     * @param  array<string, mixed>  $arguments
+     * @return array<string, mixed>
+     */
     public static function getArguments($arguments): array
     {
         return [

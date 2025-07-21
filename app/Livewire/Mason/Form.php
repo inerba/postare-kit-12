@@ -8,32 +8,35 @@ use Livewire\Component;
 
 class Form extends Component
 {
-    public $name;
+    public string $name;
 
-    public $phone;
+    public string $phone;
 
-    public $email;
+    public string $email;
 
-    public $body;
+    public string $body;
 
-    public $url;
+    public string $url;
 
-    public $contactFormSubmitted = false;
+    public bool $contactFormSubmitted = false;
 
-    public $errorMessage = false;
+    /**
+     * Messaggio di errore per la form.
+     */
+    public ?string $errorMessage = null;
 
-    public $gdprConsent = false;
+    public bool $gdprConsent = false;
 
-    public $mail_to;
+    public string $mail_to;
 
-    public function mount()
+    public function mount(): void
     {
         if (empty($this->mail_to)) {
             $this->mail_to = db_config('general.mail_to_email');
         }
     }
 
-    public function sendEmail()
+    public function sendEmail(): void
     {
         // Indirizzo dal quale proviene il form
         $this->url = url()->previous();
@@ -47,7 +50,7 @@ class Form extends Component
             'gdprConsent' => 'required',
         ]);
 
-        $this->errorMessage = false;
+        $this->errorMessage = null;
 
         try {
             Mail::to($this->mail_to)
@@ -60,15 +63,13 @@ class Form extends Component
                 ));
         } catch (\Exception $e) {
             $this->errorMessage = $e->getMessage();
-
-            return false;
         }
 
         $this->contactFormSubmitted = true;
         $this->resetFields();
     }
 
-    public function resetFields()
+    public function resetFields(): void
     {
         $this->name = '';
         $this->phone = '';
@@ -78,7 +79,7 @@ class Form extends Component
         $this->gdprConsent = false;
     }
 
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.mason.form', [
             'contactFormSubmitted' => $this->contactFormSubmitted,

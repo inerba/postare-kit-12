@@ -63,6 +63,8 @@ class SimpleMenuManagerCommand extends Command
     /**
      **
      * Map the stub variables present in stub to its value
+     *
+     * @return array<string, string>
      */
     public function getStubVariables(): array
     {
@@ -75,6 +77,8 @@ class SimpleMenuManagerCommand extends Command
 
     /**
      * Get the stub path and the stub variables
+     *
+     * @return string|array<string, string>|bool
      */
     public function getSourceFile(): string|array|bool
     {
@@ -83,8 +87,10 @@ class SimpleMenuManagerCommand extends Command
 
     /**
      * Replace the stub variables(key) with the desire value
+     *
+     * @param  array<string, string>  $stubVariables
      */
-    public function getStubContents(string $stub, array $stubVariables = []): string|array|bool
+    public function getStubContents(string $stub, array $stubVariables = []): string|false
     {
         $contents = file_get_contents($stub);
 
@@ -111,12 +117,12 @@ class SimpleMenuManagerCommand extends Command
     /**
      * Return the Singular Capitalize Name
      */
-    public function getSingularClassName($name): string
+    public function getSingularClassName(string $name): string
     {
         return ucwords(Pluralizer::singular($name));
     }
 
-    public function getTitleFromClassName($name): string
+    public function getTitleFromClassName(string $name): string
     {
         $singular = $this->getSingularClassName($name);
 

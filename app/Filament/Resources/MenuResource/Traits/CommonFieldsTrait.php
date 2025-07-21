@@ -3,12 +3,15 @@
 namespace App\Filament\Resources\MenuResource\Traits;
 
 use Filament\Forms\Components\CheckboxList;
+use Filament\Forms\Components\Component;
 use Filament\Forms\Components\Select;
 
 trait CommonFieldsTrait
 {
     /**
      * Campi comuni per i link.
+     *
+     * @return array<int, Component>
      */
     public static function commonLinkFields(): array
     {

@@ -8,6 +8,14 @@ use Illuminate\Support\Str;
  * Helpers per il menù
  */
 if (! function_exists('active_route')) {
+    /**
+     * Controlla se la rotta corrente corrisponde a quella specificata.
+     *
+     * @param  string  $route  La rotta da verificare.
+     * @param  bool  $active  Valore da restituire se la rotta è attiva.
+     * @param  bool  $default  Valore da restituire se la rotta non è attiva.
+     * @return bool Il valore attivo o predefinito in base alla corrispondenza della rotta.
+     */
     function active_route(string $route, $active = true, $default = false)
     {
         $current = (string) str(url()->current())->remove(config('app.url'))->trim('/');
@@ -36,6 +44,12 @@ if (! function_exists('is_panel_auth_route')) {
 }
 
 if (! function_exists('removeEmptyValues')) {
+    /**
+     * Rimuove i valori vuoti da un array, mantenendo 0 e '0' come validi.
+     *
+     * @param  array<mixed>  $array  L'array da filtrare.
+     * @return array<mixed> L'array filtrato senza valori vuoti.
+     */
     function removeEmptyValues(array $array): array
     {
         // Applica array_map per garantire la ricorsività su tutti gli elementi

@@ -9,6 +9,11 @@ use App\Filament\Resources\MenuResource\MenuTypeHandlers\MenuTypeInterface;
  */
 class MenuTypes
 {
+    /**
+     * Restituisce un array di tipi di menu disponibili.
+     *
+     * @return array<string, string> Un array associativo con i tipi di menu come chiavi e i loro nomi come valori.
+     */
     public static function getTypes(): array
     {
         $handlers = self::getHandlers();
@@ -25,6 +30,14 @@ class MenuTypes
         return $types;
     }
 
+    /**
+     * Restituisce i campi associati a un tipo di menu specificato.
+     *
+     * @param  string|null  $type  Il tipo di menu per il quale ottenere i campi. Se non specificato, verrà usato 'link'.
+     * @return array<string, mixed> Un array di campi associati al tipo di menu.
+     *
+     * @throws \InvalidArgumentException Se il tipo specificato non esiste.
+     */
     public static function getFieldsByType(?string $type = null): array
     {
         $type = $type ?: 'link';
@@ -40,6 +53,11 @@ class MenuTypes
         return app($handlerClass)::getFields();
     }
 
+    /**
+     * Restituisce un array di handler dei tipi di menu configurati.
+     *
+     * @return array<string, string> Un array associativo con i tipi di menu come chiavi e le classi degli handler come valori.
+     */
     public static function getHandlers()
     {
         return config('simple-menu-manager.handlers', []);

@@ -10,11 +10,22 @@ use Filament\Forms\Get;
 
 class Gallery
 {
+    /**
+     * Restituisce le proprietà del componente
+     *
+     * @return array<string, mixed>
+     */
     public static function getProps(): array
     {
         return ['theme' => []];
     }
 
+    /**
+     * Restituisce gli argomenti del componente
+     *
+     * @param  array<string, mixed>  $arguments
+     * @return array<string, mixed>
+     */
     public static function getArguments($arguments): array
     {
         return [
@@ -36,6 +47,11 @@ class Gallery
         ];
     }
 
+    /**
+     * Restituisce i campi del componente
+     *
+     * @return Tabs
+     */
     public static function getFields()
     {
         return Tabs::make('Tabs')
@@ -160,7 +176,7 @@ class Gallery
      *
      * @param  string  $layout  Il layout per cui ottenere il numero massimo di colonne.
      *                          Può essere 'grid', 'carousel' o 'masonry'.
-     * @return array Un array associativo dove le chiavi e i valori rappresentano il numero di colonne.
+     * @return array<int, int> Un array associativo dove le chiavi e i valori rappresentano il numero di colonne.
      */
     public static function arrayOfColumns(string $layout): array
     {

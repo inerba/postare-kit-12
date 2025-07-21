@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +15,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Post extends Model implements HasMedia
 {
+    /** @use HasFactory<\Database\Factories\PostFactory> */
     use HasFactory;
+
     use InteractsWithMedia;
 
     protected $fillable = [
@@ -35,21 +39,42 @@ class Post extends Model implements HasMedia
         'published_at' => 'datetime',
     ];
 
+    /**
+     * Get the category that this post belongs to.
+     *
+     * @return BelongsTo<Category, Post>
+     */
     public function category(): BelongsTo
     {
+        /** @var BelongsTo<Category, Post> */
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the tags associated with the post.
+     *
+     * @return BelongsToMany<Tag, Post>
+     */
     public function tags(): BelongsToMany
     {
+        /** @var BelongsToMany<Tag, Post> */
         return $this->belongsToMany(Tag::class);
     }
 
+    /**
+     * Get the author of the post.
+     *
+     * @return BelongsTo<User, Author>
+     */
     public function author(): BelongsTo
     {
+        /** @var BelongsTo<User, Author> */
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    /**
+     * Register the media collections for the post.
+     */
     public function registerMediaCollections(?Media $media = null): void
     {
         $this->addMediaConversion('lg')

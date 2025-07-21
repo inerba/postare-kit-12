@@ -6,8 +6,18 @@ use Livewire\Component;
 
 class Slider extends Component
 {
-    public $slides = [];
+    /**
+     * Le slide del componente Slider.
+     *
+     * @var array<string, mixed>
+     */
+    public array $slides;
 
+    /**
+     * Impostazioni del componente Slider.
+     *
+     * @var array<string, mixed>
+     */
     public array $settings = [];
 
     // settings
@@ -21,12 +31,7 @@ class Slider extends Component
 
     public string $carouselGap = '0.5rem';
 
-    public function mount()
-    {
-        $this->slides = collect($this->slides);
-    }
-
-    public function render()
+    public function render(): \Illuminate\Contracts\View\View
     {
         return view('livewire.slider');
     }

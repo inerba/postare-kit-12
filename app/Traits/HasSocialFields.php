@@ -6,6 +6,12 @@ use Filament\Forms;
 
 trait HasSocialFields
 {
+    /**
+     * Restituisce i campi social per una resource specifica.
+     *
+     * @param  string  $prefix  Il prefisso per i campi social.
+     * @return array<int, Forms\Components\Component> Un array di componenti Filament.
+     */
     protected static function getSocialFields($prefix): array
     {
         return [

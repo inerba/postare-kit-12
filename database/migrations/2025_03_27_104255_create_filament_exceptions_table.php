@@ -6,13 +6,13 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('filament_exceptions_table', function (Blueprint $table) {
             $table->id();
             $table->string('type', 255);
             $table->string('code');
-            $table->longText('message', 255);
+            $table->longText('message');
             $table->string('file', 255);
             $table->integer('line');
             $table->text('trace');
@@ -27,7 +27,7 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::drop('filament_exceptions_table');
     }

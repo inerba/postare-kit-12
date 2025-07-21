@@ -53,6 +53,8 @@ class Page extends Model implements HasMedia
 
     /**
      * @property-read string $permalink
+     *
+     * @return Attribute<string, never>
      */
     protected function permalink(): Attribute
     {
@@ -68,6 +70,8 @@ class Page extends Model implements HasMedia
 
     /**
      * @property-read string $relativePermalink
+     *
+     * @return Attribute<string, never>
      */
     protected function relativePermalink(): Attribute
     {
@@ -91,19 +95,36 @@ class Page extends Model implements HasMedia
         $this->registerCustomMediaCollections($media);
     }
 
+    /**
+     * Get the author of the page.
+     *
+     * @return BelongsTo<Author, Page>
+     */
     public function author(): BelongsTo
     {
+        /** @var BelongsTo<Author, Page> */
         return $this->belongsTo(Author::class, 'author_id');
     }
 
-    // Get the parent page
+    /**
+     * Get the parent page of the current page.
+     *
+     * @return BelongsTo<Page, Page>
+     */
     public function parent(): BelongsTo
     {
+        /** @var BelongsTo<Page, Page> */
         return $this->belongsTo(self::class, 'parent_id');
     }
 
+    /**
+     * Ottiene le pagine figlie della pagina corrente.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<\App\Models\Page, \App\Models\Page>
+     */
     public function children(): HasMany
     {
+        /** @var HasMany<Page, Page> */
         return $this->hasMany(self::class, 'parent_id');
     }
 
@@ -133,11 +154,24 @@ class Page extends Model implements HasMedia
         return view()->exists($customView);
     }
 
+    /**
+     * Ottiene la categoria associata alla pagina.
+     *
+     * @return BelongsTo<Category, Page>
+     */
     public function category()
     {
+        /** @var BelongsTo<Category, Page> */
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the parent slugs for the current page.
+     *
+     * @param  self  $page  Istanza corrente della pagina.
+     * @param  array<string>  $slugs  Slug accumulati.
+     * @return array<string> Array di slug che rappresentano la gerarchia della pagina.
+     */
     private function getParentSlugs(self $page, array $slugs = []): array
     {
         if ($page->parent) {
