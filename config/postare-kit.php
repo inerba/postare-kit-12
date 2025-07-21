@@ -1,9 +1,9 @@
 <?php
 
-use Postare\Blog\Filament\Resources\MenuItemResource;
-
 // config for Postare/Blog
 return [
+
+    'panel_path' => env('PANEL_PATH', 'auth'),
 
     'timezone' => 'Europe/Rome', // Default timezone for date and datetime pickers
 
@@ -17,24 +17,12 @@ return [
         'web',
     ],
 
-    'posts_per_page' => 5,
-
-    // Blog url prefix, prima viene applicato il locale es. /it/blog/slug-post
-    'blog_prefix' => 'blog',
-    'pages_prefix' => '',
-
-    // Pagination
-    'blog_posts_per_page_home' => 5,        // number of posts per page on blog home
-    'blog_posts_per_page_category' => 5,    // number of posts per page on blog category
-
-    'excerpt_words' => 40,                  // number of words in the excerpt
-
     'media' => [
         'disk' => 'public',
         'format' => 'jpg', // jpg, png, webp
         'quality' => 80, // 0-100
 
-        // Usa Spaite Laravel-medialibrary per le conversioni delle immagini,
+        // Usa Spatie Laravel-medialibrary per le conversioni delle immagini,
         // per rigenerarle in massa usa il comando php artisan media-library:regenerate
         // commenta le conversioni che non ti servono
         'conversions' => [ // max width in pixels
@@ -45,19 +33,6 @@ return [
             //  'xs' => 100,
         ],
     ],
-
-    // Menu types classes
-    'menu_item_types' => [
-        'url' => MenuItemResource\Types\Url::class,
-        'page' => MenuItemResource\Types\Page::class,
-        'blogCategory' => MenuItemResource\Types\BlogCategory::class,
-        'blogPost' => MenuItemResource\Types\BlogPost::class,
-        'placeholder' => MenuItemResource\Types\Placeholder::class,
-
-        // Add your custom menu item Classes here
-    ],
-
-    'rich_text_editor' => false,
 
     // Defaults for Seo and Social
     'seo' => [

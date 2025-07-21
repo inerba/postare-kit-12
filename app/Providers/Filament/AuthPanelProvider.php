@@ -27,7 +27,7 @@ class AuthPanelProvider extends PanelProvider
         return $panel
             ->default()
             ->id('auth')
-            ->path('auth')
+            ->path(config('postare-kit.panel_path', 'auth'))
             ->registration() // Permette la registrazione degli utenti
             ->login(Login::class)
             ->passwordReset()
