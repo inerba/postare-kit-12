@@ -73,16 +73,10 @@
             "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+            "@php -r \"echo PHP_EOL . '⚡️ Per completare l\\'installazione, esegui manualmente: php artisan kit:install' . PHP_EOL;\""
         ],
         "post-create-project-cmd": [
-            "@php artisan key:generate --ansi",
-            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi",
-            "@php artisan db:seed --ansi",
-            "@php artisan shield:super-admin",
-            "npm install",
-            "npm run build:all"
+            "@php -r \"echo PHP_EOL . '⚡️ Per completare l\\'installazione, esegui manualmente: php artisan kit:install' . PHP_EOL;\""
         ],
         "check": [
             "./vendor/bin/pint --dirty",
@@ -92,11 +86,6 @@
         "dev": [
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"npm run dev\" --names='server,queue,vite'"
-        ],
-        "kit:install": [
-            "@php artisan shield:super-admin --user=1",
-            "npm install",
-            "npm run build:all"
         ]
     },
     "extra": {
