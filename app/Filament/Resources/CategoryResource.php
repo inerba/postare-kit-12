@@ -9,6 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use FilamentTiptapEditor\TiptapEditor;
 
 class CategoryResource extends Resource
 {
@@ -45,6 +46,9 @@ class CategoryResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                TiptapEditor::make('extras.description')
+                    ->label('Descrizione')
+                    ->columnSpanFull(),
             ]);
     }
 

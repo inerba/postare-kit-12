@@ -2,17 +2,26 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
     /** @use HasFactory<\Database\Factories\CategoryFactory> */
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'extras',
+    ];
 
-    public static function boot()
+    protected $casts = [
+        'extras' => 'array',
+    ];
+
+    public static function boot(): void
     {
         self::creating(function ($model) {
             $model->slug = str($model->name)->slug();
@@ -26,19 +35,26 @@ class Category extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<Post, Category>
      */
-    public function posts()
+    public function posts(): HasMany
     {
         /** @var \Illuminate\Database\Eloquent\Relations\HasMany<Post, Category> */
         return $this->hasMany(Post::class);
     }
 
-    public function getRouteKeyName()
+    public function getRouteKeyName(): string
     {
         return 'slug';
     }
 
-    public function permalink(): string
+    /**
+     * Get the permalink for the post.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function permalink(): Attribute
     {
-        return route('cms.blog.category', $this->slug);
+        return Attribute::make(
+            get: fn () => route('cms.blog.category', $this->slug),
+        );
     }
 }

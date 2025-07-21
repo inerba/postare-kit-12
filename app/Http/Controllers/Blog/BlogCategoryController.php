@@ -15,21 +15,23 @@ class BlogCategoryController extends Controller
      */
     public function __invoke(Category $category): \Illuminate\View\View
     {
-        // // Verifica se il blog è abilitato
-        // if (! db_config('blogconfig.enabled', true)) {
-        //     return abort(404);
-        // }
+        $category = Category::find($category->id);
 
-        $posts = Post::query()
-            ->where('category_id', $category->id)
-            ->where('published_at', '<=', now())
-            ->with([
-                'category',
-                'media',
-            ])
-            ->get();
+        if (! $category) {
+            return abort(404);
+        }
+
+        $posts = $category->posts()
+            // ->where('published_at', '<=', now())
+            ->with(['category', 'media', 'author'])
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
+
+        // // Raggruppa i post in array di 6
+        // $posts = $posts->chunk(6);
 
         return view('news.category', [
+            'category' => $category,
             'posts' => $posts,
         ]);
     }
