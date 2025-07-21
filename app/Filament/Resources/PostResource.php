@@ -160,9 +160,9 @@ class PostResource extends Resource implements HasShieldPermissions
                         Actions::make([
                             Actions\Action::make('Link')
                                 ->visible(fn ($livewire) => $livewire->record !== null)
-                                ->label(fn (Post $post) => $post->permalink())
+                                ->label(fn (Post $post) => $post->permalink)
                                 ->link()
-                                ->url(fn (Post $post) => $post->permalink(), true),
+                                ->url(fn (Post $post) => $post->permalink, true),
                         ]),
                     ])->columnSpan(1),
             ])->columns(3);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -94,8 +95,15 @@ class Post extends Model implements HasMedia
             ->format('jpg');
     }
 
-    public function permalink(): string
+    /**
+     * Get the permalink for the post.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function permalink(): Attribute
     {
-        return route('cms.blog.post', $this->slug);
+        return Attribute::make(
+            get: fn () => route('cms.blog.post', $this->slug),
+        );
     }
 }

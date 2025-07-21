@@ -1,6 +1,5 @@
 <?php
 
-// config for Postare/Blog
 return [
 
     'panel_path' => env('PANEL_PATH', 'auth'),
