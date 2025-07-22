@@ -40,7 +40,7 @@ class TagsAndCategoriesSeeder extends Seeder
         ];
 
         foreach ($categories as $category) {
-            Category::create(['name' => $category]);
+            Category::create(['name' => $category, 'slug' => \Illuminate\Support\Str::slug($category)]);
         }
     }
 }

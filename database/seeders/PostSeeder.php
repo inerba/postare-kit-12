@@ -12,14 +12,17 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         Post::factory(10)
-            ->sequence(fn ($sequence) => [
+            ->sequence(fn($sequence) => [
                 'author_id' => Author::pluck('id')->random(),
                 'category_id' => Category::pluck('id')->random(),
             ])
             ->create()
             ->each(function (Post $post) {
-                $post->addMediaFromUrl('https://picsum.photos/1200/600')
-                    ->toMediaCollection('featured_image');
+                try {
+                    $post->addMediaFromUrl('https://picsum.photos/1200/600')
+                        ->toMediaCollection('featured_image');
+                } catch (\Exception $e) {
+                }
             });
     }
 }
