@@ -16,6 +16,8 @@ use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -172,15 +174,59 @@ class PostResource extends Resource implements HasShieldPermissions
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
-                Tables\Columns\TextColumn::make('author.name'),
+                SpatieMediaLibraryImageColumn::make('featured_image')
+                    ->collection('featured_image')
+                    ->conversion('icon')
+                    ->label('Copertina')
+                    ->size(90),
+                Tables\Columns\TextColumn::make('title')
+                    ->label('Titolo')
+                    ->description(fn (Post $record) => Str::limit($record->excerpt, 100))
+                    ->wrap()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('author.name')
+                    ->label('Autore')
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creato il')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Aggiornato il')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->label('Pubblicazione'),
             ])
             ->filters([
-                //
+                SelectFilter::make('category_id')
+                    ->label('Categoria')
+                    ->relationship('category', 'name')
+                    ->multiple()
+                    ->preload(),
+
+                SelectFilter::make('author_id')
+                    ->label('Autore')
+                    ->relationship('author', 'name', fn ($query) => $query->has('posts'))
+                    ->multiple()
+                    ->preload(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\Action::make('view_permalink')
+                        ->label('Visualizza post')
+                        ->icon('heroicon-o-arrow-top-right-on-square')
+                        ->color('success')
+                        ->url(fn (Post $record) => $record->permalink, true),
+                ]),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

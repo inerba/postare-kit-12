@@ -65,12 +65,12 @@ class Post extends Model implements HasMedia
     /**
      * Get the author of the post.
      *
-     * @return BelongsTo<User, Author>
+     * @return BelongsTo<Author, Post>
      */
     public function author(): BelongsTo
     {
-        /** @var BelongsTo<User, Author> */
-        return $this->belongsTo(User::class, 'author_id');
+        /** @var BelongsTo<Author, Post> */
+        return $this->belongsTo(Author::class, 'author_id');
     }
 
     /**

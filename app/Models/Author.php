@@ -39,6 +39,17 @@ class Author extends Model implements HasMedia
     }
 
     /**
+     * Get the posts that belong to this author.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Post, Author>
+     */
+    public function posts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        /** @var \Illuminate\Database\Eloquent\Relations\HasMany<Post, Author> */
+        return $this->hasMany(Post::class, 'author_id');
+    }
+
+    /**
      * Get the user that owns this author.
      *
      * @phpstan-ignore missingType.generics

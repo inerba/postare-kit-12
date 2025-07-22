@@ -8,18 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('db_config', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('group');
-
-            $table->string('key');
-
-            $table->json('settings')->nullable();
-
-            $table->unique(['group', 'key']);
-
-            $table->timestamps();
-        });
+        if (! Schema::hasTable('db_config')) {
+            Schema::create('db_config', function (Blueprint $table) {
+                $table->id();
+                $table->string('group');
+                $table->string('key');
+                $table->json('settings')->nullable();
+                $table->unique(['group', 'key']);
+                $table->timestamps();
+            });
+        }
     }
 };

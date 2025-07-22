@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('slug');
             $table->json('content');
             $table->text('excerpt')->nullable();
-            $table->foreignId('author_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('author_id')->nullable()->constrained('authors')->nullOnDelete();
             $table->dateTime('published_at')->nullable();
             $table->json('extras')->nullable();
             $table->json('meta')->nullable();
