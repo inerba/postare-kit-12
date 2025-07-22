@@ -14,6 +14,7 @@ class Category extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'extras',
     ];
 
@@ -21,14 +22,14 @@ class Category extends Model
         'extras' => 'array',
     ];
 
-    public static function boot(): void
-    {
-        self::creating(function ($model) {
-            $model->slug = str($model->name)->slug();
-        });
+    // public static function boot(): void
+    // {
+    //     self::creating(function ($model) {
+    //         $model->slug = str($model->name)->slug();
+    //     });
 
-        parent::boot();
-    }
+    //     parent::boot();
+    // }
 
     /**
      * Get the posts that belong to this category.
