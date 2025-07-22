@@ -135,16 +135,6 @@ class KitInstall extends Command
         return $this->confirm('Il progetto risulta già installato. Vuoi sovrascrivere l\'installazione?', false);
     }
 
-    // /**
-    //  * Chiede conferma all'utente per eseguire migrate:fresh.
-    //  */
-    // private function shouldUseFreshMigration(): bool
-    // {
-    //     $this->warn('Attenzione: l\'installazione precedente verrà sovrascritta!');
-
-    //     return $this->confirm('Vuoi eseguire migrate:fresh (ATTENZIONE: tutti i dati verranno persi)?', false);
-    // }
-
     /**
      * Genera una nuova APP_KEY per l'applicazione.
      */
@@ -161,6 +151,7 @@ class KitInstall extends Command
      */
     private function gatherAdminData(): array
     {
+
         $defaults = [
             'name' => $this->getEnvValue('DEFAULT_USER_NAME', self::DEFAULT_ADMIN_DATA['name']),
             'email' => $this->getEnvValue('DEFAULT_USER_EMAIL', self::DEFAULT_ADMIN_DATA['email']),
@@ -210,7 +201,7 @@ class KitInstall extends Command
      */
     private function gatherDatabaseData(): array
     {
-        $dbType = $this->choice('Tipo di database?', ['sqlite', 'mysql', 'pgsql'], 0);
+        $dbType = $this->choice('Tipo di database?', ['sqlite', 'mysql', 'mariadb', 'pgsql'], 1);
         $this->updateEnv('DB_CONNECTION', $dbType);
 
         if ($dbType === 'sqlite') {
@@ -300,6 +291,7 @@ class KitInstall extends Command
             $this->setupPanelOptions();
             $this->runSeeders();
             $this->setupSuperAdmin();
+            $this->createStorageLink();
             $this->buildAssets();
 
             // Messaggio che oltre a confermare l'installazione, fornisce il link per accedere al progetto
@@ -311,6 +303,21 @@ class KitInstall extends Command
             $this->error("Errore durante l'installazione: ".$e->getMessage());
 
             return self::FAILURE;
+        }
+    }
+
+    /**
+     * Crea storage link
+     * Questo metodo verifica se il link simbolico per la cartella storage esiste già.
+     * Se non esiste, lo crea utilizzando il comando artisan 'storage:link'.
+     */
+    private function createStorageLink(): void
+    {
+        if (! File::exists(public_path('storage'))) {
+            Artisan::call('storage:link');
+            $this->info('Storage link creato con successo.');
+        } else {
+            $this->info('Storage link già esistente.');
         }
     }
 
@@ -379,9 +386,20 @@ class KitInstall extends Command
      */
     private function runSeeders(): void
     {
-        $this->info('Installazione dati demo...');
+        $this->info('Installazione dati di base...');
+
+        $this->refreshConfig();
+
         Artisan::call('db:seed', ['--class' => 'DatabaseSeeder', '--force' => true]);
         $this->line(Artisan::output());
+
+        // chiede all'utente se vuole installare i post di esempio
+        if ($this->confirm('Vuoi installare dati di esempio?', false)) {
+            Artisan::call('db:seed', ['--class' => 'TagsAndCategoriesSeeder', '--force' => true]);
+            $this->line(Artisan::output());
+            Artisan::call('db:seed', ['--class' => 'PostSeeder', '--force' => true]);
+            $this->line(Artisan::output());
+        }
     }
 
     /**
@@ -453,6 +471,8 @@ class KitInstall extends Command
     {
         if (! File::exists($this->envPath)) {
             throw new Exception('.env file non trovato!');
+        } else {
+            $this->envContent = File::get($this->envPath);
         }
 
         $pattern = "/^{$key}=.*$/m";
@@ -526,6 +546,8 @@ class KitInstall extends Command
      */
     private function databaseExists(): bool
     {
+        $this->refreshConfig();
+
         try {
             DB::connection()->getPdo();
 
@@ -536,5 +558,28 @@ class KitInstall extends Command
             }
             throw $e;
         }
+    }
+
+    private function refreshConfig(): void
+    {
+        // refresh env file to ensure latest changes are applied
+        $this->envContent = File::get($this->envPath);
+
+        // set config values to ensure they are up-to-date
+        config([
+            'database.default' => $this->getEnvValue('DB_CONNECTION', 'mysql'),
+            'database.connections.'.$this->getEnvValue('DB_CONNECTION', 'mysql').'.host' => $this->getEnvValue('DB_HOST'),
+            'database.connections.'.$this->getEnvValue('DB_CONNECTION', 'mysql').'.port' => $this->getEnvValue('DB_PORT'),
+            'database.connections.'.$this->getEnvValue('DB_CONNECTION', 'mysql').'.database' => $this->getEnvValue('DB_DATABASE'),
+            'database.connections.'.$this->getEnvValue('DB_CONNECTION', 'mysql').'.username' => $this->getEnvValue('DB_USERNAME'),
+            'database.connections.'.$this->getEnvValue('DB_CONNECTION', 'mysql').'.password' => $this->getEnvValue('DB_PASSWORD'),
+
+            'app.default_user.email' => $this->getEnvValue('DEFAULT_USER_EMAIL'),
+            'app.default_user.password' => $this->getEnvValue('DEFAULT_USER_PASSWORD'),
+            'app.default_user.name' => $this->getEnvValue('DEFAULT_USER_NAME'),
+        ]);
+
+        // clear any cached config to force reload
+        DB::purge();
     }
 }
