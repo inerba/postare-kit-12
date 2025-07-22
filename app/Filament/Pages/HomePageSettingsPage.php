@@ -156,7 +156,7 @@ class HomePageSettingsPage extends AbstractPageSettings
                                     ->addActionLabel('Nuova slide'),
 
                             ]),
-                        Tabs\Tab::make('SEO')->schema(self::getSeoFields('seo')),
+                        Tabs\Tab::make('SEO')->schema(self::getSeoFields('meta')),
                         Tabs\Tab::make('Social')->schema(self::getSocialFields('social')),
                     ]),
             ])

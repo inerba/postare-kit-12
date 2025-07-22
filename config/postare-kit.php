@@ -43,6 +43,7 @@ return [
         'locale' => 'it_IT',
         'site_name' => null,
         'twitter_username' => null, // @username
+        'fb_app_id' => 169565392540441, // Facebook App ID
     ],
 
     // if not set, AI will be disabled

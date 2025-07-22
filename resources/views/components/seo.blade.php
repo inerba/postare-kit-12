@@ -5,11 +5,10 @@
     'og_description' => '',
     'image' => '',
     'url' => '',
-    'type' => 'article',
+    'type' => config('postare-kit.og.type', 'article'),
     'published_time' => null,
     'modified_time' => null,
-    'fb_app_id' => config('fitfit.facebbook_app_id',
-    '169565392540441'),
+    'fb_app_id' => config('postare-kit.og.fb_app_id', null),
 ])
 
 @php
@@ -53,3 +52,4 @@
 @if ($image)
     <meta name="twitter:image" content="{{ $image }}" />
 @endif
+

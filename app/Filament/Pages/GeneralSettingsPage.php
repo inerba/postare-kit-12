@@ -271,12 +271,6 @@ class GeneralSettingsPage extends AbstractPageSettings
 
                                 ->addActionLabel('Aggiungi profilo'),
                         ]),
-                    Forms\Components\Tabs\Tab::make('SEO')
-                        ->schema(
-                            [
-                                Forms\Components\Fieldset::make('Home page')->schema(self::getSeoFields('seo.home')),
-                            ]
-                        ),
 
                     Forms\Components\Tabs\Tab::make('Tracking')
                         ->columns(2)
