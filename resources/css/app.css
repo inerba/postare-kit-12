@@ -2,6 +2,9 @@
 
 @import 'tailwindcss-v4';
 
+/* dark mode class */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 
     Colori
     Definire gli stessi in mason app\Mason\Macro\Theme.php
