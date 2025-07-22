@@ -21,14 +21,13 @@ class BlogCategoryController extends Controller
             return abort(404);
         }
 
+        $post_per_page = $category->extras['post_per_page'] ?? 12;
+
         $posts = $category->posts()
             // ->where('published_at', '<=', now())
             ->with(['category', 'media', 'author'])
             ->orderBy('published_at', 'desc')
-            ->paginate(12);
-
-        // // Raggruppa i post in array di 6
-        // $posts = $posts->chunk(6);
+            ->simplePaginate($post_per_page);
 
         return view('news.category', [
             'category' => $category,
