@@ -40,6 +40,12 @@ class Post extends Model implements HasMedia
         'published_at' => 'datetime',
     ];
 
+    protected $with = [
+        'category',
+        'tags',
+        'author',
+    ];
+
     /**
      * Get the category that this post belongs to.
      *

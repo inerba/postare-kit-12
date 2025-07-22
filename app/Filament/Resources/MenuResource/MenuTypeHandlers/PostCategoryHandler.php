@@ -2,10 +2,9 @@
 
 namespace App\Filament\Resources\MenuResource\MenuTypeHandlers;
 
-use Filament\Forms\Components;
-use App\Filament\Resources\MenuResource\MenuTypeHandlers\MenuTypeInterface;
 use App\Filament\Resources\MenuResource\Traits\CommonFieldsTrait;
 use App\Models\Category;
+use Filament\Forms\Components;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
 
@@ -15,7 +14,7 @@ class PostCategoryHandler implements MenuTypeInterface
 
     public function getName(): string
     {
-        return "Categoria Post";
+        return 'Categoria Post';
     }
 
     /**
@@ -28,7 +27,7 @@ class PostCategoryHandler implements MenuTypeInterface
         return [
             Components\Select::make('parent_id')
                 ->label('Categoria')
-                ->options(fn() => Category::pluck('name', 'id')->toArray())
+                ->options(fn () => Category::pluck('name', 'id')->toArray())
                 ->required()
                 ->dehydrated()
                 ->afterStateUpdated(function ($state, Set $set, Get $get) {
@@ -49,7 +48,7 @@ class PostCategoryHandler implements MenuTypeInterface
             Components\TextInput::make('url')
                 ->readOnly()
                 ->label('URL')
-                ->hidden(fn(Get $get) => $get('parent_id') == null)
+                ->hidden(fn (Get $get) => $get('parent_id') == null)
                 ->required()
                 ->columnSpanFull(),
 
