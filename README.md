@@ -155,6 +155,11 @@ class BlogCategoryHandler implements MenuTypeInterface
         return "Blog Category";
     }
 
+    /** 
+     * Menuitem Fields
+     *
+     * @return array<int, Components\Component>
+     */
     public static function getFields(): array
     {
         // Add the necessary fields for your menu type in this array
@@ -165,7 +170,7 @@ class BlogCategoryHandler implements MenuTypeInterface
             //     ->columnSpanFull(),
 
             // Common fields for all menu types
-            Components\Section::make(__('simple-menu-manager::simple-menu-manager.common.advanced_settings'))
+            Components\Section::make(__('simple-menu-manager.common.advanced_settings'))
                 ->schema(self::commonLinkFields())
                 ->collapsed(),
         ];
