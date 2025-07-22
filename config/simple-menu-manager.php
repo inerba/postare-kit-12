@@ -20,6 +20,7 @@ return [
         'link' => MenuTypeHandlers\LinkType::class,
         'page' => MenuTypeHandlers\PageType::class,
         'placeholder' => MenuTypeHandlers\PlaceholderType::class,
+        'post_category' => MenuTypeHandlers\PostCategoryHandler::class,
     ],
 
     // Livewire component

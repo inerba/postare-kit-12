@@ -16,6 +16,9 @@ return [
         'web',
     ],
 
+    // Prefix for blog posts
+    'posts_prefix' => 'blog',
+
     'media' => [
         'disk' => 'public',
         'format' => 'jpg', // jpg, png, webp

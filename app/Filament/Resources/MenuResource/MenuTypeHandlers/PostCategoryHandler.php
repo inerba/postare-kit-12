@@ -2,22 +2,24 @@
 
 namespace App\Filament\Resources\MenuResource\MenuTypeHandlers;
 
-use App\Filament\Resources\MenuResource\Traits\CommonFieldsTrait;
-use App\Models\Page;
-use Filament\Forms;
 use Filament\Forms\Components;
+use App\Filament\Resources\MenuResource\MenuTypeHandlers\MenuTypeInterface;
+use App\Filament\Resources\MenuResource\Traits\CommonFieldsTrait;
+use App\Models\Category;
+use Filament\Forms\Get;
+use Filament\Forms\Set;
 
-class PageType implements MenuTypeInterface
+class PostCategoryHandler implements MenuTypeInterface
 {
     use CommonFieldsTrait;
 
     public function getName(): string
     {
-        return __('simple-menu-manager.handlers.page.name');
+        return "Categoria Post";
     }
 
     /**
-     * Restituisce i campi specifici per il tipo di menu "page".
+     * Restituisce i campi specifici per il tipo di menu "Categoria Post".
      *
      * @return array<int, Components\Component>
      */
@@ -25,36 +27,33 @@ class PageType implements MenuTypeInterface
     {
         return [
             Components\Select::make('parent_id')
-                ->label('Pagina')
-                ->options(fn() => Page::pluck('title', 'id')->toArray())
+                ->label('Categoria')
+                ->options(fn() => Category::pluck('name', 'id')->toArray())
                 ->required()
                 ->dehydrated()
-                ->afterStateUpdated(function ($state, Forms\Set $set, Forms\Get $get) {
+                ->afterStateUpdated(function ($state, Set $set, Get $get) {
                     if (! $state) {
                         return;
                     }
 
-                    $page = Page::find($state);
-                    if (! $page) {
+                    $category = Category::find($state);
+                    if (! $category) {
                         return;
                     }
 
-                    // $set('url', $page->permalink);
-                    $set('url', $page->relativePermalink);
+                    $set('url', $category->relativePermalink);
 
-                    // Set the label only if it is empty
-                    if ($get('label') == null) {
-
-                        $set('label', Page::find($state)->title);
-                    }
+                    $set('label', Category::find($state)->name);
                 })
                 ->columnSpanFull(),
             Components\TextInput::make('url')
                 ->readOnly()
                 ->label('URL')
-                ->hidden(fn(Forms\Get $get) => $get('parent_id') == null)
+                ->hidden(fn(Get $get) => $get('parent_id') == null)
                 ->required()
                 ->columnSpanFull(),
+
+            // Common fields for all menu types
             Components\Section::make(__('simple-menu-manager.common.advanced_settings'))
                 ->schema(self::commonLinkFields())
                 ->collapsed(),

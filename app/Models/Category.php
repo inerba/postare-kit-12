@@ -55,7 +55,19 @@ class Category extends Model
     protected function permalink(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('cms.blog.category', $this->slug),
+            get: fn() => route('cms.blog.category', $this->slug),
+        );
+    }
+
+    /**
+     * @property-read string $relativePermalink
+     *
+     * @return Attribute<string, never>
+     */
+    protected function relativePermalink(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => route('cms.blog.category', $this->slug, false),
         );
     }
 }
