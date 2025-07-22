@@ -102,6 +102,18 @@ class Post extends Model implements HasMedia
     }
 
     /**
+     * Get the published status for the post.
+     *
+     * @return Attribute<string, never>
+     */
+    protected function isPublished(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->published_at !== null && $this->published_at->isPast(),
+        );
+    }
+
+    /**
      * Get the permalink for the post.
      *
      * @return Attribute<string, never>

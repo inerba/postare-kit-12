@@ -18,7 +18,9 @@ use Filament\Support\Enums\ActionSize;
 use Filament\Tables;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -185,26 +187,46 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->wrap()
                     ->searchable()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('category.name')
+                    ->label('Categoria')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->badge()
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('author.name')
                     ->label('Autore')
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('published_at')
+                    ->dateTime('d/m/Y H:i')
+                    ->description(fn (Post $record) => $record->is_published ? null : 'In attesa di pubblicazione')
+                    ->color(fn (Post $record) => $record->is_published ? null : 'warning')
+                    ->sortable()
+                    ->icon('heroicon-o-clock')
+                    ->toggleable(isToggledHiddenByDefault: false)
+                    ->label('Pubblicazione'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creazione')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
                     ->label('Aggiornamento')
-                    ->dateTime()
+                    ->dateTime('d/m/Y H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->label('Pubblicazione'),
             ])
             ->filters([
+                TernaryFilter::make('is_published')
+                    ->label('Stato di pubblicazione')
+                    ->placeholder('Tutti i post')
+                    ->trueLabel('Pubblicati')
+                    ->falseLabel('Programmati')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereNotNull('published_at')->where('published_at', '<=', now()),
+                        false: fn (Builder $query) => $query->whereNull('published_at')->orWhere('published_at', '>', now()),
+                        blank: fn (Builder $query) => $query, // No filter applied
+                    ),
+
                 SelectFilter::make('category_id')
                     ->label('Categoria')
                     ->relationship('category', 'name')
@@ -216,6 +238,7 @@ class PostResource extends Resource implements HasShieldPermissions
                     ->relationship('author', 'name', fn ($query) => $query->has('posts'))
                     ->multiple()
                     ->preload(),
+
             ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
@@ -236,7 +259,7 @@ class PostResource extends Resource implements HasShieldPermissions
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),
             ])
-            ->defaultSort('created_at', 'desc');
+            ->defaultSort('published_at', 'desc');
     }
 
     public static function getRelations(): array
