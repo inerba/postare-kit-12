@@ -40,7 +40,7 @@ class AuthorResource extends Resource
 
     public static function getNavigationGroup(): string
     {
-        return __('pages.navigation_group');
+        return __('posts.navigation_group');
     }
 
     public static function getNavigationLabel(): string
@@ -91,7 +91,7 @@ class AuthorResource extends Resource
                     Select::make('user')
                         ->label(__('pages.resources.author.user'))
                         ->relationship('user', 'name')
-                        ->getOptionLabelFromRecordUsing(fn (User $record) => "{$record->name} ({$record->email})")
+                        ->getOptionLabelFromRecordUsing(fn(User $record) => "{$record->name} ({$record->email})")
                         ->searchable(['name', 'email'])
                         ->preload()
                         ->dehydrated(false),
@@ -119,14 +119,14 @@ class AuthorResource extends Resource
             TextColumn::make('name')
                 ->label(__('pages.resources.author.name'))
                 ->toggleable(isToggledHiddenByDefault: false)
-                ->description(fn (Author $author) => $author->user->email ?? false)
+                ->description(fn(Author $author) => $author->user->email ?? false)
                 ->searchable()
                 ->sortable(),
 
             TextColumn::make('bio')
                 ->label(__('pages.resources.author.bio'))
                 ->toggleable(isToggledHiddenByDefault: false)
-                ->formatStateUsing(fn ($state) => str($state)->stripTags()->words(30))
+                ->formatStateUsing(fn($state) => str($state)->stripTags()->words(30))
                 ->wrap(),
 
             TextColumn::make('pages_count')

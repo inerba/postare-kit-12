@@ -109,7 +109,7 @@ class Post extends Model implements HasMedia
     protected function isPublished(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->published_at !== null && $this->published_at->isPast(),
+            get: fn() => $this->published_at !== null && $this->published_at->isPast(),
         );
     }
 
@@ -121,7 +121,10 @@ class Post extends Model implements HasMedia
     protected function permalink(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('cms.blog.post', $this->slug),
+            get: fn() => route('cms.blog.post', [
+                'category' => $this->category?->slug,
+                'post' => $this->slug,
+            ]),
         );
     }
 }
