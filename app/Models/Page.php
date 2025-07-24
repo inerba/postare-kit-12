@@ -155,17 +155,6 @@ class Page extends Model implements HasMedia
     }
 
     /**
-     * Ottiene la categoria associata alla pagina.
-     *
-     * @return BelongsTo<Category, Page>
-     */
-    public function category()
-    {
-        /** @var BelongsTo<Category, Page> */
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
      * Get the parent slugs for the current page.
      *
      * @param  self  $page  Istanza corrente della pagina.

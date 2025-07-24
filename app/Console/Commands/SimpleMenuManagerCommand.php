@@ -122,6 +122,12 @@ class SimpleMenuManagerCommand extends Command
         return ucwords(Pluralizer::singular($name));
     }
 
+    /**
+     * Get the title from the class name.
+     *
+     * @param  string  $name  The class name
+     * @return string The title
+     */
     public function getTitleFromClassName(string $name): string
     {
         $singular = $this->getSingularClassName($name);
@@ -131,6 +137,9 @@ class SimpleMenuManagerCommand extends Command
 
     /**
      * Build the directory for the class if necessary.
+     *
+     * @param  string  $path  The path to the directory
+     * @return string The path to the directory
      */
     protected function makeDirectory(string $path): string
     {

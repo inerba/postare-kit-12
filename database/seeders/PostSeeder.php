@@ -12,7 +12,7 @@ class PostSeeder extends Seeder
     public function run(): void
     {
         Post::factory(10)
-            ->sequence(fn($sequence) => [
+            ->sequence(fn ($sequence) => [
                 'author_id' => Author::pluck('id')->random(),
                 'category_id' => Category::pluck('id')->random(),
             ])
