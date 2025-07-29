@@ -3,7 +3,12 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
     // Specifica i percorsi dei file in cui Tailwind deve cercare le classi CSS
-    content: ['./resources/views/**/*.blade.php', './app/Mason/**/*.php'],
+    content: [
+        './resources/views/**/*.blade.php',
+        './app/Mason/**/*.php',
+        './app/Traits/**/*.php',
+        './app/Filament/**/*.php',
+    ],
     // Abilita la modalità scura basata su un selettore CSS
     darkMode: 'selector',
     theme: {

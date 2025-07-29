@@ -5,8 +5,11 @@ namespace App\Traits;
 use Filament\Forms;
 use Filament\Forms\Components\Actions;
 use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Placeholder;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Get;
 use Filament\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 use Postare\ModelAi\ModelAi;
 
 trait HasSeoFields
@@ -48,6 +51,45 @@ trait HasSeoFields
                 ->label(__('pages.form.meta_description'))
                 ->helperText(__('pages.seo.meta_description_helper'))
                 ->columnSpanFull(),
+
+            Section::make('Suggerimenti SEO')
+                ->icon('heroicon-o-information-circle')
+                ->iconPosition('start')
+                ->iconColor('info')
+                ->description('Consigli per scrivere un buon title e una buona meta description')
+                ->schema([
+                    Placeholder::make('seo_tip_1')
+                        ->hiddenLabel()
+                        ->content(new HtmlString(
+                            '<h3 class="text-2xl">Come scrivere un buon title</h3>
+  <ul class="list-disc p-6">
+    <li><strong>Cos’è?</strong> Il titolo che appare nei risultati di Google (la riga blu cliccabile).</li>
+    <li><strong>A cosa serve?</strong> A dire subito di cosa parla la pagina e a far venire voglia di cliccare.</li>
+    <li><strong>Scrivilo in modo chiaro:</strong> evita frasi vaghe, vai dritto al punto.</li>
+    <li><strong>Usa parole chiave:</strong> inserisci 1 o 2 parole che le persone potrebbero cercare.</li>
+    <li><strong>Non esagerare con la lunghezza:</strong> resta sotto i 60 caratteri per non farlo tagliare.</li>
+    <li><strong>Ogni pagina ha il suo:</strong> scrivi un titolo diverso per ogni pagina del sito.</li>
+  </ul>'
+                        )),
+                    Placeholder::make('seo_tip_2')
+                        ->hiddenLabel()
+                        ->content(new HtmlString(
+                            '<h3 class="text-2xl">Come scrivere una buona meta description</h3>
+                            <ul class="list-disc p-6">
+    <li><strong>Cos’è?</strong> Una breve frase che riassume la pagina e appare nei risultati di Google.</li>
+    <li><strong>A cosa serve?</strong> A far capire di cosa parla la pagina e invogliare le persone a cliccare.</li>
+    <li><strong>Scrivila tu!</strong> Non lasciare che Google la scelga a caso: è meglio se la scrivi tu.</li>
+    <li><strong>Fatti notare:</strong> inizia con parole che attirano l’attenzione.</li>
+    <li><strong>Parla al tuo pubblico:</strong> usa parole semplici e adatte a chi vuoi raggiungere.</li>
+    <li><strong>Invita a cliccare:</strong> chiudi con una frase che spinga all’azione (es. “Scopri di più”).</li>
+    <li><strong>Non troppo lunga:</strong> massimo 150 caratteri, altrimenti verrà tagliata.</li>
+    <li><strong>Ogni pagina la sua:</strong> usa una frase diversa per ogni pagina.</li>
+  </ul>'
+                        )),
+                ])
+                ->collapsible()
+                ->collapsed(),
+
             // Actions::make([
             //     Action::make('generate_seo')
             //         ->hidden(fn() => empty(config('postare-kit.openai_api_key')) || empty($aiSeoFieldsFrom))

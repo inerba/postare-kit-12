@@ -100,3 +100,68 @@ if (! function_exists('page_url')) {
         ) ?? '';
     }
 }
+
+if (! function_exists('mason_excerpt')) {
+    /**
+     * Convert Mason content to excerpt.
+     *
+     * @param  array<mixed, mixed>  $content  The Mason content array.
+     * @param  int  $length  The maximum length of the excerpt.
+     * @param  array<int, string>  $allowedIdentifiers  The identifiers to include in the excerpt.
+     * @return string The generated excerpt.
+     */
+    function mason_excerpt(array $content, $length = 300, array $allowedIdentifiers = ['block']): string
+    {
+        $text = '';
+
+        foreach ($content['content'] as $item) {
+            if (! in_array($item['attrs']['identifier'], $allowedIdentifiers, true)) {
+                continue;
+            }
+
+            $itemText = str($item['attrs']['values']['content'] ?? '')
+                ->replaceMatches('/<\/\w+>/', ' ') // Sostituisce i tag di chiusura con spazi
+                ->stripTags() // Rimuove i tag HTML
+                ->squish() // Rimuove gli spazi multipli
+                ->toString();
+
+            if (empty($itemText)) {
+                continue;
+            }
+
+            // Se abbiamo già del testo, aggiungi spazio
+            $separator = $text ? ' ' : '';
+            $potentialText = $text.$separator.$itemText;
+
+            // Se questo blocco farebbe superare il limite
+            if (strlen($potentialText) > $length) {
+                $remaining = $length - strlen($text.$separator);
+
+                if ($remaining > 0) {
+                    // Prendi solo le parole che ci stanno
+                    $words = explode(' ', $itemText);
+                    $partial = '';
+
+                    foreach ($words as $word) {
+                        $testText = $partial ? $partial.' '.$word : $word;
+                        if (strlen($testText) <= $remaining) {
+                            $partial = $testText;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if ($partial) {
+                        $text .= $separator.$partial;
+                    }
+                }
+                break; // STOP: abbiamo raggiunto il limite
+            }
+
+            $text = $potentialText;
+        }
+
+        return $text;
+
+    }
+}
