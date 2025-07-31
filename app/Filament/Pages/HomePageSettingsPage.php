@@ -157,7 +157,7 @@ class HomePageSettingsPage extends AbstractPageSettings
 
                             ]),
                         Tabs\Tab::make('SEO')->schema(self::getSeoFields('meta')),
-                        Tabs\Tab::make('Social')->schema(self::getSocialFields('social')),
+                        Tabs\Tab::make('Social')->schema(self::getSocialFields('social', true)),
                     ]),
             ])
             ->statePath('data');
