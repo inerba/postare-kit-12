@@ -14,7 +14,7 @@ class Form extends Component
 
     public string $email;
 
-    public string $body;
+    public string $body = '';
 
     public string $url;
 

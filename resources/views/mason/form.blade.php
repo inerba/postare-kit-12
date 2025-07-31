@@ -1,9 +1,6 @@
 @aware(['dealer'])
 @php
-    $props = array_merge(
-        \App\Mason\Macro\Theme::getProps(),
-        \App\Mason\Macro\SectionHeader::getProps(),
-    );
+    $props = array_merge(\App\Mason\Macro\Theme::getProps(), \App\Mason\Macro\SectionHeader::getProps());
 
     $buttonClass = match ($theme['background_color'] ?? null) {
         'primary' => 'text-white',
@@ -47,8 +44,7 @@
                         <label class="mb-2 block font-medium text-gray-700" for="message">Messaggio</label>
                         <textarea class="h-32 w-full border border-gray-400 p-2" id="message">
 {{ $body ?? '' }}
-</textarea
-                        >
+</textarea>
                     </div>
                     <div class="mb-4">
                         <div class="flex items-center">
@@ -63,19 +59,18 @@
                         </div>
                     </div>
 
-                    <button
-                        class="rounded-sm bg-indigo-500 px-4 py-2 font-medium text-white hover:bg-indigo-600"
-                        type="submit"
-                    >
+                    <button class="rounded-sm bg-indigo-500 px-4 py-2 font-medium text-white hover:bg-indigo-600"
+                        type="submit">
                         Invia
                     </button>
                 </form>
             </div>
         @else
-            <livewire:mason.form :$body :mail_to="$mail_to ?? null" />
+            <livewire:mason.form :body="$body ?? ''" :mail_to="$mail_to ?? db_config('general.mail_to_email')" />
         @endif
         @if ($buttons)
             <x-mason.buttons :buttons="$buttons" />
         @endif
     </div>
 </x-mason.section>
+
