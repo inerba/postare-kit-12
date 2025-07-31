@@ -79,7 +79,8 @@ class PageResource extends Resource
                 ->bricks(PageBrickCollection::make())
                 // optional
                 ->placeholder('Trascina e rilascia i componenti per iniziare...')
-                ->columnSpanFull(),
+                ->columnSpanFull()
+                ->required(),
             Forms\Components\Group::make()
                 ->schema([
                     Forms\Components\Tabs::make()
