@@ -51,6 +51,10 @@ class Page extends Model implements HasMedia
         'meta' => 'array',
     ];
 
+    protected $with = [
+        'parent',
+    ];
+
     /**
      * @property-read string $permalink
      *
